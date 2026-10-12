@@ -1,0 +1,30 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-xtKRHN3M.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/modern-animations.css": {
+    "file": "assets/modern-animations-Bh9ev0NE.css",
+    "src": "resources/css/modern-animations.css",
+    "isEntry": true,
+    "names": [
+      "modern-animations.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-Bj43h_rG.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/responsive-test.js": {
+    "file": "assets/responsive-test-kH_Niofh.js",
+    "name": "responsive-test",
+    "src": "resources/js/responsive-test.js",
+    "isEntry": true
+  }
+}
