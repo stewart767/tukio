@@ -152,7 +152,7 @@
                         <!-- Car Hire Hot -->
                         <a href="{{ route('car-hire.index') }}" class="px-3 py-2 rounded-xl transition-all duration-200 relative group {{ request()->routeIs('car-hire*') ? ($isDarkNav ? 'text-pink-300 bg-pink-500/20 border border-pink-500/40 font-bold shadow-lg shadow-pink-500/20' : 'text-pink-600 bg-pink-50 font-bold shadow-xs') : ($isDarkNav ? 'hover:text-white hover:bg-white/10' : 'hover:text-slate-900 hover:bg-slate-100/80') }}">
                             <span class="flex items-center space-x-1.5">
-                                <span>🚗 VIP Car Hire</span>
+                                <span>VIP Car Hire</span>
                                 <span class="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-extrabold bg-pink-500 text-white uppercase tracking-wider">Hot</span>
                             </span>
                         </a>
@@ -219,7 +219,7 @@
                         🎉 {{ __('common.events') }}
                     </a>
                     <a href="{{ route('car-hire.index') }}" class="px-4 py-3 rounded-2xl transition-colors {{ request()->routeIs('car-hire*') ? ($isDarkNav ? 'bg-pink-500/20 text-pink-300 font-bold border border-pink-500/30' : 'bg-pink-50 text-pink-600 font-bold') : ($isDarkNav ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50') }}">
-                        🚗 Wedding &amp; Guest Car Hire
+                        VIP Car Hire
                     </a>
                     <a href="{{ route('categories') }}" class="px-4 py-3 rounded-2xl transition-colors {{ request()->routeIs('categories*') ? ($isDarkNav ? 'bg-white/10 text-white font-bold' : 'bg-indigo-50 text-indigo-600') : ($isDarkNav ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50') }}">
                         📂 {{ __('common.categories') }}
