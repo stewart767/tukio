@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+    --rose-soft: #FFE4E6;
+    --rose-deep: #BE185D;
+    --green-sage: #E2E8F0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at 50% 0%, #FFF1F2 0%, #FFE4E6 50%, #FCE7F3 100%);
+    color: #4C0519;
+    margin: 0;
+    padding: 0;
+}
+
+.font-script {
+    font-family: 'Alex Brush', cursive;
+}
+
+.font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+}

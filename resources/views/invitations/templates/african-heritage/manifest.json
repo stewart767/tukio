@@ -1,0 +1,37 @@
+{
+    "name": "African Heritage Celebration",
+    "slug": "african-heritage",
+    "category": "traditional",
+    "template_type": "standard",
+    "price": 0,
+    "currency": "TZS",
+    "is_paid": false,
+    "version": "1.0",
+    "description": "Rich terracotta, warm gold, and African geometric motifs celebrating traditional nuptials, mahari ceremonies, and cultural heritage.",
+    "features": [
+        "African Cultural Motif & Colors",
+        "Personalized Guest Greeting in Swahili/English",
+        "Live Countdown Timer",
+        "Photo Gallery",
+        "Interactive RSVP",
+        "QR Code Verification",
+        "Google Maps Directions"
+    ],
+    "fields": [
+        "bride_name",
+        "groom_name",
+        "couple_names",
+        "host_name",
+        "event_title",
+        "event_description",
+        "event_date",
+        "event_time",
+        "venue_name",
+        "venue_address",
+        "guest_name",
+        "guest_table",
+        "qr_code",
+        "countdown",
+        "rsvp"
+    ]
+}

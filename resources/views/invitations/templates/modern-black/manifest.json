@@ -1,0 +1,36 @@
+{
+    "name": "Modern Obsidian Gala",
+    "slug": "modern-black",
+    "category": "corporate",
+    "template_type": "premium",
+    "price": 40000,
+    "currency": "TZS",
+    "is_paid": true,
+    "version": "1.0",
+    "description": "An ultra-sleek, minimalist dark executive invitation designed for corporate summits, awards galas, and VIP celebrations.",
+    "features": [
+        "Minimalist Dark Luxury Theme",
+        "VIP Guest Pass Integration",
+        "Live Digital Countdown",
+        "Executive Schedule Breakdown",
+        "Fast One-Click RSVP",
+        "QR Code Verification Gate",
+        "Interactive Venue Location Map",
+        "Downloadable PDF Pass"
+    ],
+    "fields": [
+        "event_title",
+        "event_description",
+        "event_date",
+        "event_time",
+        "venue_name",
+        "venue_address",
+        "guest_name",
+        "guest_table",
+        "guest_type",
+        "qr_code",
+        "countdown",
+        "rsvp",
+        "venue_map_url"
+    ]
+}

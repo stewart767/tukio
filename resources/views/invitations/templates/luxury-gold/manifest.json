@@ -1,0 +1,42 @@
+{
+    "name": "Luxury Gold Nuptials",
+    "slug": "luxury-gold",
+    "category": "wedding",
+    "template_type": "premium",
+    "price": 50000,
+    "currency": "TZS",
+    "is_paid": true,
+    "version": "1.0",
+    "description": "An opulent, royal gold and cream digital wedding invitation with animated countdown, photo gallery, RSVP modal, and official QR entry pass.",
+    "features": [
+        "Interactive Digital Web Invitation",
+        "Personalized Guest Greeting & Table Assignment",
+        "Live Alpine.js Countdown Clock",
+        "Bride & Groom Story Cards",
+        "Instant RSVP Modal & Form",
+        "High-Resolution QR Code Entry Pass",
+        "Photo Gallery with Lightbox",
+        "Google Maps Venue Directions",
+        "WhatsApp Instant Share Button",
+        "Printable PDF Pass Download"
+    ],
+    "fields": [
+        "bride_name",
+        "groom_name",
+        "couple_names",
+        "host_name",
+        "event_title",
+        "event_description",
+        "event_date",
+        "event_time",
+        "venue_name",
+        "venue_address",
+        "guest_name",
+        "guest_table",
+        "qr_code",
+        "countdown",
+        "rsvp",
+        "gallery",
+        "venue_map_url"
+    ]
+}

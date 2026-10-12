@@ -1,0 +1,32 @@
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Elegant Card/Invitation Icon - Square Version -->
+  <g id="card-icon">
+    <!-- Main Card -->
+    <rect x="7" y="6" width="46" height="48" rx="5" fill="url(#cardGradient)" stroke="url(#cardBorder)" stroke-width="1.5"/>
+    <!-- Card Fold/Shadow -->
+    <path d="M7 6 L53 6 L49 10 L7 10 Z" fill="url(#shadowGradient)" opacity="0.25"/>
+    <!-- Decorative Lines -->
+    <line x1="14" y1="20" x2="44" y2="20" stroke="white" stroke-width="1.8" stroke-opacity="0.7" stroke-linecap="round"/>
+    <line x1="14" y1="26" x2="40" y2="26" stroke="white" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="14" y1="32" x2="37" y2="32" stroke="white" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <!-- Elegant heart ornament -->
+    <path d="M30 38 C30 38, 27 40, 27 42 C27 44, 30 46, 30 46 C30 46, 33 44, 33 42 C33 40, 30 38, 30 38 Z" fill="white" opacity="0.85"/>
+  </g>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F97316;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FB923C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EA580C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FB923C;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#C2410C;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:0.25" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+</svg>

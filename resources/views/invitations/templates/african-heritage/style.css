@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --terracotta: #9C4123;
+    --sand-gold: #DDA15E;
+    --dark-earth: #28140B;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at 50% 0%, #3D1C10 0%, #200E08 70%, #150905 100%);
+    color: #FEFAE0;
+    margin: 0;
+    padding: 0;
+}
+
+.font-heading {
+    font-family: 'Cinzel', serif;
+}

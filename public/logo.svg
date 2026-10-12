@@ -1,0 +1,51 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Elegant Card/Invitation Icon -->
+  <g id="card-icon">
+    <!-- Main Card with rounded corners -->
+    <rect x="4" y="6" width="46" height="48" rx="5" fill="url(#cardGradient)" stroke="url(#cardBorder)" stroke-width="1.5"/>
+    <!-- Card Fold/Shadow for 3D effect -->
+    <path d="M4 6 L50 6 L46 10 L4 10 Z" fill="url(#shadowGradient)" opacity="0.25"/>
+    <!-- Elegant decorative lines (like invitation text) -->
+    <line x1="12" y1="20" x2="42" y2="20" stroke="white" stroke-width="1.8" stroke-opacity="0.7" stroke-linecap="round"/>
+    <line x1="12" y1="26" x2="38" y2="26" stroke="white" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="12" y1="32" x2="35" y2="32" stroke="white" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <!-- Elegant heart/ornament at bottom -->
+    <path d="M27 38 C27 38, 24 40, 24 42 C24 44, 27 46, 27 46 C27 46, 30 44, 30 42 C30 40, 27 38, 27 38 Z" fill="white" opacity="0.85"/>
+  </g>
+  
+  <!-- Modern Typography "My Card" -->
+  <g id="text">
+    <text x="58" y="28" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="26" font-weight="800" letter-spacing="-0.5" fill="url(#textGradient)">
+      My
+    </text>
+    <text x="58" y="48" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="26" font-weight="800" letter-spacing="-0.5" fill="url(#textGradient)">
+      Card
+    </text>
+  </g>
+  
+  <!-- Subtle tagline -->
+  <text x="58" y="55" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="500" fill="#9CA3AF" letter-spacing="0.5">
+    INVITATION MANAGEMENT
+  </text>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F97316;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FB923C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EA580C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FB923C;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#C2410C;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:0.25" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.1" />
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#111827;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#374151;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

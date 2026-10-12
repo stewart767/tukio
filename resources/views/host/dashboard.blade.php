@@ -1,0 +1,1 @@
+@include('host.dashboard.index')

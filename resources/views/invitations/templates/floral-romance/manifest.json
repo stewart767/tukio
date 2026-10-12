@@ -1,0 +1,37 @@
+{
+    "name": "Floral Romance Garden",
+    "slug": "floral-romance",
+    "category": "send_off",
+    "template_type": "standard",
+    "price": 0,
+    "currency": "TZS",
+    "is_paid": false,
+    "version": "1.0",
+    "description": "A soft pastel floral invitation adorned with romantic botanical elements, suitable for weddings, send-off parties, and kitchen parties.",
+    "features": [
+        "Romantic Pastel Floral Palette",
+        "Personalized Guest Greeting",
+        "Photo Carousel & Gallery",
+        "Interactive RSVP",
+        "QR Code Check-In Pass",
+        "Countdown Timer",
+        "Google Maps Link"
+    ],
+    "fields": [
+        "bride_name",
+        "groom_name",
+        "couple_names",
+        "event_title",
+        "event_description",
+        "event_date",
+        "event_time",
+        "venue_name",
+        "venue_address",
+        "guest_name",
+        "guest_table",
+        "qr_code",
+        "countdown",
+        "rsvp",
+        "gallery"
+    ]
+}
