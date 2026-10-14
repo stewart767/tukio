@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('badge')->nullable(); // e.g. "Most Popular", "Corporate"
             $table->string('tagline')->nullable(); // e.g. "Royal Celebrations"
-            $table->string('icon')->nullable(); // emoji or icon class e.g. "💒"
+            $table->string('icon')->nullable(); // icon class or symbol
             $table->text('description')->nullable();
             $table->json('tags')->nullable(); // e.g. ["Digital Cards", "RSVP Seating", "Pledge Tracker"]
             $table->string('image_url')->nullable();

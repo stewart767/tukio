@@ -117,7 +117,7 @@
 <body>
     <div class="container">
         <div class="host-header">{{ $d['host_name'] }}</div>
-        <div class="event-type">OFFICIAL INVITATION PASS</div>
+        <div class="event-type">KADI YA MWALIKO</div>
 
         <div class="title">{{ $d['couple_names'] }}</div>
 

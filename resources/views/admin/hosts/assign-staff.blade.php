@@ -88,7 +88,7 @@
                             class="form-input-modern text-sm min-h-[160px] @error('staff_ids') border-rose-300 ring-1 ring-rose-300 @enderror">
                         @foreach($staffMembers as $staff)
                             <option value="{{ $staff->id }}" {{ in_array($staff->id, old('staff_ids', [])) ? 'selected' : '' }} class="p-2 border-b border-slate-100 last:border-0">
-                                🛡️ {{ $staff->name }} — {{ $staff->email }} {{ $staff->phone ? '('.$staff->phone.')' : '' }}
+                                {{ $staff->name }} — {{ $staff->email }} {{ $staff->phone ? '('.$staff->phone.')' : '' }}
                             </option>
                         @endforeach
                     </select>
@@ -118,8 +118,8 @@
             </form>
         @else
             <div class="p-12 text-center">
-                <div class="w-16 h-16 bg-slate-100 rounded-2xl mx-auto flex items-center justify-center text-2xl text-slate-400 mb-3">
-                    📅
+                <div class="w-16 h-16 bg-slate-100 rounded-2xl mx-auto flex items-center justify-center text-slate-400 mb-3">
+                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
                 <h3 class="text-base font-bold text-slate-900">No Events Configured Yet</h3>
                 <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">This host has not yet finalized event details in the portal. Staff can be assigned once the event record is initialized.</p>

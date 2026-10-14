@@ -79,7 +79,7 @@ class WhatsAppInvitationController extends Controller
 
             // Prepare WhatsApp message
             $message = $this->prepareInvitationMessage($invitation, $guest, $event);
-            $caption = "🎉 " . $guest->full_name . " - You're invited! 🎉";
+            $caption = $guest->full_name . " - You're invited!";
 
             // Send invitation via WhatsApp
             $result = $this->whatsAppService->sendInvitationWithImage(
@@ -347,21 +347,21 @@ class WhatsAppInvitationController extends Controller
         $message .= "\n\n" . $event->title;
         
         if ($event->date) {
-            $message .= "\n📅 " . $event->date->format('F d, Y');
+            $message .= "\nDate: " . $event->date->format('F d, Y');
         }
         
         if ($event->time) {
-            $message .= "\n⏰ " . $event->time;
+            $message .= "\nTime: " . $event->time;
         }
         
         if ($event->venue) {
-            $message .= "\n📍 " . $event->venue;
+            $message .= "\nVenue: " . $event->venue;
         }
         
         // Add QR code info
         $verificationUrl = $this->invitationQrService->getVerificationUrl($invitation);
         $message .= "\n\nScan the attached QR code or verify here: " . $verificationUrl;
-        $message .= "\n\n📱 RSVP now!";
+        $message .= "\n\nRSVP now!";
         
         return $message;
     }

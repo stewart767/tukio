@@ -88,8 +88,8 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
                             <label for="badge" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Top Category Badge</label>
-                            <input type="text" id="badge" name="badge" value="{{ old('badge', '🏛️ Indoor Ballrooms') }}" 
-                                   class="form-input-modern text-sm" placeholder="e.g. 🏛️ Indoor Ballrooms, 🏖️ Beach & Garden">
+                            <input type="text" id="badge" name="badge" value="{{ old('badge', 'Indoor Ballrooms') }}" 
+                                   class="form-input-modern text-sm" placeholder="e.g. Indoor Ballrooms, Beach & Garden">
                         </div>
 
                         <div>
@@ -219,7 +219,7 @@
                                 
                                 <div class="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
                                     <span id="preview-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold backdrop-blur-md bg-white/90 text-slate-800 shadow-sm border border-white/50">
-                                        🏛️ Indoor Ballrooms
+                                        Indoor Ballrooms
                                     </span>
                                 </div>
 

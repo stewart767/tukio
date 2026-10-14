@@ -100,16 +100,16 @@
                     @if($user->id === auth()->id() && $user->isSuperAdmin())
                         <select name="role" id="role" required disabled
                                 class="form-input-modern text-sm bg-slate-100 text-slate-500 cursor-not-allowed">
-                            <option value="super_admin" selected>👑 Super Admin (Your Account)</option>
+                            <option value="super_admin" selected>Super Admin (Your Account)</option>
                         </select>
                         <input type="hidden" name="role" value="super_admin">
                         <p class="mt-1 text-xs font-semibold text-amber-600">You cannot demote your own active super admin account.</p>
                     @else
                         <select name="role" id="role" required
                                 class="form-input-modern text-sm @error('role') border-rose-300 ring-1 ring-rose-300 @enderror">
-                            <option value="super_admin" {{ old('role', $user->role) == 'super_admin' ? 'selected' : '' }}>👑 Super Admin</option>
-                            <option value="event_admin" {{ old('role', $user->role) == 'event_admin' ? 'selected' : '' }}>⚡ Event Admin</option>
-                            <option value="staff" {{ old('role', $user->role) == 'staff' ? 'selected' : '' }}>🛡️ Staff</option>
+                            <option value="super_admin" {{ old('role', $user->role) == 'super_admin' ? 'selected' : '' }}>Super Admin</option>
+                            <option value="event_admin" {{ old('role', $user->role) == 'event_admin' ? 'selected' : '' }}>Event Admin</option>
+                            <option value="staff" {{ old('role', $user->role) == 'staff' ? 'selected' : '' }}>Staff</option>
                         </select>
                     @endif
                     @error('role')
@@ -143,7 +143,7 @@
 
                 <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 text-xs text-indigo-900">
                     <div class="font-bold flex items-center gap-1.5 mb-1">
-                        <span>🔐</span> Password Management
+                        Password Management
                     </div>
                     <p class="text-[11px] text-indigo-700">Users can reset their own password via the login screen or request a security link from an administrator.</p>
                 </div>

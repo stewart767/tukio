@@ -41,7 +41,7 @@ class Milestone extends Model
                 'badge_bg' => 'bg-white/90 text-purple-800',
                 'border_hover' => 'hover:border-purple-400/80',
                 'tag_bg' => 'bg-purple-50 text-purple-700',
-                'dot' => 'bg-pink-400',
+                'dot' => 'bg-purple-400',
                 'primary' => 'text-purple-600',
             ],
             'blue' => [
@@ -52,11 +52,11 @@ class Milestone extends Model
                 'primary' => 'text-blue-600',
             ],
             'pink' => [
-                'badge_bg' => 'bg-white/90 text-pink-800',
-                'border_hover' => 'hover:border-pink-400/80',
-                'tag_bg' => 'bg-pink-50 text-pink-700',
-                'dot' => 'bg-rose-400',
-                'primary' => 'text-pink-600',
+                'badge_bg' => 'bg-white/90 text-slate-800',
+                'border_hover' => 'hover:border-slate-400/80',
+                'tag_bg' => 'bg-slate-100 text-slate-700',
+                'dot' => 'bg-slate-500',
+                'primary' => 'text-slate-800',
             ],
             'teal' => [
                 'badge_bg' => 'bg-white/90 text-teal-800',

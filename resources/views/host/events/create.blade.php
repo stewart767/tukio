@@ -182,9 +182,9 @@
                     </svg>
                 </div>
                 <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-primary-900">Pricing &amp; Guest Allocation</h4>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-primary-900">Gharama &amp; Orodha ya Wageni</h4>
                     <p class="text-xs text-slate-600 mt-0.5">
-                        Each guest invitation includes smart WhatsApp delivery and entry QR codes. You can allocate and manage your guest list directly from your host portal.
+                        Kila mwaliko unajumuisha kadi ya WhatsApp na QR code ya mlangoni. Unaweza kusimamia orodha ya wageni wako moja kwa moja hapa.
                     </p>
                 </div>
             </div>

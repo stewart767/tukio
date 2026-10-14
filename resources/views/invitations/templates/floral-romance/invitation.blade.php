@@ -33,7 +33,9 @@
         
         <!-- Header Floral Ornament -->
         <div class="text-center space-y-2">
-            <div class="inline-block text-4xl mb-1">🌸</div>
+            <div class="inline-flex justify-center mb-1 text-rose-400">
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 7a5 5 0 1 0 5 5 5 5 0 0 0 -5 -5z"/></svg>
+            </div>
             <p class="text-xs uppercase tracking-[0.25em] font-bold text-rose-800">
                 {{ $d['host_name'] }}
             </p>

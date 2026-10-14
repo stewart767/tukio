@@ -8,6 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        'system-bg': '#f3ffe3',
         primary: {
           50: '#faf5ff',
           100: '#f3e8ff',

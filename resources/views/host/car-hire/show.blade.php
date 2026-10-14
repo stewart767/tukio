@@ -27,7 +27,7 @@
         <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
                 <span class="text-xs text-indigo-300 font-bold uppercase tracking-wider block">Booking Reference</span>
-                <h2 class="text-2xl sm:text-3xl font-black font-heading text-pink-400 mt-1">{{ $booking->booking_reference }}</h2>
+                <h2 class="text-2xl sm:text-3xl font-black font-heading text-indigo-400 mt-1">{{ $booking->booking_reference }}</h2>
             </div>
             <span class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs font-bold {{ $st['bg'] }} border shadow-sm">
                 <span class="w-2 h-2 rounded-full {{ $st['dot'] }}"></span>

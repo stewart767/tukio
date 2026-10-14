@@ -26,16 +26,16 @@
     <!-- Mode Selector Tabs -->
     <div class="flex p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200 max-w-md">
         <button type="button" id="tab-ai-btn" class="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs transition-all bg-white text-purple-700 shadow-sm flex items-center justify-center gap-2">
-            <span>✨ AI Artwork Detection</span>
+            <span>AI Artwork Detection</span>
         </button>
         <button type="button" id="tab-manual-btn" class="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-2">
-            <span>🛠️ Manual View Path</span>
+            <span>Manual View Path</span>
         </button>
     </div>
 
     <!-- Mode 1: AI Artwork Upload Form Card -->
     <div id="ai-upload-section" class="rounded-3xl border border-purple-100 bg-white shadow-xl overflow-hidden transition-all">
-        <div class="border-b border-purple-50 bg-gradient-to-r from-purple-50/70 via-indigo-50/50 to-pink-50/40 px-8 py-5">
+        <div class="border-b border-purple-50 bg-gradient-to-r from-purple-50/70 via-indigo-50/50 to-indigo-50/40 px-8 py-5">
             <div class="flex items-center gap-3">
                 <div class="p-2 rounded-xl bg-purple-600 text-white">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -128,8 +128,8 @@
                     <span>Uploading artwork &amp; detecting zones... This will take a few seconds.</span>
                 </div>
                 <div class="ml-auto">
-                    <button type="submit" id="ai-submit-btn" class="btn-primary text-sm shadow-md bg-gradient-to-r from-purple-600 to-indigo-600">
-                        <span>✨ Start AI Analysis &amp; Open Visual Editor</span>
+                    <button type="submit" id="ai-submit-btn" class="btn-primary text-sm shadow-md bg-slate-900 hover:bg-slate-800">
+                        <span>Start AI Analysis &amp; Open Visual Editor</span>
                     </button>
                 </div>
             </div>

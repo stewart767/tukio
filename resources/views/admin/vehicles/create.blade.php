@@ -8,8 +8,8 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
         <div class="space-y-1">
-            <div class="inline-flex items-center gap-2 rounded-full border border-pink-200/60 bg-pink-50/80 px-3 py-1 text-xs font-semibold text-pink-700">
-                <span class="h-1.5 w-1.5 rounded-full bg-pink-500"></span>
+            <div class="inline-flex items-center gap-2 rounded-full border border-indigo-200/60 bg-indigo-50/80 px-3 py-1 text-xs font-semibold text-indigo-700">
+                <span class="h-1.5 w-1.5 rounded-full bg-indigo-500"></span>
                 Fleet Registration
             </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-heading">Add Fleet Vehicle</h1>
@@ -50,10 +50,10 @@
                         <label for="category" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Category Segment <span class="text-rose-500">*</span></label>
                         <select name="category" id="category" required
                                 class="form-input-modern text-sm @error('category') border-rose-300 ring-1 ring-rose-300 @enderror">
-                            <option value="luxury_bride_groom" {{ old('category') === 'luxury_bride_groom' ? 'selected' : '' }}>👰 Luxury Bride &amp; Groom (Flagship)</option>
-                            <option value="guest_coaster_bus" {{ old('category') === 'guest_coaster_bus' ? 'selected' : '' }}>🚌 Guest Coasters &amp; Buses (Group Transit)</option>
-                            <option value="vip_suv_convoy" {{ old('category') === 'vip_suv_convoy' ? 'selected' : '' }}>👑 VIP SUV &amp; Convoy (Escort &amp; Executive)</option>
-                            <option value="host_logistics" {{ old('category') === 'host_logistics' ? 'selected' : '' }}>📦 Host &amp; Event Logistics (Utility)</option>
+                            <option value="luxury_bride_groom" {{ old('category') === 'luxury_bride_groom' ? 'selected' : '' }}>Luxury Bride &amp; Groom (Flagship)</option>
+                            <option value="guest_coaster_bus" {{ old('category') === 'guest_coaster_bus' ? 'selected' : '' }}>Guest Coasters &amp; Buses (Group Transit)</option>
+                            <option value="vip_suv_convoy" {{ old('category') === 'vip_suv_convoy' ? 'selected' : '' }}>VIP SUV &amp; Convoy (Escort &amp; Executive)</option>
+                            <option value="host_logistics" {{ old('category') === 'host_logistics' ? 'selected' : '' }}>Host &amp; Event Logistics (Utility)</option>
                         </select>
                         @error('category')
                             <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>
@@ -183,7 +183,7 @@
                             <div>
                                 <label for="image_file" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Upload Vehicle Photo File</label>
                                 <input type="file" id="image_file" name="image_file" accept="image/*"
-                                       class="block w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 cursor-pointer border border-slate-200 rounded-2xl p-1 bg-slate-50/50">
+                                       class="block w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-800 hover:file:bg-slate-200 cursor-pointer border border-slate-200 rounded-2xl p-1 bg-slate-50/50">
                                 <p class="mt-1 text-[11px] text-slate-400">Accepted: JPG, PNG, WebP (Max: 5MB). High-resolution landscape photo recommended.</p>
                                 @error('image_file')
                                     <p class="mt-1 text-xs text-rose-600 font-medium">{{ $message }}</p>

@@ -3,12 +3,11 @@
 @section('title', __('common.event_categories') . ' - Tukio 360')
 
 @section('content')
-<div class="min-h-screen bg-slate-50 pt-10 pb-20">
+<div class="min-h-screen bg-[#f3ffe3] pt-10 pb-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
         
         <!-- Page Header -->
         <div class="text-center max-w-3xl mx-auto space-y-4">
-            <span class="badge-pill badge-indigo">{{ __('common.event_categories') }}</span>
             <h1 class="text-4xl sm:text-5xl font-black font-heading text-slate-900 tracking-tight">
                 Designed for Every Celebration
             </h1>
@@ -37,7 +36,7 @@
                 @endphp
                 <div class="group relative bg-white/95 backdrop-blur-md rounded-3xl border border-slate-200/80 {{ $theme['border_hover'] }} shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between">
                     <div>
-                        <div class="relative h-48 w-full overflow-hidden bg-slate-900">
+                        <div class="relative h-48 w-full overflow-hidden bg-slate-100">
                             <img src="{{ $imgSrc }}" alt="{{ $m->title }}" class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 ease-out">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent"></div>
                             
@@ -49,15 +48,15 @@
                                 @else
                                     <span></span>
                                 @endif
-                                <div class="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center text-xl shadow-md border border-white/60">
-                                    {{ $m->icon ?: '✨' }}
+                                <div class="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center text-indigo-600 shadow-md border border-white/60">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                                 </div>
                             </div>
 
                             @if($m->tagline)
                             <div class="absolute bottom-3 left-4 right-4 z-10">
                                 <span class="text-[11px] font-semibold text-white/95 uppercase tracking-wider flex items-center gap-1.5">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-pink-400"></span> {{ $m->tagline }}
+                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> {{ $m->tagline }}
                                 </span>
                             </div>
                             @endif

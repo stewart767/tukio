@@ -14,7 +14,7 @@
 @endif
 
 @section('content')
-<div class="min-h-screen bg-slate-50 pt-10 pb-20">
+<div class="min-h-screen bg-[#f3ffe3] pt-10 pb-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         <!-- Page Header -->

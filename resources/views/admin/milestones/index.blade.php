@@ -8,7 +8,7 @@
     <!-- Header -->
     <div class="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-white via-indigo-50/40 to-slate-50 p-8 sm:p-10 shadow-xl backdrop-blur-md">
         <div class="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-gradient-to-br from-indigo-400/20 to-purple-400/20 blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-gradient-to-tr from-pink-400/15 to-amber-400/15 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-gradient-to-tr from-indigo-400/15 to-purple-400/15 blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div class="space-y-3">
@@ -17,7 +17,7 @@
                     Homepage &amp; Categories Engine
                 </div>
                 <div class="flex items-start gap-4">
-                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-pink-600 text-white shadow-lg shadow-indigo-500/25">
+                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-slate-900 to-indigo-900 text-white shadow-lg shadow-indigo-500/25">
                         <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
                         </svg>
@@ -64,8 +64,8 @@
                 <div class="text-3xl font-black text-slate-900 font-heading">{{ $stats['total'] }}</div>
                 <div class="text-xs text-slate-500">Configured occasion categories</div>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
-                ✨
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
             </div>
         </div>
 
@@ -75,8 +75,8 @@
                 <div class="text-3xl font-black text-emerald-600 font-heading">{{ $stats['active'] }}</div>
                 <div class="text-xs text-slate-500">Live on homepage and categories</div>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
-                🟢
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <span class="w-3.5 h-3.5 rounded-full bg-emerald-500"></span>
             </div>
         </div>
 
@@ -86,8 +86,8 @@
                 <div class="text-3xl font-black text-slate-600 font-heading">{{ $stats['inactive'] }}</div>
                 <div class="text-xs text-slate-500">Not visible to public visitors</div>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center text-xl">
-                🔒
+            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-500 flex items-center justify-center">
+                <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             </div>
         </div>
     </div>
@@ -142,8 +142,8 @@
                             <span></span>
                         @endif
 
-                        <div class="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center text-xl shadow-md border border-white/60 group-hover:rotate-6 transition-transform">
-                            {{ $milestone->icon ?: '🎉' }}
+                        <div class="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center text-indigo-600 shadow-md border border-white/60 group-hover:rotate-6 transition-transform">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                         </div>
                     </div>
 
@@ -151,7 +151,7 @@
                     @if($milestone->tagline)
                     <div class="absolute bottom-3 left-4 right-4 z-10">
                         <span class="text-[11px] font-semibold text-white/95 uppercase tracking-wider flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-pink-400"></span> {{ $milestone->tagline }}
+                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> {{ $milestone->tagline }}
                         </span>
                     </div>
                     @endif
@@ -202,7 +202,7 @@
                     @csrf
                     @method('PATCH')
                     <button type="submit" class="btn-secondary text-xs py-2 px-3" title="{{ $milestone->is_active ? 'Click to Hide' : 'Click to Publish' }}">
-                        {{ $milestone->is_active ? '👁️ Hide' : '🚀 Publish' }}
+                        {{ $milestone->is_active ? 'Hide' : 'Publish' }}
                     </button>
                 </form>
 
@@ -234,8 +234,8 @@
     @else
     <!-- Empty State -->
     <div class="rounded-3xl border border-dashed border-slate-300 bg-white/70 p-12 text-center max-w-lg mx-auto space-y-4">
-        <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-3xl mx-auto shadow-sm">
-            ✨
+        <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto shadow-sm">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
         </div>
         <h3 class="text-lg font-bold text-slate-900 font-heading">No Milestones Found</h3>
         <p class="text-xs text-slate-500 leading-relaxed">No milestone category cards match your current search or filter query.</p>

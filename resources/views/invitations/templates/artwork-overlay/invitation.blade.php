@@ -29,9 +29,8 @@
         
         <!-- Top Status Bar & Quick Actions -->
         <div class="flex items-center justify-between bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-lg">
-            <div class="flex items-center gap-3">
-                <div class="h-3 w-3 rounded-full bg-emerald-400 animate-ping"></div>
-                <span class="text-xs font-bold uppercase tracking-wider text-purple-200">Official Digital Invitation Pass</span>
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-bold tracking-wider text-purple-200">Kadi ya Mwaliko</span>
             </div>
 
             <div class="flex items-center gap-2">
@@ -41,7 +40,7 @@
                         <span>Download PDF</span>
                     </a>
                 @endif
-                <button type="button" onclick="document.getElementById('rsvp-modal').classList.remove('hidden')" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-xs font-bold text-white shadow-md hover:brightness-110 transition-all">
+                <button type="button" onclick="document.getElementById('rsvp-modal').classList.remove('hidden')" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-xs font-bold text-white shadow-md transition-all">
                     <span>RSVP Now</span>
                 </button>
             </div>
@@ -171,7 +170,7 @@
 
                 <div class="flex items-center justify-end gap-2 pt-2">
                     <button type="button" onclick="document.getElementById('rsvp-modal').classList.add('hidden')" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-bold text-slate-300">Cancel</button>
-                    <button type="submit" id="btn-submit-rsvp" class="px-5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-xs font-bold text-white shadow-md">Submit RSVP</button>
+                    <button type="submit" id="btn-submit-rsvp" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-xs font-bold text-white shadow-md">Submit RSVP</button>
                 </div>
             </form>
         </div>

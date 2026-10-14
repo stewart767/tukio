@@ -310,3 +310,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('attendance', [App\Http\Controllers\Staff\ScannerController::class, 'attendance'])->name('attendance');
     });
 });
+
+// Direct storage fallback route for local/Apache Windows environments
+Route::get('storage/{path}', function ($path) {
+    $filePath = storage_path('app/public/' . $path);
+    if (!file_exists($filePath)) {
+        abort(404);
+    }
+    return response()->file($filePath);
+})->where('path', '.*')->name('storage.local');

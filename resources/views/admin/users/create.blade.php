@@ -91,9 +91,9 @@
                     <select name="role" id="role" required
                             class="form-input-modern text-sm @error('role') border-rose-300 ring-1 ring-rose-300 @enderror">
                         <option value="">-- Choose Access Level --</option>
-                        <option value="super_admin" {{ old('role') === 'super_admin' ? 'selected' : '' }}>👑 Super Admin (Full Control)</option>
-                        <option value="event_admin" {{ old('role') === 'event_admin' ? 'selected' : '' }}>⚡ Event Admin (Operations &amp; Events)</option>
-                        <option value="staff" {{ old('role') === 'staff' ? 'selected' : '' }}>🛡️ Staff (Field Coordination &amp; Check-ins)</option>
+                        <option value="super_admin" {{ old('role') === 'super_admin' ? 'selected' : '' }}>Super Admin (Full Control)</option>
+                        <option value="event_admin" {{ old('role') === 'event_admin' ? 'selected' : '' }}>Event Admin (Operations &amp; Events)</option>
+                        <option value="staff" {{ old('role') === 'staff' ? 'selected' : '' }}>Staff (Field Coordination &amp; Check-ins)</option>
                     </select>
                     @error('role')
                         <p class="mt-1 text-xs font-medium text-rose-600">{{ $message }}</p>
@@ -105,19 +105,19 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 <div class="p-3.5 rounded-2xl bg-purple-50/60 border border-purple-100 text-xs text-purple-900">
                     <div class="font-bold flex items-center gap-1.5 mb-1">
-                        <span>👑</span> Super Admin
+                        Super Admin
                     </div>
                     <p class="text-[11px] text-purple-700">Full system access, configurations, payment gateways, and all host data.</p>
                 </div>
                 <div class="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-100 text-xs text-blue-900">
                     <div class="font-bold flex items-center gap-1.5 mb-1">
-                        <span>⚡</span> Event Admin
+                        Event Admin
                     </div>
                     <p class="text-[11px] text-blue-700">Manage hosts, oversee event schedules, invitations, and bookings.</p>
                 </div>
                 <div class="p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100 text-xs text-emerald-900">
                     <div class="font-bold flex items-center gap-1.5 mb-1">
-                        <span>🛡️</span> Staff
+                        Staff
                     </div>
                     <p class="text-[11px] text-emerald-700">Verify guest check-ins, scans QR codes, and assists host operations.</p>
                 </div>

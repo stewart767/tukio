@@ -4,22 +4,18 @@
 @section('description', 'Track your digital event invitation, RSVP status, QR entrance pass, or car hire booking reference.')
 
 @section('content')
-<div class="relative bg-slate-50 min-h-[80vh] py-16 lg:py-24 overflow-hidden">
+<div class="relative bg-[#f3ffe3] min-h-[80vh] py-16 lg:py-24 overflow-hidden">
     <!-- Ambient Glow Background -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <!-- Breadcrumb & Tag -->
+        <!-- Header -->
         <div class="text-center space-y-3 mb-10">
-            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide bg-indigo-50 text-indigo-700 border border-indigo-200/80 shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
-                Instant Verification &bull; Fuatilia Hali ya Mwaliko
-            </span>
             <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-slate-900 tracking-tight">
-                Track Application &amp; RSVP Status
+                Fuatilia Mwaliko &amp; Hali ya RSVP
             </h1>
-            <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-                Weka namba yako ya simu uliyosajilia au Control / Invitation Code ili kuangalia hali ya mwaliko, kuthibitisha RSVP, na kupata QR Gate Pass yako.
+            <p class="text-slate-700 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-semibold">
+                Weka namba yako ya simu au namba ya kadi (Invitation Code) uliyopewa ili kuthibitisha mahudhurio au kupakua QR Pass yako.
             </p>
         </div>
 
@@ -53,7 +49,7 @@
                 </div>
 
                 <div class="pt-2">
-                    <button type="submit" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold text-base shadow-lg shadow-indigo-500/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center space-x-2">
+                    <button type="submit" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-800 hover:from-emerald-700 hover:to-teal-900 text-white font-bold text-base shadow-xl shadow-emerald-700/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center space-x-2">
                         <span>Fuatilia Sasa &bull; Track Status Now</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
@@ -77,7 +73,7 @@
                     </div>
                 </div>
                 <div class="flex items-start space-x-3">
-                    <div class="w-8 h-8 rounded-xl bg-pink-50 text-pink-600 font-bold flex items-center justify-center flex-shrink-0">3</div>
+                    <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 font-bold flex items-center justify-center flex-shrink-0">3</div>
                     <div>
                         <strong class="text-slate-900 block font-semibold">Booking ya Magari</strong>
                         Fuatilia hali ya safari, dereva aliyepangwa, na mkataba wa msafara wa harusi.

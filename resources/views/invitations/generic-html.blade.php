@@ -15,7 +15,7 @@
 <body class="bg-slate-950 text-white min-h-screen">
     @if(!empty($d['watermark']))
         <div class="sticky top-0 z-50 bg-rose-600 text-white py-2 text-center text-xs font-black tracking-widest uppercase">
-            ⚠️ {{ $d['watermark'] }}
+            {{ $d['watermark'] }}
         </div>
     @endif
 

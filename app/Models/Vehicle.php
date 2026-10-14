@@ -121,27 +121,27 @@ class Vehicle extends Model
     {
         return match ($this->category) {
             'luxury_bride_groom' => [
-                'bg' => 'bg-pink-50 text-pink-700 border-pink-200',
-                'pill' => 'bg-gradient-to-r from-pink-500 to-rose-500 text-white',
-                'icon' => '👰🤵',
+                'bg' => 'bg-indigo-50 text-indigo-700 border-indigo-200',
+                'pill' => 'bg-slate-900 text-white',
+                'icon' => '',
                 'label' => 'Bride & Groom Luxury',
             ],
             'guest_coaster_bus' => [
                 'bg' => 'bg-amber-50 text-amber-700 border-amber-200',
-                'pill' => 'bg-gradient-to-r from-amber-500 to-orange-500 text-white',
-                'icon' => '🚌',
+                'pill' => 'bg-slate-800 text-white',
+                'icon' => '',
                 'label' => 'Guest Coasters & Bus',
             ],
             'vip_suv_convoy' => [
                 'bg' => 'bg-indigo-50 text-indigo-700 border-indigo-200',
-                'pill' => 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white',
-                'icon' => '👑',
+                'pill' => 'bg-indigo-900 text-white',
+                'icon' => '',
                 'label' => 'VIP Convoy SUV',
             ],
             default => [
                 'bg' => 'bg-slate-50 text-slate-700 border-slate-200',
                 'pill' => 'bg-slate-700 text-white',
-                'icon' => '🚗',
+                'icon' => '',
                 'label' => 'Event Transport',
             ],
         };

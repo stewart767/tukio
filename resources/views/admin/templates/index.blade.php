@@ -7,7 +7,7 @@
 <div class="space-y-8 pb-12">
     <!-- Creative Studio Header -->
     <div class="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-white via-purple-50/40 to-slate-50 p-8 sm:p-10 shadow-xl backdrop-blur-md">
-        <div class="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-gradient-to-br from-purple-400/20 to-pink-400/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-400/20 blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-gradient-to-tr from-indigo-400/15 to-blue-400/15 blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -17,9 +17,9 @@
                     Dynamic Invitation Engine
                 </div>
                 <div class="flex items-start gap-4">
-                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-pink-500 text-white shadow-lg shadow-purple-500/25">
+                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-slate-900 to-indigo-900 text-white shadow-lg shadow-indigo-500/25">
                         <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.129-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                         </svg>
                     </div>
                     <div>
@@ -40,7 +40,7 @@
                     </button>
                 </form>
 
-                <a href="{{ route('admin.templates.create') }}" class="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 px-6 py-3 text-xs font-bold text-white shadow-lg shadow-purple-600/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-600/40">
+                <a href="{{ route('admin.templates.create') }}" class="group inline-flex items-center gap-2 rounded-2xl bg-slate-900 hover:bg-slate-800 px-6 py-3 text-xs font-bold text-white shadow-lg shadow-slate-900/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl">
                     <svg class="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6" />
                     </svg>
@@ -54,16 +54,16 @@
             <div class="rounded-2xl border border-slate-200/60 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-500">
                     <span>Total Templates</span>
-                    <span class="text-purple-600">🎨</span>
+                    <svg class="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $templates->total() }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Published &amp; drafts</div>
             </div>
 
-            <div class="rounded-2xl border border-pink-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
-                <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-pink-600">
+            <div class="rounded-2xl border border-indigo-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
+                <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-indigo-600">
                     <span>Weddings</span>
-                    <span>💍</span>
+                    <svg class="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ \App\Models\Template::where('category', 'wedding')->count() }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Nuptials &amp; Send-offs</div>
@@ -72,7 +72,7 @@
             <div class="rounded-2xl border border-amber-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-amber-600">
                     <span>Premium Paid</span>
-                    <span>💎</span>
+                    <svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ \App\Models\Template::where('is_paid', true)->orWhere('price', '>', 0)->count() }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Monetized designs</div>
@@ -81,7 +81,7 @@
             <div class="rounded-2xl border border-emerald-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-emerald-600">
                     <span>Active Published</span>
-                    <span>🟢</span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ \App\Models\Template::where('is_active', true)->count() }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Available for host selection</div>
@@ -147,10 +147,12 @@
                              class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                              loading="lazy">
-                        <div class="hidden h-full w-full items-center justify-center bg-gradient-to-br from-purple-900 to-indigo-950 text-4xl">🎨</div>
+                        <div class="hidden h-full w-full items-center justify-center bg-gradient-to-br from-purple-900 to-indigo-950 text-white">
+                            <svg class="w-10 h-10 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </div>
                     @else
                         <div class="h-full w-full flex flex-col items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-950 to-slate-950 text-white p-4 text-center">
-                            <span class="text-3xl mb-1">✨</span>
+                            <svg class="w-8 h-8 text-purple-300 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <span class="text-xs font-bold font-heading">{{ $template->name }}</span>
                             <span class="text-[10px] text-purple-300">{{ $template->slug }}</span>
                         </div>
@@ -163,7 +165,7 @@
                         </span>
                         @if($template->artwork_path)
                             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-purple-600 text-white shadow-xs">
-                                ✨ AI Detected
+                                AI Detected
                             </span>
                         @endif
                     </div>
@@ -258,8 +260,8 @@
         @empty
         <div class="col-span-full">
             <div class="rounded-3xl border border-slate-200/80 bg-white/90 p-16 text-center shadow-lg">
-                <div class="w-20 h-20 bg-purple-50 rounded-3xl mx-auto flex items-center justify-center text-purple-600 text-3xl shadow-inner mb-4">
-                    🎨
+                <div class="w-20 h-20 bg-purple-50 rounded-3xl mx-auto flex items-center justify-center text-purple-600 shadow-inner mb-4">
+                    <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
                 <h3 class="text-lg font-bold text-slate-900 font-heading">No templates found</h3>
                 <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1">Get started by synchronizing the starter templates or creating a new design.</p>

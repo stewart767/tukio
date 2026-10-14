@@ -49,7 +49,7 @@
                     </p>
                 </div>
                 
-                <div class="flex-1 bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
+                <div class="flex-1 bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-xl">
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Column 2</h3>
                     <p class="text-gray-600">
                         Flexible container that adapts to screen size changes with responsive design.
@@ -84,7 +84,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gradient-to-br from-rose-50 to-pink-50 p-6 rounded-xl">
+                <div class="bg-gradient-to-br from-slate-50 to-indigo-50 p-6 rounded-xl">
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Grid Item 3</h3>
                     <p class="text-gray-600">
                         Flexible grid system that maintains proper spacing and alignment on all devices.
@@ -105,7 +105,7 @@
                     </p>
                 </div>
                 
-                <div class="bg-gradient-to-br from-fuchsia-50 to-pink-50 p-6 rounded-xl">
+                <div class="bg-gradient-to-br from-fuchsia-50 to-violet-50 p-6 rounded-xl">
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Grid Item 6</h3>
                     <p class="text-gray-600">
                         Mobile-first approach ensures optimal performance and user experience on all devices.

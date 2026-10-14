@@ -11,7 +11,7 @@
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div class="space-y-2">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs font-semibold uppercase tracking-wider text-indigo-100">
-                    <span>✨ Configured Event</span>
+                    <span>Configured Event</span>
                 </div>
                 <h1 class="text-3xl sm:text-4xl font-black font-heading tracking-tight text-white capitalize">
                     {{ ucfirst(str_replace('_', ' ', $host->event_type)) }} Overview

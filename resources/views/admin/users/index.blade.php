@@ -44,7 +44,7 @@
             <div class="rounded-2xl border border-slate-200/60 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-500">
                     <span>Total Users</span>
-                    <span class="text-indigo-600">👥</span>
+                    <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $users->total() }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Registered platform accounts</div>
@@ -53,7 +53,7 @@
             <div class="rounded-2xl border border-purple-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-purple-600">
                     <span>Super Admins</span>
-                    <span>👑</span>
+                    <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ \App\Models\User::where('role', 'super_admin')->count() }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Full system privileges</div>
@@ -62,7 +62,7 @@
             <div class="rounded-2xl border border-blue-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-blue-600">
                     <span>Event Admins</span>
-                    <span>⚡</span>
+                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ \App\Models\User::where('role', 'event_admin')->count() }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Operations managers</div>
@@ -71,7 +71,7 @@
             <div class="rounded-2xl border border-emerald-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-emerald-600">
                     <span>Staff Members</span>
-                    <span>🛡️</span>
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ \App\Models\User::where('role', 'staff')->count() }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Field coordinators</div>
@@ -167,15 +167,15 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($user->role === 'super_admin')
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200/80 shadow-2xs">
-                                    <span>👑</span> Super Admin
+                                    Super Admin
                                 </span>
                             @elseif($user->role === 'event_admin')
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs">
-                                    <span>⚡</span> Event Admin
+                                    Event Admin
                                 </span>
                             @else
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-2xs">
-                                    <span>🛡️</span> Staff
+                                    Staff
                                 </span>
                             @endif
                         </td>
@@ -239,8 +239,8 @@
                     <tr>
                         <td colspan="6" class="px-8 py-16 text-center">
                             <div class="max-w-sm mx-auto text-center space-y-4">
-                                <div class="w-16 h-16 bg-indigo-50 rounded-2xl mx-auto flex items-center justify-center text-indigo-600 text-2xl shadow-inner">
-                                    👥
+                                <div class="w-16 h-16 bg-indigo-50 rounded-2xl mx-auto flex items-center justify-center text-indigo-600 shadow-inner">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                                 </div>
                                 <h3 class="text-base font-bold text-slate-900">No users found</h3>
                                 <p class="text-xs text-slate-500">No user records currently match the query. Get started by provisioning an administrator or staff member.</p>

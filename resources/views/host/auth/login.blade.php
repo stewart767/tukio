@@ -8,19 +8,19 @@
 @section('title', 'Host Sign In - ' . $brandName)
 
 @section('content')
-<div class="min-h-screen bg-slate-50 pt-10 pb-20 flex items-center justify-center">
+<div class="min-h-screen bg-[#f3ffe3] pt-10 pb-20 flex items-center justify-center">
     <div class="max-w-md w-full mx-auto px-4 sm:px-6">
         
         <!-- Header -->
         <div class="text-center space-y-3 mb-8">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white text-2xl mx-auto shadow-lg shadow-indigo-500/20">
-                🎉
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-700 text-white flex items-center justify-center mx-auto shadow-lg shadow-emerald-700/25">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
             <h1 class="text-3xl font-black font-heading text-slate-900 tracking-tight">
-                Host Portal Login
+                Ingia Kama Mwenyeji wa Sherehe
             </h1>
-            <p class="text-slate-600 text-xs sm:text-sm">
-                Access your events, invitations &amp; guest attendance
+            <p class="text-slate-700 text-xs sm:text-sm font-semibold">
+                Simamia kadi za mwaliko, orodha ya wageni na mahudhurio ya sherehe yako
             </p>
         </div>
 
@@ -41,36 +41,36 @@
                 @csrf
 
                 <div class="space-y-1">
-                    <label for="login" class="block text-xs font-semibold text-slate-700">
+                    <label for="login" class="block text-xs font-bold text-slate-800">
                         Email or Phone Number <span class="text-rose-500">*</span>
                     </label>
                     <input id="login" name="login" type="text" required value="{{ old('login') }}" autofocus
-                           class="form-input-modern text-sm" placeholder="you@example.com or 0712345678">
+                           class="form-input-modern text-sm font-semibold" placeholder="you@example.com or 0712345678">
                     @error('login')
-                        <p class="text-xs text-rose-500">{{ $message }}</p>
+                        <p class="text-xs text-rose-500 font-semibold">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="space-y-1">
                     <div class="flex items-center justify-between">
-                        <label for="password" class="block text-xs font-semibold text-slate-700">
+                        <label for="password" class="block text-xs font-bold text-slate-800">
                             Password <span class="text-rose-500">*</span>
                         </label>
-                        <a href="{{ route('contact') }}?subject=Password+Reset+Request" class="text-xs font-medium text-indigo-600 hover:text-indigo-700">
+                        <a href="{{ route('contact') }}?subject=Password+Reset+Request" class="text-xs font-bold text-emerald-700 hover:text-emerald-900">
                             Forgot password?
                         </a>
                     </div>
                     <input id="password" name="password" type="password" required
-                           class="form-input-modern text-sm" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+                           class="form-input-modern text-sm font-semibold" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
                     @error('password')
-                        <p class="text-xs text-rose-500">{{ $message }}</p>
+                        <p class="text-xs text-rose-500 font-semibold">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="flex items-center justify-between pt-1">
                     <label class="flex items-center space-x-2 cursor-pointer">
-                        <input id="remember" name="remember" type="checkbox" class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
-                        <span class="text-xs text-slate-600 font-medium">Remember my session</span>
+                        <input id="remember" name="remember" type="checkbox" class="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600 border-slate-300">
+                        <span class="text-xs text-slate-700 font-semibold">Remember my session</span>
                     </label>
                 </div>
 
@@ -80,8 +80,8 @@
                 </button>
             </form>
 
-            <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-500 space-y-2">
-                <p>New event host? <a href="{{ route('host.register') }}" class="font-bold text-indigo-600 hover:text-indigo-700">Create Host Account &rarr;</a></p>
+            <div class="pt-4 border-t border-slate-200 text-center text-xs text-slate-700 space-y-2">
+                <p>New event host? <a href="{{ route('host.register') }}" class="font-bold text-emerald-700 hover:text-emerald-900">Create Host Account &rarr;</a></p>
             </div>
         </div>
 

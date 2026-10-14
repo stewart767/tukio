@@ -39,7 +39,7 @@
     <!-- Watermark notice if unpaid preview -->
     @if(!empty($d['watermark']))
         <div class="sticky top-0 z-50 bg-rose-600 text-white py-2 text-center text-xs font-black tracking-widest uppercase">
-            ⚠️ {{ $d['watermark'] }}
+            {{ $d['watermark'] }}
         </div>
     @endif
 
@@ -47,9 +47,8 @@
         
         <!-- Header Tag -->
         <div class="text-center space-y-3">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-xs font-bold uppercase tracking-widest">
-                <span class="w-2 h-2 rounded-full bg-indigo-400 animate-ping"></span>
-                Official VIP Invitation
+            <div class="inline-block px-3.5 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 text-xs font-semibold tracking-wider">
+                Mwaliko Maalum
             </div>
 
             <h1 class="text-3xl sm:text-5xl font-extrabold font-heading tracking-tight leading-tight pt-2">

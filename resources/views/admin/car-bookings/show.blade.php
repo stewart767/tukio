@@ -18,7 +18,7 @@
         <div class="flex items-center gap-2">
             @if($booking->whatsapp_url)
                 <a href="{{ $booking->whatsapp_url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all">
-                    <span>💬</span>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.772.814 2.79.814 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.766-5.767-5.766zm0 10.375c-.881 0-1.64-.23-2.348-.684l-.168-.108-1.577.413.421-1.538-.117-.187c-.503-.805-.769-1.52-.769-2.505 0-2.541 2.068-4.608 4.608-4.608 2.54 0 4.608 2.067 4.608 4.608 0 2.541-2.067 4.609-4.608 4.609z"/></svg>
                     <span>WhatsApp Client</span>
                 </a>
             @endif
@@ -63,7 +63,9 @@
                             @if($vehicle)
                                 <img src="{{ $vehicle->image_url_formatted }}" alt="{{ $vehicle->name }}" class="h-full w-full object-cover">
                             @else
-                                <div class="h-full w-full flex items-center justify-center text-2xl">🚗</div>
+                                <div class="h-full w-full flex items-center justify-center text-slate-400">
+                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 17a2 2 0 100-4 2 2 0 000 4zm8 0a2 2 0 100-4 2 2 0 000 4zm-9-2h10m1 0h2a1 1 0 001-1v-4a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 0014.586 7H9.414a1 1 0 00-.707.293L6.293 9.707A1 1 0 015.586 10H4a2 2 0 00-2 2v4a1 1 0 001 1h2"/></svg>
+                                </div>
                             @endif
                         </div>
                         <div>
@@ -75,7 +77,7 @@
 
                     @if($booking->need_guest_coasters)
                         <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium">
-                            <strong>🚌 Guest Transport Included:</strong> {{ $booking->guest_coasters_count }} Toyota Coaster Bus (30-Seater)
+                            <strong>Guest Transport Included:</strong> {{ $booking->guest_coasters_count }} Toyota Coaster Bus (30-Seater)
                         </div>
                     @endif
                 </div>
@@ -154,11 +156,11 @@
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Booking Status</label>
                         <select name="status" class="form-input-modern text-sm font-bold">
-                            <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>⏳ Pending Review</option>
-                            <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>✓ Confirmed &amp; Reserved</option>
-                            <option value="in_progress" {{ $booking->status == 'in_progress' ? 'selected' : '' }}>🚗 In Progress (Trip Active)</option>
-                            <option value="completed" {{ $booking->status == 'completed' ? 'selected' : '' }}>🎉 Completed</option>
-                            <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>✕ Cancelled</option>
+                            <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Pending Review</option>
+                            <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>Confirmed &amp; Reserved</option>
+                            <option value="in_progress" {{ $booking->status == 'in_progress' ? 'selected' : '' }}>In Progress (Trip Active)</option>
+                            <option value="completed" {{ $booking->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                         </select>
                     </div>
 

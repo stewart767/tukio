@@ -112,7 +112,7 @@ class SendEventWhatsAppInvitations extends Command
         $result = $beemService->sendTemplateBulk($destinations, $templateId, $mediaUrl);
 
         if ($result['success']) {
-            $this->info('✅ Bulk invitations sent successfully!');
+            $this->info('Bulk invitations sent successfully!');
             
             $response = $result['response'];
             $this->line("Job ID: " . ($response['jobId'] ?? 'N/A'));
@@ -143,7 +143,7 @@ class SendEventWhatsAppInvitations extends Command
 
             return 0;
         } else {
-            $this->error('❌ Failed to send bulk invitations');
+            $this->error('Failed to send bulk invitations');
             $this->line('Error: ' . ($result['error'] ?? 'Unknown error'));
             
             Log::error('Bulk WhatsApp invitations failed', [

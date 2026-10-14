@@ -43,11 +43,11 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h2 class="text-2xl font-black">{{ $user->name }}</h2>
                         @if($user->role === 'super_admin')
-                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-purple-500/20 text-purple-300 border border-purple-400/30">👑 Super Admin</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-purple-500/20 text-purple-300 border border-purple-400/30">Super Admin</span>
                         @elseif($user->role === 'event_admin')
-                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-blue-500/20 text-blue-300 border border-blue-400/30">⚡ Event Admin</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-blue-500/20 text-blue-300 border border-blue-400/30">Event Admin</span>
                         @else
-                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">🛡️ Staff Member</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">Staff Member</span>
                         @endif
                     </div>
                     <p class="text-sm text-indigo-200/80 font-mono">{{ $user->email }}</p>

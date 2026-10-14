@@ -29,7 +29,7 @@ class TestWhatsAppIntegration extends Command
         $this->info('1. Checking WhatsApp configuration...');
         
         if (!$whatsAppService->isConfigured()) {
-            $this->error('❌ WhatsApp service is not configured!');
+            $this->error('WhatsApp service is not configured!');
             $this->newLine();
             $this->warn('Please add the following to your .env file:');
             $this->line('WHATSAPP_ACCESS_TOKEN=your_access_token');
@@ -39,7 +39,7 @@ class TestWhatsAppIntegration extends Command
             return Command::FAILURE;
         }
 
-        $this->info('✅ WhatsApp configuration found');
+        $this->info('WhatsApp configuration found');
         $this->newLine();
 
         // Test connection
@@ -47,12 +47,12 @@ class TestWhatsAppIntegration extends Command
         $connectionResult = $whatsAppService->testConnection();
 
         if (!$connectionResult['success']) {
-            $this->error('❌ Connection test failed!');
+            $this->error('Connection test failed!');
             $this->error('Error: ' . $connectionResult['error']);
             return Command::FAILURE;
         }
 
-        $this->info('✅ Connection test successful');
+        $this->info('Connection test successful');
         $this->newLine();
 
         // Get phone number for test
@@ -62,14 +62,14 @@ class TestWhatsAppIntegration extends Command
             $phoneNumber = $this->ask('Enter phone number to send test message (with country code, e.g., +255655123456)');
             
             if (!$phoneNumber) {
-                $this->error('❌ Phone number is required for test message');
+                $this->error('Phone number is required for test message');
                 return Command::FAILURE;
             }
         }
 
         // Validate phone number format
         if (!preg_match('/^(\+?255|0)\d{9}$/', preg_replace('/[^\d+]/', '', $phoneNumber))) {
-            $this->warn('⚠️  Phone number format may be incorrect for Tanzania');
+            $this->warn('Phone number format may be incorrect for Tanzania');
             $this->line('Expected format: +255655123456 or 0655123456');
             
             if (!$this->confirm('Continue anyway?')) {
@@ -84,14 +84,14 @@ class TestWhatsAppIntegration extends Command
         $result = $whatsAppService->sendTextMessage($phoneNumber, $message);
 
         if ($result['success']) {
-            $this->info('✅ Test message sent successfully!');
+            $this->info('Test message sent successfully!');
             $this->line('Message ID: ' . ($result['message_id'] ?? 'N/A'));
             
             $this->newLine();
-            $this->info('📱 Check the recipient\'s WhatsApp for the test message');
+            $this->info('Check the recipient\'s WhatsApp for the test message');
             
         } else {
-            $this->error('❌ Test message failed!');
+            $this->error('Test message failed!');
             $this->error('Error: ' . ($result['error'] ?? 'Unknown error'));
             $this->error('Status: ' . ($result['status'] ?? 'N/A'));
             
@@ -99,7 +99,7 @@ class TestWhatsAppIntegration extends Command
         }
 
         $this->newLine();
-        $this->info('🎉 WhatsApp integration test completed successfully!');
+        $this->info('WhatsApp integration test completed successfully!');
         
         // Additional info
         $this->newLine();

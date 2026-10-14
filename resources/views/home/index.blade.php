@@ -70,7 +70,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
                     Create Your Event
-                    <div class="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-400 via-pink-400 to-fuchsia-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+                    <div class="absolute inset-0 rounded-lg bg-gradient-to-r from-slate-800 to-indigo-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
                 </a>
                 
                 <a href="{{ route('host.login') }}" class="modern-button modern-button-secondary modern-button-lg glass-card group button-hover-pop">
@@ -182,7 +182,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Feature 1 -->
             <div class="floating-card p-8 animate-fade-in-up animate-stagger-1 card-glow group card-hover-enhanced transition-all-ease">
-                <div class="w-16 h-16 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 animate-heartbeat morph-shape">
+                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 animate-heartbeat morph-shape">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                     </svg>
@@ -222,7 +222,7 @@
 
             <!-- Feature 3 -->
             <div class="floating-card p-8 animate-fade-in-up animate-stagger-3 card-glow group card-hover-morph transition-all-ease">
-                <div class="w-16 h-16 bg-gradient-to-br from-purple-400 via-pink-400 to-fuchsia-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 animate-rotate-in morph-shape">
+                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 via-purple-600 to-slate-800 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300 animate-rotate-in morph-shape">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     </svg>
@@ -447,7 +447,7 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-20 bg-gradient-to-br from-purple-600 via-pink-600 to-fuchsia-700 relative overflow-hidden">
+<section class="py-20 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 relative overflow-hidden">
     <!-- Animated Background Elements -->
     <div class="absolute inset-0 opacity-10 parallax-bg">
         <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.2) 1px, transparent 0); background-size: 40px 40px;"></div>
@@ -483,7 +483,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 Start Free Trial
-                <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-400 via-pink-400 to-fuchsia-400 opacity-0 group-hover:opacity-100 transition-opacity-ease -z-10"></div>
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-slate-800 to-indigo-900 opacity-0 group-hover:opacity-100 transition-opacity-ease -z-10"></div>
             </a>
             
             <a href="{{ route('contact') }}" class="modern-button modern-button-secondary modern-button-xl glass-card group transition-all-ease">
@@ -557,7 +557,7 @@
             <div>
                 <h4 class="text-lg font-semibold mb-6 relative inline-block">
                     <span class="relative z-10">Product</span>
-                    <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-fuchsia-500 rounded-full"></span>
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"></span>
                 </h4>
                 <ul class="space-y-3">
                     <li><a href="#features" class="text-gray-400 hover:text-white transition-all duration-300 flex items-center group hover:translate-x-1">
@@ -591,7 +591,7 @@
             <div>
                 <h4 class="text-lg font-semibold mb-6 relative inline-block">
                     <span class="relative z-10">Support</span>
-                    <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-fuchsia-500 rounded-full"></span>
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"></span>
                 </h4>
                 <ul class="space-y-3">
                     <li><a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center group">
@@ -625,7 +625,7 @@
             <div>
                 <h4 class="text-lg font-semibold mb-6 relative inline-block">
                     <span class="relative z-10">Admin Access</span>
-                    <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-fuchsia-500 rounded-full"></span>
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"></span>
                 </h4>
                 <ul class="space-y-3">
                     <li><a href="{{ route('login') }}" class="text-gray-400 hover:text-white transition-colors flex items-center group">

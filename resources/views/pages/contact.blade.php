@@ -16,12 +16,11 @@
 @section('title', __('common.contact_us') . ' - ' . $brandName)
 
 @section('content')
-<div class="min-h-screen bg-slate-50 pt-10 pb-20">
+<div class="min-h-screen bg-[#f3ffe3] pt-10 pb-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         <!-- Page Header -->
         <div class="text-center max-w-2xl mx-auto space-y-3">
-            <span class="badge-pill badge-indigo">We're Here For You</span>
             <h1 class="text-4xl sm:text-5xl font-black font-heading text-slate-900 tracking-tight">
                 {{ __('common.contact_us') }}
             </h1>
@@ -42,13 +41,10 @@
             
             <!-- Left Column: Contact Cards & Info -->
             <div class="lg:col-span-5 space-y-6">
-                <!-- Status Badge -->
-                <div class="glass-card rounded-2xl p-4 flex items-center justify-between">
-                    <div class="flex items-center space-x-2.5">
-                        <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span class="text-xs font-bold text-slate-800">Support Desk Online</span>
-                    </div>
-                    <span class="text-[11px] font-semibold text-slate-500">Mon&ndash;Fri &bull; 9AM &ndash; 6PM EAT</span>
+                <!-- Working Hours Info -->
+                <div class="glass-card rounded-2xl p-4 flex items-center justify-between border border-slate-200">
+                    <span class="text-xs font-bold text-slate-700">Masaa ya Kazi:</span>
+                    <span class="text-xs font-semibold text-slate-600">Jumatatu &ndash; Ijumaa &bull; Saa 3:00 Asubuhi &ndash; 12:00 Jioni</span>
                 </div>
 
                 <!-- Email Card -->
@@ -66,13 +62,13 @@
                 </div>
 
                 <!-- Phone Card -->
-                <div class="glass-card rounded-3xl p-6 hover:border-pink-300 transition-all flex items-start space-x-4">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-50 text-pink-600 flex items-center justify-center flex-shrink-0">
+                <div class="glass-card rounded-3xl p-6 hover:border-indigo-300 transition-all flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center flex-shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                     </div>
                     <div>
                         <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-0.5">{{ __('common.call_us') }}</h4>
-                        <a href="tel:{{ preg_replace('/[^0-9+]/', '', $contactPhone) }}" class="text-base font-bold text-slate-900 hover:text-pink-600 transition-colors">
+                        <a href="tel:{{ preg_replace('/[^0-9+]/', '', $contactPhone) }}" class="text-base font-bold text-slate-900 hover:text-indigo-600 transition-colors">
                             {{ $contactPhone }}
                         </a>
                         <p class="text-xs text-slate-500 mt-1">{{ __('common.mon_fri_hours') }}</p>

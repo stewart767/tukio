@@ -10,7 +10,7 @@
     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xl shadow-slate-200/30 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-xs font-semibold text-indigo-700 mb-2">
-                <span>📊 Real-time Attendance &amp; Analytics</span>
+                <span>Real-time Attendance &amp; Analytics</span>
             </div>
             <h1 class="text-2xl sm:text-3xl font-black font-heading text-slate-900 tracking-tight">Reports &amp; Analytics</h1>
             <p class="text-xs sm:text-sm text-slate-500">Track delivery rates, guest RSVP responses, and door scanner verification metrics.</p>

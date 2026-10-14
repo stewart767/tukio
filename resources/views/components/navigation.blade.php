@@ -7,21 +7,21 @@
 @endphp
 
 <!-- Top Header -->
-<div class="bg-gradient-to-r from-purple-600 via-pink-600 to-fuchsia-700 text-white py-2 shadow-md">
+<div class="bg-[#eaf6d8]/95 backdrop-blur-md text-slate-700 py-2 border-b border-emerald-200/60 shadow-2xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between text-sm space-y-2 md:space-y-0">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between text-xs space-y-2 md:space-y-0">
             <div class="flex flex-wrap items-center gap-4">
                 @if($contactPhone)
-                    <div class="flex items-center hover:text-purple-200 transition-colors">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-center hover:text-emerald-900 transition-colors">
+                        <svg class="w-3.5 h-3.5 mr-1.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                         </svg>
-                        <span>{{ $contactPhone }}</span>
+                        <span class="font-semibold">{{ $contactPhone }}</span>
                     </div>
                 @endif
                 @if($contactEmail)
-                    <div class="flex items-center hover:text-purple-200 transition-colors">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-center hover:text-emerald-900 transition-colors">
+                        <svg class="w-3.5 h-3.5 mr-1.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
                         <span>{{ $contactEmail }}</span>
@@ -71,42 +71,44 @@
             <!-- Desktop Navigation - Left-aligned -->
             <div class="hidden lg:flex flex-1 items-center ml-8">
                 <div class="flex items-center space-x-1">
-                    <a href="{{ route('home') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-medium text-gray-700 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 {{ request()->routeIs('home') ? 'nav-link-active' : '' }}" data-route="home" aria-current="{{ request()->routeIs('home') ? 'page' : 'false' }}">
+                    <a href="{{ route('home') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-semibold text-slate-800 hover:text-emerald-800 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 {{ request()->routeIs('home') ? 'nav-link-active !text-emerald-800 font-bold' : '' }}" data-route="home" aria-current="{{ request()->routeIs('home') ? 'page' : 'false' }}">
                         <span class="relative z-10">Home</span>
                     </a>
-                    <a href="{{ route('events') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-medium text-gray-700 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 {{ request()->routeIs('events') ? 'nav-link-active' : '' }}" data-route="events" aria-current="{{ request()->routeIs('events') ? 'page' : 'false' }}">
+                    <a href="{{ route('events') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-semibold text-slate-800 hover:text-emerald-800 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 {{ request()->routeIs('events') ? 'nav-link-active !text-emerald-800 font-bold' : '' }}" data-route="events" aria-current="{{ request()->routeIs('events') ? 'page' : 'false' }}">
                         <span class="relative z-10">Events</span>
                     </a>
-                    <a href="{{ route('categories') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-medium text-gray-700 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 {{ request()->routeIs('categories') ? 'nav-link-active' : '' }}" data-route="categories" aria-current="{{ request()->routeIs('categories') ? 'page' : 'false' }}">
+                    <a href="{{ route('categories') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-semibold text-slate-800 hover:text-emerald-800 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 {{ request()->routeIs('categories') ? 'nav-link-active !text-emerald-800 font-bold' : '' }}" data-route="categories" aria-current="{{ request()->routeIs('categories') ? 'page' : 'false' }}">
                         <span class="relative z-10">Categories</span>
                     </a>
-                    <a href="{{ route('venues') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-medium text-gray-700 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 {{ request()->routeIs('venues') ? 'nav-link-active' : '' }}" data-route="venues" aria-current="{{ request()->routeIs('venues') ? 'page' : 'false' }}">
+                    <a href="{{ route('venues') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-semibold text-slate-800 hover:text-emerald-800 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 {{ request()->routeIs('venues') ? 'nav-link-active !text-emerald-800 font-bold' : '' }}" data-route="venues" aria-current="{{ request()->routeIs('venues') ? 'page' : 'false' }}">
                         <span class="relative z-10">Venues</span>
                     </a>
-                    <a href="{{ route('contact') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-medium text-gray-700 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 {{ request()->routeIs('contact') ? 'nav-link-active' : '' }}" data-route="contact" aria-current="{{ request()->routeIs('contact') ? 'page' : 'false' }}">
+                    <a href="{{ route('contact') }}" class="nav-link-desktop relative px-4 py-2 text-sm font-semibold text-slate-800 hover:text-emerald-800 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 {{ request()->routeIs('contact') ? 'nav-link-active !text-emerald-800 font-bold' : '' }}" data-route="contact" aria-current="{{ request()->routeIs('contact') ? 'page' : 'false' }}">
                         <span class="relative z-10">Contact</span>
                     </a>
                 </div>
             </div>
 
             <!-- Auth Buttons -->
-            <div class="hidden md:flex items-center space-x-3">
+            <div class="hidden md:flex items-center gap-2.5 shrink-0">
                 @auth
-                    <a href="{{ route('dashboard') }}" class="btn-nav-secondary px-4 py-2 text-sm font-medium text-gray-700 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" aria-label="Go to dashboard">
-                        Dashboard
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 h-10 px-4.5 rounded-xl font-bold text-xs whitespace-nowrap text-white bg-emerald-700 hover:bg-emerald-800 shadow-md shadow-emerald-700/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200" aria-label="Go to dashboard">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                        <span>Dashboard</span>
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
-                        <button type="submit" class="btn-nav-secondary px-4 py-2 text-sm font-medium text-gray-700 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" aria-label="Logout">
+                        <button type="submit" class="inline-flex items-center h-10 px-3.5 text-xs font-semibold text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl transition-all duration-200" aria-label="Logout">
                             Logout
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="btn-nav-secondary px-4 py-2.5 text-sm font-medium text-gray-700 rounded-lg border border-gray-300 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" aria-label="Admin login">
-                        Login
+                    <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center justify-center h-10 px-3.5 text-xs font-semibold text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl whitespace-nowrap transition-all duration-200" aria-label="Sign in">
+                        Sign In
                     </a>
-                    <a href="{{ route('host.register') }}" class="btn-nav-primary px-5 py-2.5 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-fuchsia-600 shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" aria-label="Create or post event">
-                        Post Event
+                    <a href="{{ route('host.register') }}" class="group relative inline-flex items-center justify-center gap-2 h-10 px-5 rounded-xl font-bold text-xs whitespace-nowrap text-white bg-emerald-700 hover:bg-emerald-800 shadow-md shadow-emerald-700/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200" aria-label="Host your event">
+                        <span class="w-4 h-4 rounded-md flex items-center justify-center text-[10px] font-black bg-white/20 text-white transition-transform duration-200 group-hover:rotate-90">+</span>
+                        <span>Host Your Event</span>
                     </a>
                 @endauth
             </div>
@@ -134,7 +136,7 @@
     <!-- Menu Panel -->
     <div id="mobile-menu-panel" class="fixed inset-y-0 left-0 w-80 max-w-[85vw] bg-white shadow-2xl transform -translate-x-full transition-transform duration-300 ease-out overflow-y-auto">
         <!-- Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-pink-50 sticky top-0 z-10">
+        <div class="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-slate-50 to-indigo-50/50 sticky top-0 z-10">
             <div class="flex items-center">
                 @if(!empty($brandLogo) && is_string($brandLogo))
                     <div class="relative h-10 w-auto max-w-[140px]">
@@ -216,7 +218,7 @@
                         </svg>
                         Login
                     </a>
-                    <a href="{{ route('host.register') }}" class="mobile-menu-link flex items-center justify-center w-full px-4 py-3 text-base font-semibold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-fuchsia-600 rounded-lg hover:from-purple-700 hover:via-pink-700 hover:to-fuchsia-700 shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    <a href="{{ route('host.register') }}" class="mobile-menu-link flex items-center justify-center w-full px-4 py-3 text-base font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg shadow-md transition-all duration-200">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>

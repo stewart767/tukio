@@ -21,13 +21,13 @@
         <div class="flex items-center justify-center gap-2 mt-2">
             @if($type && strtolower($type) === 'vip')
                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-400 text-slate-950 tracking-wider shadow-sm">
-                    ⭐ VIP Guest
+                    VIP Guest
                 </span>
             @endif
 
             @if($table)
                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/20 backdrop-blur-md border border-white/20 text-white">
-                    🪑 {{ $table }}
+                    Table: {{ $table }}
                 </span>
             @endif
         </div>

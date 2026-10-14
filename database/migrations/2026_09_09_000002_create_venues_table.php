@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('category')->default('Indoor Ballrooms'); // Indoor Ballrooms, Beach & Garden, Conference Centers, Luxury Suites, etc.
             $table->string('location')->default('Dar es Salaam'); // City / Region e.g. "Dar es Salaam", "Zanzibar", "Arusha"
             $table->string('capacity')->nullable(); // e.g. "500 – 2,000 Guests"
-            $table->string('badge')->nullable(); // e.g. "🏛️ Indoor Ballrooms", "🏖️ Beach & Garden"
+            $table->string('badge')->nullable(); // e.g. "Indoor Ballrooms", "Beach & Garden"
             $table->text('description')->nullable();
             $table->json('amenities')->nullable(); // e.g. ["Climate Controlled", "VIP Lounges", "Stage Lighting"]
             $table->string('image_url')->nullable();

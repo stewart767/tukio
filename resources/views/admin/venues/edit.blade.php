@@ -95,7 +95,7 @@
                         <div>
                             <label for="badge" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Top Category Badge</label>
                             <input type="text" id="badge" name="badge" value="{{ old('badge', $venue->badge) }}" 
-                                   class="form-input-modern text-sm" placeholder="e.g. 🏛️ Indoor Ballrooms, 🏖️ Beach & Garden">
+                                   class="form-input-modern text-sm" placeholder="e.g. Indoor Ballrooms, Beach & Garden">
                         </div>
 
                         <div>

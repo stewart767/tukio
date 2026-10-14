@@ -149,7 +149,7 @@ class CarBooking extends Model
         }
 
         $vehicleName = $this->vehicle ? $this->vehicle->name : 'Wedding Fleet Car';
-        $message = "Habari Tukio 360! 🚗\n\nNimefanya Car Hire Booking ombi langu:\n"
+        $message = "Habari Tukio 360!\n\nNimefanya Car Hire Booking ombi langu:\n"
             . "• Ref: *{$this->booking_reference}*\n"
             . "• Gari: *{$vehicleName}*\n"
             . "• Jina: {$this->customer_name}\n"

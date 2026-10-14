@@ -217,7 +217,7 @@
                         @else
                             <div class="photo-placeholder">
                                 <div>
-                                    <div style="font-size: 2rem; margin-bottom: 5px;">📷</div>
+                                    <div style="font-weight: bold; margin-bottom: 5px;">PHOTO</div>
                                     <div>Image too small</div>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                     @else
                         <div class="photo-placeholder">
                             <div>
-                                <div style="font-size: 2rem; margin-bottom: 5px;">📷</div>
+                                <div style="font-weight: bold; margin-bottom: 5px;">PHOTO</div>
                                 <div>No photo available</div>
                             </div>
                         </div>
@@ -288,7 +288,7 @@
                         <img src="{{ storage_url($invitationData['qr_code_path']) }}" alt="Invitation QR Code" style="width: 100%; height: 100%; object-fit: contain;">
                     @else
                         <div style="text-align: center; color: #6b7280; font-size: 0.875rem;">
-                            <div style="font-size: 2rem; margin-bottom: 5px;">📱</div>
+                            <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; color: #4f46e5;">QR PASS</div>
                             <div>QR Code</div>
                             <div style="font-size: 0.75rem; margin-top: 5px;">{{ $invitationData['guest_name'] }}</div>
                         </div>

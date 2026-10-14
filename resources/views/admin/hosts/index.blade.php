@@ -44,7 +44,7 @@
             <div class="rounded-2xl border border-slate-200/60 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-500">
                     <span>Total Hosts</span>
-                    <span class="text-amber-500">🏢</span>
+                    <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $metrics['total_hosts'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Total accounts registered</div>
@@ -53,7 +53,7 @@
             <div class="rounded-2xl border border-emerald-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-emerald-600">
                     <span>Active Portals</span>
-                    <span>🟢</span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $metrics['active_hosts'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Permitted dashboard access</div>
@@ -62,7 +62,7 @@
             <div class="rounded-2xl border border-indigo-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-indigo-600">
                     <span>Configured Events</span>
-                    <span>🎉</span>
+                    <svg class="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $metrics['configured_hosts'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Completed event setup</div>
@@ -71,7 +71,7 @@
             <div class="rounded-2xl border border-purple-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-purple-600">
                     <span>Readiness Rate</span>
-                    <span>📈</span>
+                    <svg class="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">
                     {{ $metrics['total_hosts'] > 0 ? round(($metrics['configured_hosts'] / $metrics['total_hosts']) * 100) : 0 }}%
@@ -140,7 +140,7 @@
                                         <span>{{ $host->phone }}</span>
                                         @if($host->phone)
                                             <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $host->phone) }}" target="_blank" class="text-emerald-600 hover:text-emerald-700" title="Chat on WhatsApp">
-                                                💬
+                                                <svg class="w-3.5 h-3.5 inline" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.772.814 2.79.814 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.766-5.767-5.766zm0 10.375c-.881 0-1.64-.23-2.348-.684l-.168-.108-1.577.413.421-1.538-.117-.187c-.503-.805-.769-1.52-.769-2.505 0-2.541 2.068-4.608 4.608-4.608 2.54 0 4.608 2.067 4.608 4.608 0 2.541-2.067 4.609-4.608 4.609z"/></svg>
                                             </a>
                                         @endif
                                     </div>
@@ -150,13 +150,13 @@
 
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200/80 shadow-2xs">
-                                <span>🎉</span> {{ \Illuminate\Support\Str::title(str_replace('_', ' ', $host->event_type)) }}
+                                <span>{{ \Illuminate\Support\Str::title(str_replace('_', ' ', $host->event_type)) }}</span>
                             </span>
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100 font-bold text-slate-700 text-xs">
-                                <span>👥</span> {{ number_format($host->number_of_guests) }} Guests
+                                <span>{{ number_format($host->number_of_guests) }} Guests</span>
                             </span>
                         </td>
 
@@ -180,7 +180,7 @@
 
                                 @if($host->hasFinishedEvent())
                                     <span class="inline-flex items-center gap-1 text-[10px] text-orange-600 font-semibold">
-                                        <span>🏁</span> Finished ({{ $host->event_finished_at?->format('d M Y') }})
+                                        <span>Finished ({{ $host->event_finished_at?->format('d M Y') }})</span>
                                     </span>
                                 @endif
                             </div>
@@ -229,7 +229,7 @@
                         <td colspan="6" class="px-8 py-16 text-center">
                             <div class="max-w-sm mx-auto text-center space-y-4">
                                 <div class="w-16 h-16 bg-amber-50 rounded-2xl mx-auto flex items-center justify-center text-amber-600 text-2xl shadow-inner">
-                                    🏢
+                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                                 </div>
                                 <h3 class="text-base font-bold text-slate-900">No hosts registered</h3>
                                 <p class="text-xs text-slate-500">No host accounts exist yet. Onboard your first event host to launch their digital invitations and guest management portal.</p>

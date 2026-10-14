@@ -7,17 +7,17 @@
 <div class="space-y-8 pb-12">
     <!-- Executive Fleet Header -->
     <div class="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-white via-indigo-50/40 to-slate-50 p-8 sm:p-10 shadow-xl backdrop-blur-md">
-        <div class="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-gradient-to-br from-pink-400/20 to-purple-400/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-gradient-to-br from-indigo-400/20 to-purple-400/20 blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-gradient-to-tr from-indigo-400/15 to-blue-400/15 blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div class="space-y-3">
-                <div class="inline-flex items-center gap-2 rounded-full border border-pink-200/60 bg-pink-50/80 px-3.5 py-1 text-xs font-semibold text-pink-700 shadow-xs">
-                    <span class="inline-flex h-2 w-2 rounded-full bg-pink-500 animate-pulse"></span>
+                <div class="inline-flex items-center gap-2 rounded-full border border-indigo-200/60 bg-indigo-50/80 px-3.5 py-1 text-xs font-semibold text-indigo-700 shadow-xs">
+                    <span class="inline-flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
                     VIP Logistics &amp; Transport Hub
                 </div>
                 <div class="flex items-start gap-4">
-                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-600 text-white shadow-lg shadow-indigo-500/25">
+                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-slate-900 to-indigo-900 text-white shadow-lg shadow-indigo-500/25">
                         <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.175V3.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75" />
                         </svg>
@@ -36,7 +36,7 @@
                     </svg>
                     <span>View Bookings</span>
                 </a>
-                <a href="{{ route('admin.vehicles.create') }}" class="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-pink-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-600/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-600/40">
+                <a href="{{ route('admin.vehicles.create') }}" class="group inline-flex items-center gap-2 rounded-2xl bg-slate-900 hover:bg-slate-800 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-slate-900/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl">
                     <svg class="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6" />
                     </svg>
@@ -50,16 +50,16 @@
             <div class="rounded-2xl border border-slate-200/60 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-500">
                     <span>Total Fleet</span>
-                    <span class="text-indigo-600">🚗</span>
+                    <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8m-9 4h10M5 16h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v7a2 2 0 002 2zm2 2h.01M17 18h.01"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $stats['total'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Total registered units</div>
             </div>
 
-            <div class="rounded-2xl border border-pink-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
-                <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-pink-600">
+            <div class="rounded-2xl border border-indigo-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
+                <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-indigo-600">
                     <span>Bride &amp; Groom</span>
-                    <span>👰</span>
+                    <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $stats['luxury'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Premium wedding cars</div>
@@ -68,7 +68,7 @@
             <div class="rounded-2xl border border-amber-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-amber-600">
                     <span>Coasters &amp; Buses</span>
-                    <span>🚌</span>
+                    <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $stats['coasters'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Guest group shuttles</div>
@@ -77,7 +77,7 @@
             <div class="rounded-2xl border border-emerald-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-emerald-600">
                     <span>Available Now</span>
-                    <span>🟢</span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $stats['available'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Ready for charter booking</div>
@@ -114,10 +114,10 @@
             
             <select name="category" class="form-input-modern text-xs sm:text-sm py-2 w-full sm:w-auto">
                 <option value="all">All Fleet Categories</option>
-                <option value="luxury_bride_groom" {{ request('category') == 'luxury_bride_groom' ? 'selected' : '' }}>👰 Bride &amp; Groom Luxury</option>
-                <option value="guest_coaster_bus" {{ request('category') == 'guest_coaster_bus' ? 'selected' : '' }}>🚌 Coasters &amp; Buses</option>
-                <option value="vip_suv_convoy" {{ request('category') == 'vip_suv_convoy' ? 'selected' : '' }}>👑 VIP SUV Convoys</option>
-                <option value="host_logistics" {{ request('category') == 'host_logistics' ? 'selected' : '' }}>📦 Logistics &amp; Utility</option>
+                <option value="luxury_bride_groom" {{ request('category') == 'luxury_bride_groom' ? 'selected' : '' }}>Bride &amp; Groom Luxury</option>
+                <option value="guest_coaster_bus" {{ request('category') == 'guest_coaster_bus' ? 'selected' : '' }}>Coasters &amp; Buses</option>
+                <option value="vip_suv_convoy" {{ request('category') == 'vip_suv_convoy' ? 'selected' : '' }}>VIP SUV Convoys</option>
+                <option value="host_logistics" {{ request('category') == 'host_logistics' ? 'selected' : '' }}>Logistics &amp; Utility</option>
             </select>
 
             <button type="submit" class="btn-primary text-xs px-4 py-2">
@@ -171,28 +171,27 @@
                                     <div class="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors flex items-center gap-2">
                                         <span>{{ $car->name }}</span>
                                         @if($car->is_featured)
-                                            <span class="px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-black uppercase">⭐ Featured</span>
+                                            <span class="px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-black uppercase">Featured</span>
                                         @endif
                                     </div>
                                     <div class="text-xs text-slate-500">{{ $car->brand }} &bull; {{ $car->model_year ?? 'Current' }}</div>
-                                    <div class="text-[11px] text-slate-400 font-mono mt-0.5">⚙️ {{ ucfirst($car->transmission) }} &bull; 🎨 {{ $car->color ?? 'White' }}</div>
+                                    <div class="text-[11px] text-slate-400 font-mono mt-0.5">{{ ucfirst($car->transmission) }} &bull; {{ $car->color ?? 'White' }}</div>
                                 </div>
                             </div>
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold {{ $badge['bg'] }} border text-slate-800 shadow-2xs">
-                                <span>{{ $badge['icon'] }}</span>
                                 <span>{{ $badge['label'] }}</span>
                             </span>
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-xs font-semibold text-slate-800 flex items-center gap-1">
-                                <span>👥</span> {{ $car->seating_capacity }} Passengers
+                                {{ $car->seating_capacity }} Passengers
                             </div>
                             <div class="text-[11px] text-slate-400 mt-0.5">
-                                ⛽ {{ ucfirst($car->fuel_type) }} &bull; 🧳 {{ $car->luggage_capacity ?? 'Standard' }}
+                                {{ ucfirst($car->fuel_type) }} &bull; {{ $car->luggage_capacity ?? 'Standard' }}
                             </div>
                         </td>
 
@@ -244,8 +243,8 @@
                     <tr>
                         <td colspan="6" class="px-8 py-16 text-center">
                             <div class="max-w-sm mx-auto text-center space-y-4">
-                                <div class="w-16 h-16 bg-pink-50 rounded-2xl mx-auto flex items-center justify-center text-pink-600 text-2xl shadow-inner">
-                                    🚗
+                                <div class="w-16 h-16 bg-slate-100 rounded-2xl mx-auto flex items-center justify-center text-slate-700 shadow-inner">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8m-9 4h10M5 16h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v7a2 2 0 002 2zm2 2h.01M17 18h.01"/></svg>
                                 </div>
                                 <h3 class="text-base font-bold text-slate-900">No vehicles found</h3>
                                 <p class="text-xs text-slate-500">No vehicles match your active search filters. Add vehicles to allow hosts and guests to charter transport for their celebrations.</p>

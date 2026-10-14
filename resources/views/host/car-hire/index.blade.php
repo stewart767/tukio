@@ -8,10 +8,10 @@
     
     <!-- Top Banner Card (Ambient Translucent Glass) -->
     <div class="rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 shadow-xl border border-indigo-500/20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
         
         <div class="space-y-2 text-center md:text-left relative z-10">
-            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-pink-500 text-white">Event Transportation</span>
+            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-600 text-white">Event Transportation</span>
             <h2 class="text-2xl sm:text-3xl font-black font-heading text-white">Hire Cars For {{ $event->title ?? 'Your Event' }}</h2>
             <p class="text-slate-300 text-xs sm:text-sm max-w-xl">
                 Select luxury bridal cars for bride &amp; groom and 30-seater guest coasters for your entourage. Pre-configured with your event date: <strong>{{ $event?->date?->format('d M Y') ?? 'Upcoming' }}</strong>.
@@ -80,14 +80,14 @@
         <a href="{{ route('host.car-hire.index', ['category' => 'all']) }}" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all {{ $category == 'all' ? 'bg-primary-600 text-white shadow-md' : 'bg-white/80 backdrop-blur-md text-slate-600 hover:bg-white border border-slate-200' }}">
             All Fleet
         </a>
-        <a href="{{ route('host.car-hire.index', ['category' => 'luxury_bride_groom']) }}" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all {{ $category == 'luxury_bride_groom' ? 'bg-pink-600 text-white shadow-md' : 'bg-white/80 backdrop-blur-md text-slate-600 hover:bg-pink-50 hover:text-pink-600 border border-slate-200' }}">
-            👰 Bride &amp; Groom Luxury
+        <a href="{{ route('host.car-hire.index', ['category' => 'luxury_bride_groom']) }}" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all {{ $category == 'luxury_bride_groom' ? 'bg-indigo-600 text-white shadow-md' : 'bg-white/80 backdrop-blur-md text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 border border-slate-200' }}">
+            Bride &amp; Groom Luxury
         </a>
         <a href="{{ route('host.car-hire.index', ['category' => 'guest_coaster_bus']) }}" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all {{ $category == 'guest_coaster_bus' ? 'bg-amber-600 text-white shadow-md' : 'bg-white/80 backdrop-blur-md text-slate-600 hover:bg-amber-50 hover:text-amber-600 border border-slate-200' }}">
-            🚌 Guest Coasters &amp; Buses
+            Guest Coasters &amp; Buses
         </a>
         <a href="{{ route('host.car-hire.index', ['category' => 'vip_suv_convoy']) }}" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all {{ $category == 'vip_suv_convoy' ? 'bg-purple-600 text-white shadow-md' : 'bg-white/80 backdrop-blur-md text-slate-600 hover:bg-purple-50 hover:text-purple-600 border border-slate-200' }}">
-            👑 VIP Convoys &amp; SUVs
+            VIP Convoys &amp; SUVs
         </a>
     </div>
 
@@ -112,7 +112,7 @@
 
                     <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between text-white">
                         <span class="text-xl font-black font-heading">{{ $car->formatted_price }}<span class="text-xs text-slate-300 font-normal">/day</span></span>
-                        <span class="text-xs bg-black/40 px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/10">👥 {{ $car->seating_capacity }} seats</span>
+                        <span class="text-xs bg-black/40 px-2.5 py-1 rounded-lg backdrop-blur-md border border-white/10">{{ $car->seating_capacity }} seats</span>
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@
                     </div>
 
                     <!-- Hire Button Triggering Modal -->
-                    <button type="button" onclick="openHostBookingModal({{ json_encode($car) }})" class="w-full py-2.5 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-500 hover:to-indigo-500 text-white font-bold text-xs rounded-xl shadow-md transition-all">
+                    <button type="button" onclick="openHostBookingModal({{ json_encode($car) }})" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-md transition-all">
                         Book for My Event
                     </button>
                 </div>
@@ -152,7 +152,7 @@
         </button>
 
         <div class="space-y-1">
-            <span class="badge-pill badge-pink text-[10px]">Event Linked Reservation</span>
+            <span class="badge-pill bg-indigo-50 text-indigo-700 border border-indigo-200 text-[10px]">Event Linked Reservation</span>
             <h3 class="text-xl font-bold font-heading text-slate-900" id="modal-car-name">Reserve Vehicle</h3>
             <p class="text-xs text-slate-500" id="modal-car-price">TZS 0 / day</p>
         </div>
@@ -196,7 +196,7 @@
                 <textarea name="special_requests" rows="2" placeholder="e.g. Need driver at 7:00 AM for church departure" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500"></textarea>
             </div>
 
-            <button type="submit" class="w-full py-3 bg-primary-600 hover:bg-primary-500 text-white font-bold text-xs rounded-xl shadow-md transition-colors">
+            <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-md transition-colors">
                 Confirm Booking Request
             </button>
         </form>

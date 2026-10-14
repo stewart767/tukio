@@ -71,7 +71,7 @@ class MilestoneController extends Controller
             'image_url' => 'nullable|string|max:500',
             'button_text' => 'nullable|string|max:100',
             'button_url' => 'nullable|string|max:500',
-            'theme_color' => 'required|string|in:purple,blue,pink,teal,amber,violet,indigo',
+            'theme_color' => 'required|string|in:purple,blue,slate,teal,amber,violet,indigo',
             'is_active' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
         ]);
@@ -102,7 +102,7 @@ class MilestoneController extends Controller
             'slug' => $slug,
             'badge' => $validated['badge'] ?? 'Featured',
             'tagline' => $validated['tagline'] ?? null,
-            'icon' => $validated['icon'] ?? '🎉',
+            'icon' => $validated['icon'] ?? null,
             'description' => $validated['description'] ?? null,
             'tags' => $tags,
             'image_url' => $imageUrl,
@@ -142,7 +142,7 @@ class MilestoneController extends Controller
             'image_url' => 'nullable|string|max:500',
             'button_text' => 'nullable|string|max:100',
             'button_url' => 'nullable|string|max:500',
-            'theme_color' => 'required|string|in:purple,blue,pink,teal,amber,violet,indigo',
+            'theme_color' => 'required|string|in:purple,blue,slate,teal,amber,violet,indigo',
             'is_active' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
         ]);

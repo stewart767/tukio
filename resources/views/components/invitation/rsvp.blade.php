@@ -48,7 +48,7 @@
                     @click="status = 'attending'"
                     class="p-4 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-1.5 text-center"
                     :class="status === 'attending' ? 'bg-emerald-600/30 border-emerald-400 text-white shadow-lg' : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10'">
-                <span class="text-2xl">🎉</span>
+                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 <span class="font-bold text-sm">Ndiyo, Nitafika</span>
                 <span class="text-[10px] opacity-75">I will attend</span>
             </button>
@@ -57,7 +57,7 @@
                     @click="status = 'declined'"
                     class="p-4 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-1.5 text-center"
                     :class="status === 'declined' ? 'bg-rose-600/30 border-rose-400 text-white shadow-lg' : 'bg-white/5 border-white/20 text-white/80 hover:bg-white/10'">
-                <span class="text-2xl">🙏</span>
+                <svg class="w-6 h-6 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
                 <span class="font-bold text-sm">Sitoweza Kufika</span>
                 <span class="text-[10px] opacity-75">Cannot attend</span>
             </button>

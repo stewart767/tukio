@@ -13,13 +13,13 @@
                 <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs font-semibold uppercase tracking-wider text-indigo-100">
                     <span>
                         @if(str_contains(strtolower($host->event_type ?? ''), 'wed'))
-                            💍 Wedding
+                            Wedding
                         @elseif(str_contains(strtolower($host->event_type ?? ''), 'birth'))
-                            🎂 Birthday
+                            Birthday
                         @elseif(str_contains(strtolower($host->event_type ?? ''), 'corp'))
-                            💼 Corporate
+                            Corporate
                         @else
-                            ✨ Event
+                            Event
                         @endif
                     </span>
                     <span>&bull;</span>
@@ -29,7 +29,7 @@
                     Configure Your {{ ucfirst(str_replace('_', ' ', $host->event_type)) }}
                 </h1>
                 <p class="text-indigo-100/90 text-sm sm:text-base max-w-xl">
-                    Fill in your event details below to personalize your digital cards, invitations, and guest check-in portal.
+                    Fill in your event details below to personalize your digital cards, invitations, and guest check-in.
                 </p>
             </div>
 

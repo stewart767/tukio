@@ -5,15 +5,15 @@
 @section('content')
 <div class="space-y-8 pb-8">
     <!-- Modern Header -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-white via-purple-50 to-pink-50 rounded-3xl shadow-xl border border-purple-100 p-8">
+    <div class="relative overflow-hidden bg-gradient-to-br from-white via-slate-50 to-indigo-50 rounded-3xl shadow-xl border border-slate-200 p-8">
         <!-- Background decoration -->
         <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-purple-200/20 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
-        <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-pink-200/20 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
+        <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-indigo-200/20 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
         
         <div class="relative z-10 flex items-center justify-between">
             <div class="space-y-2">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+                    <div class="w-12 h-12 bg-gradient-to-br from-slate-900 to-indigo-900 rounded-2xl flex items-center justify-center shadow-lg">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
@@ -112,7 +112,7 @@
                 <a href="{{ route('admin.profile.show') }}" class="px-6 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-all duration-300">
                     Cancel
                 </a>
-                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
+                <button type="submit" class="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
                     Update Profile
                 </button>
             </div>

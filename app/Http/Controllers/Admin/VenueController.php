@@ -112,7 +112,7 @@ class VenueController extends Controller
             'category' => $validated['category'],
             'location' => $validated['location'],
             'capacity' => $validated['capacity'] ?? '200 – 1,000 Guests',
-            'badge' => $validated['badge'] ?? ('🏛️ ' . $validated['category']),
+            'badge' => $validated['badge'] ?? $validated['category'],
             'description' => $validated['description'] ?? null,
             'amenities' => $amenities,
             'image_url' => $imageUrl,

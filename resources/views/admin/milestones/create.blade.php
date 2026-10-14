@@ -70,21 +70,7 @@
                         </div>
 
                         <div>
-                            <label for="icon" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Emoji Icon</label>
-                            <input type="text" id="icon" name="icon" value="{{ old('icon', '🥂') }}" 
-                                   class="form-input-modern text-sm text-center font-bold" placeholder="e.g. 💍, 💒, 🎂">
-                        </div>
-                    </div>
-
-                    <!-- Emoji Quick Selectors -->
-                    <div>
-                        <span class="text-[11px] font-semibold text-slate-400 block mb-1.5">Quick Emoji Presets:</span>
-                        <div class="flex flex-wrap gap-2" id="emoji-picker-container">
-                            @foreach(['💒', '💼', '🎂', '✈️', '🍽️', '🎤', '💍', '🎓', '🥂', '🌴', '🎉', '🏆', '⭐', '🎈'] as $emoji)
-                                <button type="button" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-indigo-100 text-sm flex items-center justify-center transition-colors emoji-btn" data-emoji="{{ $emoji }}">
-                                    {{ $emoji }}
-                                </button>
-                            @endforeach
+                            <input type="hidden" id="icon" name="icon" value="">
                         </div>
                     </div>
 
@@ -118,7 +104,7 @@
                                 $themes = [
                                     'purple' => ['label' => 'Purple', 'bg' => 'bg-purple-600', 'border' => 'border-purple-300'],
                                     'blue' => ['label' => 'Corporate Blue', 'bg' => 'bg-blue-600', 'border' => 'border-blue-300'],
-                                    'pink' => ['label' => 'Party Pink', 'bg' => 'bg-pink-500', 'border' => 'border-pink-300'],
+                                    'slate' => ['label' => 'Slate Luxury', 'bg' => 'bg-slate-700', 'border' => 'border-slate-300'],
                                     'teal' => ['label' => 'Teal / Cyan', 'bg' => 'bg-teal-500', 'border' => 'border-teal-300'],
                                     'amber' => ['label' => 'Amber / Gold', 'bg' => 'bg-amber-500', 'border' => 'border-amber-300'],
                                     'violet' => ['label' => 'Violet / Music', 'bg' => 'bg-violet-600', 'border' => 'border-violet-300'],
@@ -228,14 +214,14 @@
                                     <span id="preview-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold backdrop-blur-md bg-white/90 text-purple-800 shadow-sm border border-white/50">
                                         Most Popular
                                     </span>
-                                    <div id="preview-icon" class="w-8 h-8 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center text-base shadow-sm border border-white/60">
-                                        🥂
+                                    <div id="preview-icon" class="w-8 h-8 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center text-indigo-600 shadow-sm border border-white/60">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                                     </div>
                                 </div>
 
                                 <div class="absolute bottom-2.5 left-3.5 right-3.5 z-10">
                                     <span id="preview-tagline" class="text-[10px] font-semibold text-white uppercase tracking-wider flex items-center gap-1">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-pink-400"></span> Celebration Nights
+                                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> Celebration Nights
                                     </span>
                                 </div>
                             </div>
@@ -306,8 +292,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCardPreview() {
         if (previewTitle) previewTitle.textContent = titleInput.value || 'Milestone Title';
         if (previewBadge) previewBadge.textContent = badgeInput.value || 'Featured';
-        if (previewTagline) previewTagline.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-pink-400 inline-block mr-1"></span> ' + (taglineInput.value || 'Celebration');
-        if (previewIcon) previewIcon.textContent = iconInput.value || '✨';
+        if (previewTagline) previewTagline.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-indigo-400 inline-block mr-1"></span> ' + (taglineInput.value || 'Celebration');
+        if (previewIcon) previewIcon.textContent = iconInput.value || '';
         if (previewDesc) previewDesc.textContent = descInput.value || 'Description will appear here...';
         if (previewButton) previewButton.textContent = buttonInput.value || 'Explore Features';
 

@@ -22,14 +22,14 @@
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-0.5 shadow-lg shadow-indigo-500/30 flex items-center justify-center shrink-0">
-                        <div class="w-full h-full bg-slate-900/40 rounded-[14px] flex items-center justify-center backdrop-blur-xs">
-                            <span class="text-2xl">👋</span>
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 to-slate-900 p-0.5 shadow-lg shadow-indigo-500/30 flex items-center justify-center shrink-0">
+                        <div class="w-full h-full bg-slate-900/40 rounded-[14px] flex items-center justify-center backdrop-blur-xs text-indigo-300">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                         </div>
                     </div>
                     <div>
                         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white font-heading">
-                            Welcome back, <span class="bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 bg-clip-text text-transparent">{{ auth()->user()->name }}</span>
+                            Welcome back, <span class="bg-gradient-to-r from-white via-indigo-100 to-indigo-300 bg-clip-text text-transparent">{{ auth()->user()->name }}</span>
                         </h1>
                         <p class="text-slate-300 text-sm sm:text-base mt-1">
                             Here's what is happening across your events, hosts, and fleet mobility today.
@@ -48,7 +48,7 @@
                         <span>Add Host</span>
                     </a>
                     <a href="{{ route('admin.vehicles.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:scale-[1.02]">
-                        <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.175V3.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75"></path>
                         </svg>
                         <span>Fleet Center</span>
@@ -173,10 +173,10 @@
             </div>
 
             <!-- 5. Fleet & Bookings Card -->
-            <div class="admin-stat-card p-5 group bg-gradient-to-br from-white via-rose-50/30 to-pink-50/40 border-rose-100/80">
+            <div class="admin-stat-card p-5 group bg-gradient-to-br from-white via-sky-50/30 to-blue-50/40 border-sky-100/80">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Fleet Mobility</span>
-                    <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-110 group-hover:bg-rose-600 group-hover:text-white transition-all duration-300 shadow-xs">
+                    <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Fleet Mobility</span>
+                    <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300 shadow-xs">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.175V3.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75"></path>
                         </svg>
@@ -184,13 +184,13 @@
                 </div>
                 <div class="mt-4 flex items-baseline justify-between">
                     <div class="text-3xl font-extrabold text-slate-900 tracking-tight font-heading">{{ $data['total_vehicles'] }} <span class="text-sm font-semibold text-slate-500">Cars</span></div>
-                    <span class="inline-flex items-center text-[11px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100">
+                    <span class="inline-flex items-center text-[11px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100">
                         {{ $data['total_bookings'] }} Bookings
                     </span>
                 </div>
-                <div class="mt-3 flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-rose-50">
+                <div class="mt-3 flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-sky-50">
                     <span>{{ $data['available_vehicles'] }} available for hire</span>
-                    <a href="{{ route('admin.car-bookings.index') }}" class="font-semibold text-rose-600 hover:text-rose-700">
+                    <a href="{{ route('admin.car-bookings.index') }}" class="font-semibold text-sky-600 hover:text-sky-700">
                         Bookings &rarr;
                     </a>
                 </div>
@@ -270,7 +270,7 @@
                     </div>
                     <div class="flex items-center justify-between text-xs">
                         <span class="flex items-center gap-2 text-slate-600">
-                            <span class="w-2.5 h-2.5 rounded-full bg-pink-500"></span> Fleet Bookings
+                            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> Fleet Bookings
                         </span>
                         <span class="font-bold text-slate-900">{{ $data['total_bookings'] }}</span>
                     </div>
@@ -416,7 +416,7 @@
                 <div class="mt-2 text-3xl font-extrabold text-slate-900 font-heading">{{ $data['active_events'] }}</div>
                 <p class="mt-2 text-xs text-slate-500">Live for guest attendance</p>
             </div>
-            <div class="admin-stat-card p-6 bg-gradient-to-br from-white to-pink-50/40 border-pink-100 flex flex-col justify-center items-center text-center">
+            <div class="admin-stat-card p-6 bg-gradient-to-br from-white to-indigo-50/40 border-indigo-100 flex flex-col justify-center items-center text-center">
                 <a href="{{ route('host.events.index') }}" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-sm shadow-md shadow-indigo-500/25 hover:from-indigo-500 hover:to-purple-500 transition-all">
                     Manage Events &rarr;
                 </a>
@@ -572,7 +572,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     backgroundColor: [
                         '#10b981', // emerald
                         '#6366f1', // indigo
-                        '#ec4899', // pink
+                        '#0284c7', // sky
                         '#94a3b8'  // slate
                     ],
                     borderWidth: 3,

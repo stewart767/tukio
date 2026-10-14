@@ -23,7 +23,7 @@
         <meta name="theme-color" content="#4f46e5">
     @endif
 
-    <title>{{ config('app.name', 'Tukio 360') }} - Host Portal - @yield('title', 'Dashboard')</title>
+    <title>{{ config('app.name', 'Tukio 360') }} - Host Dashboard - @yield('title', 'Dashboard')</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,8 +35,8 @@
     
     @stack('styles')
 </head>
-<body class="h-full bg-slate-50/70 text-slate-800 font-sans antialiased selection:bg-indigo-500 selection:text-white">
-    <div class="min-h-full flex flex-col">
+<body class="h-full bg-[#f3ffe3] text-slate-800 font-sans antialiased selection:bg-indigo-500 selection:text-white" style="background-color: #f3ffe3;">
+    <div class="min-h-full flex flex-col bg-[#f3ffe3]">
         <!-- Mobile sidebar overlay -->
         <div class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm hidden transition-opacity duration-300" id="mobile-sidebar-overlay"></div>
         
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="font-extrabold text-xl tracking-tight text-slate-900 font-heading">Tukio<span class="text-indigo-600 font-black">360</span></span>
-                                    <span class="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">Host Portal</span>
+                                    <span class="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">Host Dashboard</span>
                                 </div>
                             </div>
                         @endif
@@ -81,18 +81,9 @@
                 @if($hostUser)
                     <div class="p-3.5 rounded-2xl bg-gradient-to-r from-indigo-50 via-purple-50 to-indigo-50/50 border border-indigo-100/80">
                         <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="text-base">
-                                    @if(str_contains(strtolower($hostUser->event_type ?? ''), 'wed'))
-                                        💍
-                                    @elseif(str_contains(strtolower($hostUser->event_type ?? ''), 'birth'))
-                                        🎂
-                                    @elseif(str_contains(strtolower($hostUser->event_type ?? ''), 'corp'))
-                                        💼
-                                    @else
-                                        ✨
-                                    @endif
-                                </span>
+                                <div class="w-7 h-7 rounded-lg bg-indigo-600/10 text-indigo-600 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                </div>
                                 <div class="flex flex-col">
                                     <span class="text-xs font-bold text-slate-800 capitalize leading-tight">
                                         {{ ucfirst(str_replace('_', ' ', $hostUser->event_type ?? 'Event')) }}
@@ -242,7 +233,7 @@
         </aside>
 
         <!-- Main Workspace -->
-        <div class="lg:pl-72 flex flex-col min-h-screen">
+        <div class="lg:pl-72 flex flex-col min-h-screen bg-[#f3ffe3]">
             
             <!-- Frosted Top Navigation Bar -->
             <header class="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-x-4 border-b border-slate-200/80 bg-white/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 shadow-sm">

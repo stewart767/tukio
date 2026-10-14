@@ -8,13 +8,13 @@
 @section('title', 'Register - ' . $brandName)
 
 @section('content')
-<div class="min-h-screen bg-slate-50 pt-10 pb-20 flex items-center justify-center">
+<div class="min-h-screen bg-[#f3ffe3] pt-10 pb-20 flex items-center justify-center">
     <div class="max-w-md w-full mx-auto px-4 sm:px-6">
         
         <!-- Header -->
         <div class="text-center space-y-3 mb-8">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white text-2xl mx-auto shadow-lg shadow-indigo-500/20">
-                🚀
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-700 text-white flex items-center justify-center mx-auto shadow-lg shadow-emerald-700/25">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
             </div>
             <h1 class="text-3xl font-black font-heading text-slate-900 tracking-tight">
                 Create an Account

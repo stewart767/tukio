@@ -8,7 +8,7 @@
     <!-- Executive Mobility Header -->
     <div class="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-white via-indigo-50/40 to-slate-50 p-8 sm:p-10 shadow-xl backdrop-blur-md">
         <div class="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-400/20 blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-gradient-to-tr from-pink-400/15 to-amber-400/15 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-gradient-to-tr from-indigo-400/15 to-purple-400/15 blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div class="space-y-3">
@@ -17,7 +17,7 @@
                     Mobility Logistics &amp; Reservations
                 </div>
                 <div class="flex items-start gap-4">
-                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-pink-600 text-white shadow-lg shadow-purple-500/25">
+                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-slate-900 to-indigo-900 text-white shadow-lg shadow-purple-500/25">
                         <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
                         </svg>
@@ -44,7 +44,7 @@
             <div class="rounded-2xl border border-slate-200/60 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-500">
                     <span>Total Bookings</span>
-                    <span class="text-purple-600">📋</span>
+                    <svg class="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $stats['total'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">All recorded charter orders</div>
@@ -53,7 +53,7 @@
             <div class="rounded-2xl border border-amber-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-amber-600">
                     <span>Pending Review</span>
-                    <span>⏳</span>
+                    <svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $stats['pending'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Awaiting confirmation</div>
@@ -62,7 +62,7 @@
             <div class="rounded-2xl border border-blue-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-blue-600">
                     <span>Confirmed</span>
-                    <span>✓</span>
+                    <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $stats['confirmed'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Scheduled for transport</div>
@@ -71,7 +71,7 @@
             <div class="rounded-2xl border border-emerald-100 bg-white/90 p-4 sm:p-5 shadow-xs backdrop-blur-sm">
                 <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-emerald-600">
                     <span>Completed</span>
-                    <span>🎉</span>
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div class="mt-2 text-2xl sm:text-3xl font-black text-slate-900">{{ $stats['completed'] }}</div>
                 <div class="mt-1 text-[11px] text-slate-400">Successfully delivered trips</div>
@@ -108,11 +108,11 @@
             
             <select name="status" class="form-input-modern text-xs sm:text-sm py-2 w-full sm:w-auto">
                 <option value="all">All Booking Statuses</option>
-                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>⏳ Pending Review</option>
-                <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>✓ Confirmed</option>
-                <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>🚗 In Progress</option>
-                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>🎉 Completed</option>
-                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>❌ Cancelled</option>
+                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending Review</option>
+                <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
             </select>
 
             <button type="submit" class="btn-primary text-xs px-4 py-2">
@@ -168,7 +168,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="font-bold text-slate-900">{{ $bk->vehicle->name ?? 'Vehicle Item' }}</div>
                             @if($bk->need_guest_coasters)
-                                <span class="text-[11px] text-amber-700 font-semibold block">🚌 +{{ $bk->guest_coasters_count }} Guest Coaster(s)</span>
+                                <span class="text-[11px] text-amber-700 font-semibold block">+{{ $bk->guest_coasters_count }} Guest Coaster(s)</span>
                             @endif
                         </td>
 
@@ -178,7 +178,7 @@
                                 <span class="font-mono">{{ $bk->customer_phone }}</span>
                                 @if($bk->customer_phone)
                                     <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $bk->customer_phone) }}" target="_blank" class="text-emerald-600 hover:text-emerald-700" title="WhatsApp Customer">
-                                        💬
+                                        <svg class="w-3.5 h-3.5 inline" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-5.805 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                                     </a>
                                 @endif
                             </div>
@@ -223,7 +223,7 @@
                         <td colspan="7" class="px-8 py-16 text-center">
                             <div class="max-w-sm mx-auto text-center space-y-4">
                                 <div class="w-16 h-16 bg-purple-50 rounded-2xl mx-auto flex items-center justify-center text-purple-600 text-2xl shadow-inner">
-                                    📋
+                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                                 </div>
                                 <h3 class="text-base font-bold text-slate-900">No bookings recorded</h3>
                                 <p class="text-xs text-slate-500">Inbound charter requests submitted from the car hire catalog will automatically appear here for review and confirmation.</p>
