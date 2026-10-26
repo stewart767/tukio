@@ -56,9 +56,11 @@ class EventController extends Controller
                 $fieldName = $field['name'];
                 if ($request->has($fieldName)) {
                     if ($field['type'] === 'file' && $request->hasFile($fieldName)) {
-                        // Handle file uploads
+                        $request->validate([
+                            $fieldName => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+                        ]);
                         $file = $request->file($fieldName);
-                        $filename = time() . '_' . $fieldName . '.' . $file->getClientOriginalExtension();
+                        $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9_]/', '', $fieldName) . '.' . $file->extension();
                         $file->storeAs('public/event_uploads', $filename);
                         $customData[$fieldName] = $filename;
                     } else {
@@ -68,8 +70,8 @@ class EventController extends Controller
             }
         }
 
-        // Generate 5-character event password
-        $eventPassword = strtoupper(substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 5));
+        // Generate cryptographically secure event password
+        $eventPassword = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::random(5));
         
         Event::create([
             'host_id' => auth('host')->id(),
@@ -81,7 +83,7 @@ class EventController extends Controller
             'venue' => $request->venue,
             'venue_address' => $request->venue_address,
             'template_id' => $request->template_id,
-            'status' => 'draft',
+            'status' => 'active',
             'event_password' => $eventPassword,
             'custom_data' => $customData,
         ]);
@@ -117,7 +119,7 @@ class EventController extends Controller
     {
         $this->authorize('update', $event);
         
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'category' => 'required|in:wedding,birthday,kitchen_party,send_off,corporate',
@@ -139,9 +141,11 @@ class EventController extends Controller
                 $fieldName = $field['name'];
                 if ($request->has($fieldName)) {
                     if ($field['type'] === 'file' && $request->hasFile($fieldName)) {
-                        // Handle file uploads
+                        $request->validate([
+                            $fieldName => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+                        ]);
                         $file = $request->file($fieldName);
-                        $filename = time() . '_' . $fieldName . '.' . $file->getClientOriginalExtension();
+                        $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9_]/', '', $fieldName) . '.' . $file->extension();
                         $file->storeAs('public/event_uploads', $filename);
                         $customData[$fieldName] = $filename;
                     } else {
@@ -151,9 +155,8 @@ class EventController extends Controller
             }
         }
 
-        $eventData = $request->all();
-        $eventData['custom_data'] = $customData;
-        $event->update($eventData);
+        $validated['custom_data'] = $customData;
+        $event->update($validated);
 
         return redirect()->route('host.events.index')->with('success', 'Event updated successfully.');
     }

@@ -20,6 +20,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
         ]);
+
+        // Exempt Gate Scanner and RSVP endpoints from CSRF token expiration
+        $middleware->validateCsrfTokens(except: [
+            'scan',
+            'staff/scan',
+            'invitation/*/rsvp',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Redirect host routes to host login when unauthenticated

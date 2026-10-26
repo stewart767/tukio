@@ -27,14 +27,40 @@ class UserSeeder extends Seeder
             ]
         );
 
-        // System Super Admin (Standard MyCard Admin)
+        // System Super Admin 1 (Main Admin)
         User::updateOrCreate(
             ['email' => 'admin@mycard.co.tz'],
             [
-                'name' => 'Tukio 360 SuperAdmin',
+                'name' => 'Tukio 360 SuperAdmin 1',
                 'password' => Hash::make('password'),
                 'role' => 'super_admin',
                 'phone' => '+255700000001',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // System Super Admin 2 (Scanner Admin - Gate A)
+        User::updateOrCreate(
+            ['email' => 'admin2@mycard.co.tz'],
+            [
+                'name' => 'Tukio 360 Admin 2 (Gate A)',
+                'password' => Hash::make('password'),
+                'role' => 'super_admin',
+                'phone' => '+255700000002',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // System Super Admin 3 (Scanner Admin - Gate B)
+        User::updateOrCreate(
+            ['email' => 'admin3@mycard.co.tz'],
+            [
+                'name' => 'Tukio 360 Admin 3 (Gate B)',
+                'password' => Hash::make('password'),
+                'role' => 'super_admin',
+                'phone' => '+255700000003',
                 'is_active' => true,
                 'email_verified_at' => now(),
             ]

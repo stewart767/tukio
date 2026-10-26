@@ -8,6 +8,8 @@ use App\Models\Guest;
 use App\Models\Invitation;
 use App\Models\Template;
 use App\Jobs\GenerateInvitationQrCode;
+use App\Services\BeemWhatsAppService;
+use App\Services\BulkSmsService;
 use App\Services\InvitationQrService;
 use App\Services\Invitations\InvitationRenderer;
 use App\Services\WhatsAppService;
@@ -20,6 +22,8 @@ class InvitationController extends Controller
 {
     public function __construct(
         protected WhatsAppService $whatsAppService,
+        protected BeemWhatsAppService $beemWhatsAppService,
+        protected BulkSmsService $bulkSmsService,
         protected InvitationQrService $invitationQrService,
         protected InvitationRenderer $invitationRenderer
     ) {}
@@ -79,7 +83,7 @@ class InvitationController extends Controller
                       ->orWhere('host_id', $host->id);
             })
             ->with('fields')
-            ->orderByRaw("CASE WHEN category = '{$event->category}' THEN 0 ELSE 1 END")
+            ->orderByRaw("CASE WHEN category = ? THEN 0 ELSE 1 END", [$event->category])
             ->orderBy('is_paid', 'asc')
             ->get();
 
@@ -110,6 +114,11 @@ class InvitationController extends Controller
             return redirect()->back()->with('error', 'No event found. Please configure your event first.');
         }
 
+        // Update the event's active template_id so all cards use the selected template
+        if ($event->template_id != $request->template_id) {
+            $event->update(['template_id' => $request->template_id]);
+        }
+
         // Validate guest IDs belong to this host's event
         if ($request->sending_type === 'bulk' && !empty($request->guest_ids)) {
             $validGuestIds = Guest::where('event_id', $event->id)
@@ -117,31 +126,13 @@ class InvitationController extends Controller
                 ->pluck('id')
                 ->toArray();
             
-            // Convert to integers for comparison
             $requestGuestIds = array_map('intval', $request->guest_ids);
-            
             $invalidGuestIds = array_diff($requestGuestIds, $validGuestIds);
             if (!empty($invalidGuestIds)) {
-                \Log::error('Invalid guest IDs submitted', [
-                    'event_id' => $event->id,
-                    'host_id' => $host->id,
-                    'submitted_guest_ids' => $request->guest_ids,
-                    'requestGuestIds' => $requestGuestIds,
-                    'valid_guest_ids' => $validGuestIds,
-                    'invalid_guest_ids' => $invalidGuestIds,
-                    'total_guests_for_event' => Guest::where('event_id', $event->id)->count()
-                ]);
                 return redirect()->back()->with('error', 'Some selected guests are not associated with your event. Please refresh the page and try again.');
             }
             
-            // Additional check: ensure we actually have guests to send to
             if (empty($validGuestIds)) {
-                \Log::error('No valid guests found for bulk send', [
-                    'event_id' => $event->id,
-                    'host_id' => $host->id,
-                    'total_guests_for_event' => Guest::where('event_id', $event->id)->count(),
-                    'request_guest_ids' => $request->guest_ids
-                ]);
                 return redirect()->back()->with('error', 'No guests found for this event. Please add guests first.');
             }
         }
@@ -157,105 +148,65 @@ class InvitationController extends Controller
                 ->first();
                 
             if (!$guest) {
-                \Log::error('Invalid individual guest selected', [
-                    'event_id' => $event->id,
-                    'host_id' => $host->id,
-                    'selected_guest_id' => $request->guest_id,
-                    'total_guests_for_event' => Guest::where('event_id', $event->id)->count()
-                ]);
                 return redirect()->back()->with('error', 'The selected guest is not associated with your event.');
             }
         }
 
-        // Template validation removed - using custom design
-        
-        if ($request->sending_type === 'individual') {
-            // Send to individual guest (already validated above)
-            $guest = Guest::where('event_id', $event->id)->where('id', $request->guest_id)->first();
-            
-            $invitation = Invitation::create([
-                'event_id' => $event->id,
-                'guest_id' => $guest->id,
-                'template_id' => $request->template_id,
-                'type' => $request->sending_method,
-                'status' => 'pending',
-                'sent_at' => now(),
-                'sms_code' => $request->sending_method === 'sms' || $request->sending_method === 'both' ? Str::random(6) : null,
-                'whatsapp_message' => $request->sending_method === 'whatsapp' || $request->sending_method === 'both' ? $request->description : null,
-            ]);
+        $targetGuests = $request->sending_type === 'individual'
+            ? collect([Guest::where('event_id', $event->id)->where('id', $request->guest_id)->first()])
+            : Guest::where('event_id', $event->id)->whereIn('id', $request->guest_ids ?? [])->get();
 
-            GenerateInvitationQrCode::dispatch($invitation->id);
-            
-            // Try to send via WhatsApp if configured
-            if (($request->sending_method === 'whatsapp' || $request->sending_method === 'both') && $this->whatsAppService->isConfigured()) {
-                try {
-                    $this->sendWhatsAppInvitation($invitation);
-                } catch (\Exception $e) {
-                    \Log::error('WhatsApp invitation sending failed', [
-                        'invitation_id' => $invitation->id,
-                        'error' => $e->getMessage()
-                    ]);
-                }
+        $createdInvitations = collect();
+
+        foreach ($targetGuests as $guest) {
+            if (!$guest) {
+                continue;
             }
-            
-            $message = "Invitation sent successfully to {$guest->full_name}!";
-        } else {
-            // Send to selected guests
-            $selectedGuestIds = $request->guest_ids ?? [];
-            
-            // Get the validated guests (already validated above)
-            $guests = Guest::where('event_id', $event->id)
-                ->whereIn('id', $selectedGuestIds)
-                ->get();
-            
-            foreach ($guests as $guest) {
-                $createdInvitation = Invitation::create([
+            if (empty($guest->pin_code)) {
+                $guest->update(['pin_code' => Guest::generatePinCode($event->id)]);
+            }
+
+            $invitation = Invitation::updateOrCreate(
+                [
                     'event_id' => $event->id,
                     'guest_id' => $guest->id,
+                ],
+                [
                     'template_id' => $request->template_id,
+                    'slug' => $guest->invitation?->slug ?: (Str::slug($event->title ?: 'invitation') . '-' . $guest->id . '-' . Str::random(8)),
                     'type' => $request->sending_method,
-                    'status' => 'pending',
+                    'status' => 'sent',
                     'sent_at' => now(),
-                    'sms_code' => $request->sending_method === 'sms' || $request->sending_method === 'both' ? Str::random(6) : null,
-                    'whatsapp_message' => $request->sending_method === 'whatsapp' || $request->sending_method === 'both' ? $request->description : null,
-                ]);
+                    'sms_code' => $guest->pin_code,
+                    'whatsapp_message' => $request->description,
+                    'plus_one_count' => max(0, (int) ($guest->pax ?? 1) - 1),
+                ]
+            );
 
-                GenerateInvitationQrCode::dispatch($createdInvitation->id);
-            }
-            
-            // Try to send via WhatsApp if configured
-            if (($request->sending_method === 'whatsapp' || $request->sending_method === 'both') && $this->whatsAppService->isConfigured()) {
-                try {
-                    // Get the created invitations
-                    $createdInvitations = Invitation::where('event_id', $event->id)
-                        ->whereIn('guest_id', $selectedGuestIds)
-                        ->latest()
-                        ->limit(count($selectedGuestIds))
-                        ->get();
-                    
-                    foreach ($createdInvitations as $invitation) {
-                        try {
-                            $this->sendWhatsAppInvitation($invitation);
-                        } catch (\Exception $e) {
-                            \Log::error('WhatsApp bulk invitation sending failed', [
-                                'invitation_id' => $invitation->id,
-                                'error' => $e->getMessage()
-                            ]);
-                        }
-                        
-                        // Add delay between messages to avoid rate limiting
-                        usleep(500000); // 0.5 second delay
-                    }
-                } catch (\Exception $e) {
-                    \Log::error('WhatsApp bulk invitation sending error', [
-                        'event_id' => $event->id,
-                        'error' => $e->getMessage()
-                    ]);
+            $invitation = $this->invitationQrService->ensureQrCode($invitation);
+            $createdInvitations->push($invitation);
+        }
+
+        // 1. Dispatch Bulk SMS if 'sms' or 'both' selected
+        if (in_array($request->sending_method, ['sms', 'both'], true) && $this->bulkSmsService->isConfigured()) {
+            $this->bulkSmsService->sendBulkInvitationSms($createdInvitations, $request->description);
+        }
+
+        // 2. Dispatch WhatsApp if 'whatsapp' or 'both' selected
+        if (in_array($request->sending_method, ['whatsapp', 'both'], true)) {
+            foreach ($createdInvitations as $invitation) {
+                if ($this->whatsAppService->isConfigured()) {
+                    $this->sendWhatsAppInvitation($invitation);
+                } elseif ($this->beemWhatsAppService->isConfigured() && $invitation->guest?->phone) {
+                    $smsText = $this->bulkSmsService->prepareInvitationSmsText($invitation, $request->description);
+                    $this->beemWhatsAppService->sendTextToActiveSession($invitation->guest->phone, $smsText, (string) $invitation->id);
                 }
             }
-            
-            $message = "Invitations sent successfully to {$guests->count()} guests!";
         }
+
+        $message = $request->sending_type === 'individual'
+            ? "Mwaliko umetumwa kikamilifu kwa {$targetGuests->first()?->full_name}!"
+            : "Mialiko imetumwa kikamilifu kwa wageni {$createdInvitations->count()}!";
 
         return redirect()->route('host.invitations.index')->with('success', $message);
     }
@@ -452,9 +403,9 @@ class InvitationController extends Controller
     }
 
     /**
-     * Resend invitation via WhatsApp
+     * Resend invitation via SMS and/or WhatsApp
      */
-    public function resend(Invitation $invitation)
+    public function resend(Invitation $invitation, Request $request)
     {
         $host = Auth::user();
         
@@ -464,31 +415,65 @@ class InvitationController extends Controller
             abort(403, 'Unauthorized access to invitation.');
         }
 
-        if (!$this->whatsAppService->isConfigured()) {
-            return redirect()->back()->with('error', 'WhatsApp service is not configured. Please contact administrator.');
-        }
+        $invitation = $this->invitationQrService->ensureQrCode($invitation);
+        $channel = $request->input('channel', $invitation->type ?: 'sms');
 
         try {
-            $whatsAppController = new \App\Http\Controllers\WhatsAppInvitationController(
-                $this->whatsAppService,
-                new \App\Services\InvitationImageGenerator(),
-                $this->invitationQrService
-            );
-            $result = $whatsAppController->sendInvitation($invitation);
-            
-            if ($result['success']) {
-                return redirect()->back()->with('success', "Invitation resent successfully to {$invitation->guest->full_name}!");
-            } else {
-                return redirect()->back()->with('error', "Failed to resent invitation: {$result['error']}");
+            $sentAny = false;
+            $errors = [];
+
+            if (in_array($channel, ['sms', 'both'], true)) {
+                if ($this->bulkSmsService->isConfigured()) {
+                    $smsResult = $this->bulkSmsService->sendInvitationSms($invitation, $invitation->whatsapp_message);
+                    if ($smsResult['success']) {
+                        $sentAny = true;
+                    } else {
+                        $errors[] = $smsResult['error'] ?? 'SMS dispatch failed';
+                    }
+                } else {
+                    $errors[] = 'Bulk SMS API is not configured in Admin Settings';
+                }
             }
+
+            if (in_array($channel, ['whatsapp', 'both'], true)) {
+                if ($this->whatsAppService->isConfigured()) {
+                    $whatsAppController = new \App\Http\Controllers\WhatsAppInvitationController(
+                        $this->whatsAppService,
+                        new \App\Services\InvitationImageGenerator(),
+                        $this->invitationQrService
+                    );
+                    $waResult = $whatsAppController->sendInvitation($invitation);
+                    if ($waResult['success']) {
+                        $sentAny = true;
+                    } else {
+                        $errors[] = $waResult['error'] ?? 'WhatsApp dispatch failed';
+                    }
+                } elseif ($this->beemWhatsAppService->isConfigured() && $invitation->guest?->phone) {
+                    $smsText = $this->bulkSmsService->prepareInvitationSmsText($invitation, $invitation->whatsapp_message);
+                    $beemResult = $this->beemWhatsAppService->sendTextToActiveSession($invitation->guest->phone, $smsText, (string) $invitation->id);
+                    if ($beemResult['success']) {
+                        $sentAny = true;
+                    } else {
+                        $errors[] = $beemResult['error'] ?? 'Beem WhatsApp dispatch failed';
+                    }
+                } else {
+                    $errors[] = 'WhatsApp API is not configured in Admin Settings';
+                }
+            }
+
+            if ($sentAny) {
+                return redirect()->back()->with('success', "Invitation resent successfully to {$invitation->guest->full_name}!");
+            }
+
+            return redirect()->back()->with('error', 'Failed to resend invitation: ' . implode('; ', $errors));
         } catch (\Exception $e) {
-            \Log::error('WhatsApp resend invitation exception', [
+            \Log::error('Resend invitation exception', [
                 'invitation_id' => $invitation->id,
                 'host_id' => $host->id,
                 'error' => $e->getMessage()
             ]);
             
-            return redirect()->back()->with('error', "Failed to resent invitation: {$e->getMessage()}");
+            return redirect()->back()->with('error', "Failed to resend invitation: {$e->getMessage()}");
         }
     }
 

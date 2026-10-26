@@ -274,6 +274,32 @@ class SettingController extends Controller
         return redirect()->route('admin.settings.index')->with('success', 'SMS Gateway settings updated successfully.');
     }
 
+    public function testSms(Request $request, \App\Services\BulkSmsService $smsService)
+    {
+        $request->validate([
+            'test_phone' => ['nullable', 'string', 'max:25'],
+        ]);
+
+        if ($request->filled('test_phone')) {
+            $result = $smsService->sendSingle(
+                $request->input('test_phone'),
+                'Tukio 360: Huu ni ujumbe wa majaribio kuthibitisha kuwa Bulk SMS API inafanya kazi kikamilifu.'
+            );
+            if ($result['success']) {
+                return redirect()->route('admin.settings.index')->with('success', 'Test SMS sent successfully!');
+            }
+            return redirect()->route('admin.settings.index')->with('error', 'Failed to send test SMS: ' . ($result['error'] ?? 'Unknown error'));
+        }
+
+        $result = $smsService->testConnection();
+        if ($result['success']) {
+            $balanceMsg = isset($result['balance']) ? " (Credit Balance: {$result['balance']})" : '';
+            return redirect()->route('admin.settings.index')->with('success', $result['message'] . $balanceMsg);
+        }
+
+        return redirect()->route('admin.settings.index')->with('error', $result['message'] ?? 'Bulk SMS connection failed.');
+    }
+
     public function updateWhatsapp(Request $request)
     {
         $validated = $request->validate([

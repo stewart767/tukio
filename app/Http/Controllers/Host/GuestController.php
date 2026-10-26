@@ -173,7 +173,17 @@ class GuestController extends Controller
         // Generate unique 5-digit code
         $uniqueCode = $this->generateUniqueGuestCode($event->id);
         
-        // Create guest with event association
+        // Determine Pax and generate 4-digit PIN for SMS / kitochi
+        $pax = $request->guest_type === 'double' ? 2 : 1;
+        $pinCode = Guest::generatePinCode($event->id);
+        $amountPledged = (float) ($request->input('amount_pledged', 0));
+        $amountPaid = (float) ($request->input('amount_paid', 0));
+        $paymentStatus = 'pending';
+        if ($amountPaid > 0) {
+            $paymentStatus = ($amountPledged > 0 && $amountPaid >= $amountPledged) ? 'paid' : 'partial';
+        }
+
+        // Create guest with event association and smart Tanzanian event fields
         $guest = Guest::create([
             'event_id' => $event->id,
             'full_name' => $request->full_name,
@@ -182,7 +192,28 @@ class GuestController extends Controller
             'status' => 'active',
             'qr_code' => Str::random(10),
             'invitation_code' => $uniqueCode,
+            'pin_code' => $pinCode,
+            'table_number' => $request->input('table_number'),
+            'category' => $request->input('category', 'friends'),
+            'pax' => $pax,
+            'amount_pledged' => $amountPledged,
+            'amount_paid' => $amountPaid,
+            'payment_method' => $request->input('payment_method'),
+            'payment_status' => $paymentStatus,
         ]);
+
+        // Automatically create the personalized Invitation & QR Code for the guest
+        $invitation = \App\Models\Invitation::firstOrCreate(
+            ['event_id' => $event->id, 'guest_id' => $guest->id],
+            [
+                'template_id' => $event->template_id ?: 1,
+                'slug' => Str::slug($event->title ?: 'invitation') . '-' . $guest->id . '-' . Str::random(8),
+                'status' => 'sent',
+                'rsvp_status' => 'pending',
+                'plus_one_count' => max(0, $pax - 1),
+            ]
+        );
+        app(\App\Services\InvitationQrService::class)->ensureQrCode($invitation);
 
         $remainingGuests = $allowedGuests - ($currentGuestCount + 1);
         return redirect()->route('host.guests.index')->with('success', "Guest added successfully! You have {$remainingGuests} guest slots remaining.");
@@ -336,6 +367,8 @@ class GuestController extends Controller
                     
                     // Generate unique 5-digit code using closure
                     $uniqueCode = ($this->generateCode)($this->eventId);
+                    $pax = $guestType === 'double' ? 2 : 1;
+                    $pinCode = Guest::generatePinCode($this->eventId);
                     
                     return new Guest([
                         'event_id' => $this->eventId,
@@ -345,6 +378,8 @@ class GuestController extends Controller
                         'status' => 'active',
                         'qr_code' => Str::random(10),
                         'invitation_code' => $uniqueCode,
+                        'pin_code' => $pinCode,
+                        'pax' => $pax,
                     ]);
                 }
 
@@ -357,6 +392,22 @@ class GuestController extends Controller
                     ];
                 }
             }, $request->file('excel_file'));
+
+            // Ensure every imported guest has an Invitation and QR code ready
+            $guestsWithoutInvitation = Guest::where('event_id', $event->id)->doesntHave('invitation')->get();
+            foreach ($guestsWithoutInvitation as $importedGuest) {
+                $invitation = \App\Models\Invitation::firstOrCreate(
+                    ['event_id' => $event->id, 'guest_id' => $importedGuest->id],
+                    [
+                        'template_id' => $event->template_id ?: 1,
+                        'slug' => Str::slug($event->title ?: 'invitation') . '-' . $importedGuest->id . '-' . Str::random(8),
+                        'status' => 'sent',
+                        'rsvp_status' => 'pending',
+                        'plus_one_count' => max(0, (int) ($importedGuest->pax ?? 1) - 1),
+                    ]
+                );
+                app(\App\Services\InvitationQrService::class)->ensureQrCode($invitation);
+            }
 
             $remainingGuests = $allowedGuests - ($currentGuestCount + $guestsToImport);
             
@@ -383,8 +434,8 @@ class GuestController extends Controller
 
         $data = [
             ['full_name', 'guest_type', 'phone'],
-            ['John Doe', 'single', '255123456789'],
-            ['Jane Smith', 'double', '255987654321'],
+            ['Mgeni wa Kwanza', 'single', '255700000001'],
+            ['Mgeni wa Pili', 'double', '255700000002'],
         ];
 
         return Excel::download(new class($data) implements \Maatwebsite\Excel\Concerns\FromArray {
@@ -403,11 +454,24 @@ class GuestController extends Controller
     }
 
     /**
+     * Securely resolve a Guest belonging strictly to the authenticated Host.
+     */
+    private function findHostGuestOrFail(string $id): Guest
+    {
+        $hostId = Auth::id();
+        return Guest::with('event')
+            ->whereHas('event', function ($q) use ($hostId) {
+                $q->where('host_id', $hostId);
+            })
+            ->findOrFail($id);
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $guest = Guest::with('event')->findOrFail($id);
+        $guest = $this->findHostGuestOrFail($id);
         return view('host.guests.show', compact('guest'));
     }
 
@@ -416,7 +480,7 @@ class GuestController extends Controller
      */
     public function edit(string $id)
     {
-        $guest = Guest::findOrFail($id);
+        $guest = $this->findHostGuestOrFail($id);
         return view('host.guests.edit', compact('guest'));
     }
 
@@ -429,9 +493,10 @@ class GuestController extends Controller
             'full_name' => 'required|string|max:255',
             'guest_type' => 'required|in:single,double',
             'phone' => 'required|string|max:20',
+            'table_number' => 'nullable|string|max:50',
         ]);
 
-        $guest = Guest::findOrFail($id);
+        $guest = $this->findHostGuestOrFail($id);
         
         // Normalize phone number
         $normalizedPhone = $this->normalizePhone($request->phone);
@@ -446,10 +511,14 @@ class GuestController extends Controller
             return redirect()->back()->with('error', 'A guest with this phone number already exists.');
         }
         
+        $pax = $request->guest_type === 'double' ? 2 : 1;
+
         $guest->update([
             'full_name' => $request->full_name,
             'guest_type' => $request->guest_type,
             'phone' => $normalizedPhone,
+            'pax' => $pax,
+            'table_number' => $request->filled('table_number') ? $request->input('table_number') : $guest->table_number,
         ]);
 
         return redirect()->route('host.guests.index')->with('success', 'Guest updated successfully!');
@@ -460,7 +529,7 @@ class GuestController extends Controller
      */
     public function destroy(string $id)
     {
-        $guest = Guest::findOrFail($id);
+        $guest = $this->findHostGuestOrFail($id);
         $guest->delete();
 
         return redirect()->route('host.guests.index')->with('success', 'Guest deleted successfully!');

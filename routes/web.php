@@ -61,7 +61,7 @@ Route::get('/templates/{template}', [App\Http\Controllers\TemplateController::cl
 // Public pages routes
 Route::get('/page/{slug}', [App\Http\Controllers\PageController::class, 'show'])->name('page.show');
 Route::get('/invitation/{slug}', [App\Http\Controllers\InvitationPublicController::class, 'show'])->name('invitation.show');
-Route::post('/invitation/{slug}/rsvp', [App\Http\Controllers\InvitationPublicController::class, 'rsvp'])->name('invitation.rsvp');
+Route::post('/invitation/{slug}/rsvp', [App\Http\Controllers\InvitationPublicController::class, 'rsvp'])->middleware('throttle:20,1')->name('invitation.rsvp');
 Route::get('/invitation/{slug}/pdf', [App\Http\Controllers\InvitationPublicController::class, 'pdf'])->name('invitation.pdf');
 
 // Public Track & Verification route (supa.ac.tz style)
@@ -111,7 +111,7 @@ Route::match(['get', 'post'], '/track', function (\Illuminate\Http\Request $requ
         }
     }
     return view('pages.track');
-})->name('track');
+})->middleware('throttle:30,1')->name('track');
 
 Route::get('/track-application', function () {
     return redirect()->route('track');
@@ -120,21 +120,21 @@ Route::get('/track-application', function () {
 
 // Admin/Staff Authentication routes
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->middleware('throttle:10,1');
 Route::get('/register', [App\Http\Controllers\AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [App\Http\Controllers\AuthController::class, 'register']);
+Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->middleware('throttle:10,1');
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 // Superadmin Authentication routes
 Route::get('/admin/login', [App\Http\Controllers\AuthController::class, 'showAdminLogin'])->name('admin.login');
-Route::post('/admin/login', [App\Http\Controllers\AuthController::class, 'adminLogin']);
+Route::post('/admin/login', [App\Http\Controllers\AuthController::class, 'adminLogin'])->middleware('throttle:10,1');
 
 // Host Authentication routes
 Route::prefix('host')->name('host.')->group(function () {
     Route::get('/login', [App\Http\Controllers\HostAuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [App\Http\Controllers\HostAuthController::class, 'login']);
+    Route::post('/login', [App\Http\Controllers\HostAuthController::class, 'login'])->middleware('throttle:10,1');
     Route::get('/register', [App\Http\Controllers\HostAuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [App\Http\Controllers\HostAuthController::class, 'register']);
+    Route::post('/register', [App\Http\Controllers\HostAuthController::class, 'register'])->middleware('throttle:10,1');
     Route::post('/logout', [App\Http\Controllers\HostAuthController::class, 'logout'])->name('logout');
     
     // Host Dashboard and Event Configuration
@@ -190,7 +190,7 @@ Route::prefix('webhook')->name('webhook.')->group(function () {
     Route::get('/whatsapp/delivery-stats/{event_id}', [App\Http\Controllers\WhatsAppWebhookController::class, 'getDeliveryStats'])->name('whatsapp.delivery-stats');
 });
 
-// Beem WhatsApp webhook routes (no auth required)
+// Beem SMS & WhatsApp Delivery Report (DLR) webhook routes
 Route::prefix('beem')->name('beem.')->group(function () {
     Route::get('/dlr', function () {
         return response('OK', 200);
@@ -204,30 +204,34 @@ Route::prefix('beem')->name('beem.')->group(function () {
             'timestamp' => now()->toISOString()
         ]);
         
-        // Process delivery report
-        if (isset($payload['message_id'], $payload['destination'], $payload['status'])) {
-            // You can map this to your invitations/guests table
-            // For now, just log the status
-            $status = $payload['status'];
-            $phoneNumber = $payload['destination'];
-            $messageId = $payload['message_id'];
-            
-            \Illuminate\Support\Facades\Log::info('Beem message status update', [
-                'message_id' => $messageId,
-                'phone_number' => $phoneNumber,
-                'status' => $status,
-                'timestamp' => $payload['timestamp'] ?? null
-            ]);
-            
-            // TODO: Update your invitations table with delivery status
-            // Example:
-            // Invitation::where('whatsapp_message_id', $messageId)
-            //     ->orWhere('phone_number', $phoneNumber)
-            //     ->update(['delivery_status' => $status, 'delivery_timestamp' => now()]);
+        $status = strtoupper((string) ($payload['status'] ?? ''));
+        $phoneNumber = preg_replace('/[^0-9]/', '', (string) ($payload['destination'] ?? $payload['dest_addr'] ?? ''));
+        $recipientId = $payload['recipient_id'] ?? null;
+
+        $invitation = null;
+        if ($recipientId && is_numeric($recipientId)) {
+            $invitation = \App\Models\Invitation::find((int) $recipientId);
+        }
+        if (!$invitation && strlen($phoneNumber) >= 9) {
+            $guest = \App\Models\Guest::where('phone', 'like', '%' . substr($phoneNumber, -9))->latest()->first();
+            $invitation = $guest?->invitation;
+        }
+
+        if ($invitation) {
+            if (in_array($status, ['DELIVERED', 'DELIVRD', 'READ'], true)) {
+                $invitation->update([
+                    'status' => 'delivered',
+                    'delivered_at' => $invitation->delivered_at ?: now(),
+                ]);
+            } elseif (in_array($status, ['FAILED', 'UNDELIV', 'REJECTED', 'REJECTD'], true)) {
+                $invitation->update([
+                    'status' => 'failed',
+                ]);
+            }
         }
         
         return response()->json(['status' => 'ok']);
-    })->name('dlr.webhook');
+    })->middleware('throttle:60,1')->name('dlr.webhook');
 });
 
 // Protected routes
@@ -294,6 +298,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/email', 'updateEmail')->name('email');
             Route::post('/payment', 'updatePayment')->name('payment');
             Route::post('/sms', 'updateSms')->name('sms');
+            Route::post('/sms/test', 'testSms')->name('sms.test');
             Route::post('/whatsapp', 'updateWhatsapp')->name('whatsapp');
             Route::post('/contact-footer', 'updateContactAndFooter')->name('contact-footer');
             Route::post('/backups/run', 'createBackup')->name('backup.create');
@@ -303,18 +308,27 @@ Route::middleware(['auth'])->group(function () {
     });
     
     
-    // Staff routes
-    Route::middleware(['role:staff'])->prefix('staff')->name('staff.')->group(function () {
+    // Scanner & Attendance routes (accessible to staff, super_admin, and event_admin)
+    Route::middleware(['role:staff,super_admin,event_admin'])->prefix('staff')->name('staff.')->group(function () {
         Route::get('scanner', [App\Http\Controllers\Staff\ScannerController::class, 'index'])->name('scanner');
-        Route::post('scan', [App\Http\Controllers\Staff\ScannerController::class, 'scan'])->name('scan');
+        Route::post('scan', [App\Http\Controllers\Staff\ScannerController::class, 'scan'])->middleware('throttle:60,1')->name('scan');
         Route::get('attendance', [App\Http\Controllers\Staff\ScannerController::class, 'attendance'])->name('attendance');
+    });
+
+    // Scanner route alias for Admin
+    Route::middleware(['role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('scanner', [App\Http\Controllers\Staff\ScannerController::class, 'index'])->name('scanner');
     });
 });
 
-// Direct storage fallback route for local/Apache Windows environments
+// Direct storage fallback route for local/Apache Windows environments (hardened against path traversal)
 Route::get('storage/{path}', function ($path) {
-    $filePath = storage_path('app/public/' . $path);
-    if (!file_exists($filePath)) {
+    if (str_contains($path, '..')) {
+        abort(403);
+    }
+    $baseDir = realpath(storage_path('app/public'));
+    $filePath = realpath(storage_path('app/public/' . ltrim($path, '/\\')));
+    if (!$baseDir || !$filePath || !str_starts_with($filePath, $baseDir) || !is_file($filePath)) {
         abort(404);
     }
     return response()->file($filePath);

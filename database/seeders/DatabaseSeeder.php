@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             VenueSeeder::class,
             VehicleSeeder::class,
             TemplateEngineSeeder::class,
+            SampleCardTemplatesSeeder::class,
             ExampleDataSeeder::class,
         ]);
     }
