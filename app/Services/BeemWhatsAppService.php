@@ -24,6 +24,22 @@ class BeemWhatsAppService
     }
 
     /**
+     * Get HTTP client options including CA bundle if configured/present.
+     */
+    protected function httpOptions(): array
+    {
+        $options = [];
+        $caCert = config('services.sms.beem.ca_bundle')
+            ?: (env('HTTP_CA_BUNDLE') ? base_path((string) env('HTTP_CA_BUNDLE')) : base_path('storage/certs/cacert.pem'));
+
+        if (!empty($caCert) && file_exists($caCert)) {
+            $options['verify'] = $caCert;
+        }
+
+        return $options;
+    }
+
+    /**
      * Send template-based bulk messages via Beem WhatsApp API
      * 
      * @param array $destinations Array of destination objects with phoneNumber and params
@@ -61,7 +77,7 @@ class BeemWhatsAppService
         }
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::withOptions($this->httpOptions())->withHeaders([
                 'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':' . $this->secretKey),
                 'Content-Type' => 'application/json',
             ])->timeout(30)->post($url, $payload);
@@ -125,7 +141,7 @@ class BeemWhatsAppService
         $url = rtrim($this->chatBase, '/') . '/v1/message-templates/list';
         
         try {
-            $response = Http::withHeaders([
+            $response = Http::withOptions($this->httpOptions())->withHeaders([
                 'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':' . $this->secretKey),
                 'Content-Type' => 'application/json',
             ])->timeout(15)->get($url, $filters);
@@ -171,7 +187,7 @@ class BeemWhatsAppService
         $url = rtrim($this->chatBase, '/') . '/v1/chatapi/active-users';
         
         try {
-            $response = Http::withHeaders([
+            $response = Http::withOptions($this->httpOptions())->withHeaders([
                 'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':' . $this->secretKey),
                 'Content-Type' => 'application/json',
             ])->timeout(15)->get($url);
@@ -232,7 +248,7 @@ class BeemWhatsAppService
         }
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::withOptions($this->httpOptions())->withHeaders([
                 'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':' . $this->secretKey),
                 'Content-Type' => 'application/json',
             ])->timeout(15)->post($url, $payload);

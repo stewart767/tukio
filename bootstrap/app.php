@@ -16,9 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'event.configured' => \App\Http\Middleware\EnsureEventConfigured::class,
         ]);
         
-        // Apply SetLocale middleware to all web routes
+        // Apply SetLocale and SecurityHeaders middleware to all web routes
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
+            \App\Http\Middleware\SecurityHeadersMiddleware::class,
         ]);
 
         // Exempt Gate Scanner and RSVP endpoints from CSRF token expiration

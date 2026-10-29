@@ -37,6 +37,22 @@ class BulkSmsService
     }
 
     /**
+     * Get HTTP client options including CA bundle if configured/present.
+     */
+    protected function httpOptions(): array
+    {
+        $options = [];
+        $caCert = config('services.sms.beem.ca_bundle')
+            ?: (env('HTTP_CA_BUNDLE') ? base_path((string) env('HTTP_CA_BUNDLE')) : base_path('storage/certs/cacert.pem'));
+
+        if (!empty($caCert) && file_exists($caCert)) {
+            $options['verify'] = $caCert;
+        }
+
+        return $options;
+    }
+
+    /**
      * Normalize phone number to Tanzanian international format (255XXXXXXXXX) without '+'.
      */
     public function formatPhoneNumber(string $phoneNumber): string
@@ -105,7 +121,7 @@ class BulkSmsService
         ];
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::withOptions($this->httpOptions())->withHeaders([
                 'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':' . $this->secretKey),
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -253,7 +269,7 @@ class BulkSmsService
         }
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::withOptions($this->httpOptions())->withHeaders([
                 'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':' . $this->secretKey),
                 'Accept' => 'application/json',
             ])->timeout(15)->get('https://apisms.beem.africa/public/v1/vendors/balance');
