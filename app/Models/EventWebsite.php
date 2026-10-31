@@ -149,45 +149,45 @@ class EventWebsite extends Model
                 'badge' => 'Premium Signature',
             ],
             'elegant_wedding' => [
-                'name' => 'Elegant Wedding (Ivory & Rose Gold)',
-                'primary' => '#C48B71', // Rose Gold
-                'secondary' => '#4A3E3D', // Muted Espresso
-                'accent' => '#E8C5B8', // Soft Blush
-                'background' => '#FCFAF8', // Silk Ivory
-                'text' => '#292524',
+                'name' => 'Elegant Wedding (Rose Gold & Noir)',
+                'primary' => '#E0A899', // Radiant Rose Gold
+                'secondary' => '#2D1B18', // Deep Velvet Noir
+                'accent' => '#F3D2C9', // Soft Shimmer Blush
+                'background' => '#140E0D', // Deep Obsidian Espresso
+                'text' => '#FDFBF7',
                 'heading_font' => 'Cormorant Garamond',
                 'body_font' => 'Plus Jakarta Sans',
                 'badge' => 'Romantic',
             ],
             'african_heritage' => [
                 'name' => 'Traditional Wedding & Heritage',
-                'primary' => '#D97706', // Ochre Gold
+                'primary' => '#F59E0B', // Rich Warm Ochre Gold
                 'secondary' => '#78350F', // Rich Terracotta / Wood
-                'accent' => '#B45309', // Deep Bronze
-                'background' => '#FFFBEB', // Sandstone
-                'text' => '#1C1917',
+                'accent' => '#D97706', // Deep Bronze
+                'background' => '#1A110B', // Deep Mahogany Ebony
+                'text' => '#FEF3C7',
                 'heading_font' => 'Cinzel',
                 'body_font' => 'Inter',
                 'badge' => 'Heritage',
             ],
             'corporate_celebration' => [
                 'name' => 'Corporate Celebration & Gala',
-                'primary' => '#2563EB', // Sapphire Blue
-                'secondary' => '#0F172A', // Dark Navy
+                'primary' => '#3B82F6', // Sapphire Blue
+                'secondary' => '#1E293B', // Dark Slate
                 'accent' => '#38BDF8', // Sky Accent
-                'background' => '#F8FAFC', // Crisp White
-                'text' => '#0F172A',
+                'background' => '#0B132B', // Deep Midnight Blue
+                'text' => '#F8FAFC',
                 'heading_font' => 'Montserrat',
                 'body_font' => 'Inter',
                 'badge' => 'Corporate',
             ],
             'burgundy_anniversary' => [
                 'name' => 'Anniversary & Romantic Milestones',
-                'primary' => '#9F1239', // Rich Ruby Burgundy
-                'secondary' => '#4C0519', // Wine
-                'accent' => '#F43F5E', // Rose Crimson
-                'background' => '#FFF1F2', // Champagne Rose
-                'text' => '#1E1B18',
+                'primary' => '#F43F5E', // Rose Crimson
+                'secondary' => '#881337', // Wine
+                'accent' => '#FDA4AF', // Soft Rose Gold
+                'background' => '#1A0810', // Deep Royal Wine Noir
+                'text' => '#FFF1F2',
                 'heading_font' => 'Playfair Display',
                 'body_font' => 'Plus Jakarta Sans',
                 'badge' => 'Celebration',
@@ -214,14 +214,24 @@ class EventWebsite extends Model
         $presets = static::getThemePresets();
         $preset = $presets[$this->theme] ?? $presets['luxury_gold'];
 
+        $bg = $this->background_color;
+        if (!$bg || in_array($bg, ['#FCFAF8', '#FFFBEB', '#F8FAFC', '#FFF1F2'])) {
+            $bg = $preset['background'];
+        }
+
+        $txt = $this->text_color;
+        if (!$txt || in_array($txt, ['#292524', '#1C1917', '#0F172A', '#1E1B18'])) {
+            $txt = $preset['text'];
+        }
+
         return [
             'key' => $this->theme,
             'name' => $preset['name'],
             'primary' => $this->primary_color ?: $preset['primary'],
             'secondary' => $this->secondary_color ?: $preset['secondary'],
             'accent' => $this->accent_color ?: $preset['accent'],
-            'background' => $this->background_color ?: $preset['background'],
-            'text' => $this->text_color ?: $preset['text'],
+            'background' => $bg,
+            'text' => $txt,
             'heading_font' => $this->font_heading ?: $preset['heading_font'],
             'body_font' => $this->font_body ?: $preset['body_font'],
             'badge' => $preset['badge'],

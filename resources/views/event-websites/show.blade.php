@@ -80,9 +80,10 @@
         }
 
         .gold-shimmer {
-            background: linear-gradient(135deg, #fff 0%, var(--primary-color) 45%, var(--accent-color) 70%, #fff 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #fde68a 25%, var(--primary-color) 50%, var(--accent-color) 75%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
         }
 
         /* Equalizer sound animation */
@@ -209,20 +210,23 @@
     </header>
 
     <!-- SECTION 1: HERO / WELCOME -->
-    <section id="home" class="relative min-h-[90vh] flex items-center justify-center text-center px-4 py-20 overflow-hidden" style="background-color: var(--bg-color);">
+    <section id="home" class="relative min-h-[92vh] flex items-center justify-center text-center px-4 py-24 overflow-hidden" style="background-color: var(--bg-color);">
         <!-- Background Image / Video with Gradient Overlay -->
         @if($website->cover_image)
             <div class="absolute inset-0 z-0">
-                <img src="{{ Storage::url($website->cover_image) }}" alt="Hero Background" class="w-full h-full object-cover opacity-25">
-                <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-[var(--bg-color)]/70 to-transparent"></div>
+                <img src="{{ Storage::url($website->cover_image) }}" alt="Hero Background" class="w-full h-full object-cover opacity-35">
+                <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-black/60 to-black/80"></div>
             </div>
         @else
-            <div class="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-transparent to-[var(--bg-color)]"></div>
+            <div class="absolute inset-0 z-0">
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-500/10 via-black/75 to-[var(--bg-color)]"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-black/55 to-[var(--bg-color)]"></div>
+            </div>
         @endif
 
         <div class="relative z-10 max-w-4xl mx-auto space-y-8 animate-fade-in">
             <!-- Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-widest">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-400/40 bg-slate-900/80 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-widest shadow-lg shadow-black/40">
                 <span>✦</span>
                 <span>{{ $website->getSection('hero')?->content['badge'] ?? 'Celebration of a Lifetime' }}</span>
                 <span>✦</span>
@@ -230,41 +234,41 @@
 
             <!-- Host / Celebrant Names in Luxury Typography -->
             <div class="space-y-4">
-                <span class="font-script text-4xl sm:text-5xl text-amber-300 block">
+                <span class="font-script text-4xl sm:text-6xl text-amber-300 block drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                     {{ $website->host_names ?: 'Celebrating' }}
                 </span>
                 <h1 class="font-theme-heading text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-none gold-shimmer uppercase">
                     {{ $website->title }}
                 </h1>
-                <p class="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+                <p class="text-base sm:text-xl text-slate-100 max-w-2xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     {{ $website->tagline }}
                 </p>
             </div>
 
             <!-- Event Date & Venue Ribbon -->
-            <div class="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-8 px-6 py-4 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl text-xs uppercase tracking-wider text-slate-200">
+            <div class="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-8 px-6 py-4 rounded-3xl bg-slate-900/85 border border-amber-400/30 backdrop-blur-md shadow-2xl text-xs uppercase tracking-wider text-slate-100">
                 <div class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    <span>{{ $website->event_date ? $website->event_date->format('l, F j, Y') : 'Date to be announced' }}</span>
+                    <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span class="font-bold text-white">{{ $website->event_date ? $website->event_date->format('l, F j, Y') : 'Date to be announced' }}</span>
                 </div>
-                <span class="hidden sm:inline text-white/30">&bull;</span>
+                <span class="hidden sm:inline text-amber-400/50">&bull;</span>
                 <div class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span>{{ $website->event_time ?: '18:00' }}</span>
+                    <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="font-bold text-white">{{ $website->event_time ?: '18:00' }}</span>
                 </div>
-                <span class="hidden sm:inline text-white/30">&bull;</span>
+                <span class="hidden sm:inline text-amber-400/50">&bull;</span>
                 <div class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
-                    <span>{{ $website->venue_name }}</span>
+                    <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                    <span class="font-bold text-white">{{ $website->venue_name }}</span>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
-                <a href="#rsvp" class="px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/25 transition-all hover:scale-105">
+                <a href="#rsvp" class="px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/30 transition-all hover:scale-105">
                     Confirm Attendance (RSVP)
                 </a>
-                <a href="#schedule" class="px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/20 backdrop-blur-md transition-all">
+                <a href="#schedule" class="px-8 py-4 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white font-bold text-sm border border-white/30 backdrop-blur-md transition-all shadow-lg hover:border-amber-400/50 hover:scale-105">
                     View Celebration Program
                 </a>
             </div>
