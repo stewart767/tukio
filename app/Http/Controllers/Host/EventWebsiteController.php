@@ -184,10 +184,10 @@ class EventWebsiteController extends Controller
         [, , $website] = $this->getHostEventAndWebsite();
 
         $request->validate([
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:8192',
-            'music_file' => 'nullable|mimes:mp3,wav,m4a,ogg|max:12288',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
+            'music_file' => 'nullable|file|mimes:mp3,wav,m4a,ogg,oga,webma,aac,mpeg|max:20480',
             'cover_video_url' => 'nullable|url|max:500',
-            'music_url' => 'nullable|url|max:500',
+            'music_url' => 'nullable|string|max:500',
             'music_title' => 'nullable|string|max:255',
         ]);
 
@@ -202,7 +202,7 @@ class EventWebsiteController extends Controller
         if ($request->hasFile('music_file')) {
             $musicFile = $request->file('music_file');
             $musicPath = $musicFile->store('websites/audio', 'public');
-            $updates['music_url'] = Storage::url($musicPath);
+            $updates['music_url'] = $musicPath;
         } elseif ($request->filled('music_url')) {
             $updates['music_url'] = $request->input('music_url');
         }

@@ -103,6 +103,18 @@ class EventWebsite extends Model
     }
 
     /**
+     * Resolve music URL with proper storage path.
+     */
+    public function getMusicUrlAttribute($value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return storage_url($value);
+    }
+
+    /**
      * Check if RSVP is closed due to deadline.
      */
     public function isPastDeadline(): bool

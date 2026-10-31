@@ -112,13 +112,28 @@
 
     <!-- Floating Background Music Player -->
     @if($website->music_url)
-        <div id="audio-widget" class="fixed bottom-6 right-6 z-40">
-            <audio id="bg-audio" loop preload="none">
-                <source src="{{ $website->music_url }}">
+        @php
+            $musicUrl = $website->music_url;
+            $musicExt = strtolower(pathinfo(parse_url($musicUrl, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
+            $musicMime = match($musicExt) {
+                'mp3' => 'audio/mpeg',
+                'wav' => 'audio/wav',
+                'ogg', 'oga' => 'audio/ogg',
+                'm4a', 'aac' => 'audio/mp4',
+                'webm' => 'audio/webm',
+                default => null,
+            };
+        @endphp
+        <div id="audio-widget" class="fixed bottom-6 right-6 z-50">
+            <audio id="bg-audio" loop preload="metadata" playsinline>
+                @if($musicMime)
+                    <source src="{{ $musicUrl }}" type="{{ $musicMime }}">
+                @endif
+                <source src="{{ $musicUrl }}">
             </audio>
 
-            <button type="button" id="audio-toggle-btn" onclick="toggleAudio()" class="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-slate-900/90 text-white border border-white/20 shadow-2xl backdrop-blur-md hover:scale-105 transition-all">
-                <div class="w-7 h-7 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center">
+            <button type="button" id="audio-toggle-btn" onclick="toggleAudio()" class="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-slate-900/95 text-white border border-amber-400/40 shadow-2xl backdrop-blur-md hover:scale-105 transition-all hover:border-amber-400">
+                <div class="relative w-7 h-7 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center">
                     <svg id="play-icon" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
                     <svg id="pause-icon" class="w-3.5 h-3.5 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                 </div>
@@ -859,41 +874,73 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 2. Background Audio Controller
-        function toggleAudio() {
-            const audio = document.getElementById('bg-audio');
+        // 2. Background Audio Controller with Gesture-Based Autoplay Fallback
+        const bgAudio = document.getElementById('bg-audio');
+        let hasInteractedWithAudio = false;
+
+        function updateAudioUI(isPlaying) {
             const playIcon = document.getElementById('play-icon');
             const pauseIcon = document.getElementById('pause-icon');
             const soundBars = document.getElementById('sound-bars');
             const statusLabel = document.getElementById('audio-status-label');
 
-            if (!audio) return;
-
-            if (audio.paused) {
-                audio.play().then(() => {
-                    playIcon.classList.add('hidden');
-                    pauseIcon.classList.remove('hidden');
-                    soundBars.classList.remove('opacity-40');
-                    soundBars.children[0].classList.add('animate-bar-1');
-                    soundBars.children[1].classList.add('animate-bar-2');
-                    soundBars.children[2].classList.add('animate-bar-3');
-                    soundBars.children[3].classList.add('animate-bar-4');
-                    if (statusLabel) statusLabel.textContent = 'Playing Music';
-                }).catch(err => {
-                    console.log('Audio autoplay prevented:', err);
-                });
-            } else {
-                audio.pause();
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
-                soundBars.classList.add('opacity-40');
-                soundBars.children[0].classList.remove('animate-bar-1');
-                soundBars.children[1].classList.remove('animate-bar-2');
-                soundBars.children[2].classList.remove('animate-bar-3');
-                soundBars.children[3].classList.remove('animate-bar-4');
-                if (statusLabel) statusLabel.textContent = 'Music Paused';
+            if (playIcon) playIcon.classList.toggle('hidden', isPlaying);
+            if (pauseIcon) pauseIcon.classList.toggle('hidden', !isPlaying);
+            if (soundBars) {
+                soundBars.classList.toggle('opacity-40', !isPlaying);
+                for (let i = 0; i < soundBars.children.length; i++) {
+                    soundBars.children[i].classList.toggle(`animate-bar-${i+1}`, isPlaying);
+                }
+            }
+            if (statusLabel) {
+                statusLabel.textContent = isPlaying ? 'Playing Melody' : 'Music Paused';
             }
         }
+
+        if (bgAudio) {
+            bgAudio.addEventListener('play', () => updateAudioUI(true));
+            bgAudio.addEventListener('pause', () => updateAudioUI(false));
+            bgAudio.addEventListener('ended', () => updateAudioUI(false));
+            bgAudio.addEventListener('error', (e) => {
+                console.warn('Audio playback error:', e);
+                const statusLabel = document.getElementById('audio-status-label');
+                if (statusLabel) statusLabel.textContent = 'Audio Unavailable';
+                updateAudioUI(false);
+            });
+        }
+
+        function toggleAudio() {
+            if (!bgAudio) return;
+            hasInteractedWithAudio = true;
+
+            if (bgAudio.paused) {
+                bgAudio.play().catch(err => {
+                    console.warn('Audio play request error:', err);
+                    const statusLabel = document.getElementById('audio-status-label');
+                    if (statusLabel) statusLabel.textContent = 'Tap to Play';
+                });
+            } else {
+                bgAudio.pause();
+            }
+        }
+
+        // Attempt graceful autoplay on first user gesture (touch/click)
+        function tryAutoplayOnFirstGesture() {
+            if (hasInteractedWithAudio || !bgAudio || !bgAudio.paused) return;
+
+            const playPromise = bgAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    hasInteractedWithAudio = true;
+                }).catch(() => {
+                    // Browser policy blocked until user taps the audio widget explicitly
+                });
+            }
+        }
+
+        ['click', 'touchstart'].forEach(evt => {
+            document.addEventListener(evt, tryAutoplayOnFirstGesture, { once: true, passive: true });
+        });
 
         function togglePlusOne(show) {
             const container = document.getElementById('plus-one-container');
