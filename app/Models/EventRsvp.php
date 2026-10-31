@@ -114,3 +114,4 @@ class EventRsvp extends Model
         return $code;
     }
 }
+

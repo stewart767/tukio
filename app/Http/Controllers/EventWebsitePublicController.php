@@ -243,3 +243,4 @@ class EventWebsitePublicController extends Controller
         ]);
     }
 }
+

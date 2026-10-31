@@ -659,3 +659,4 @@ class EventWebsiteController extends Controller
         return redirect()->back()->with('success', "Broadcast processed. Sent: {$sentCount}, Failed/Requires Configuration: {$failedCount}.");
     }
 }
+

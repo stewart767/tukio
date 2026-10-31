@@ -4,7 +4,7 @@
 @section('page-title', 'Event Website & RSVP')
 
 @section('content')
-<div class="space-y-8 animate-fade-in" x-data="{ activeTab: '{{ request('tab', 'overview') }}' }">
+<div class="space-y-8 animate-fade-in" id="event-website-dashboard">
 
     <!-- Top Alert Notification -->
     @if(session('success'))
@@ -134,36 +134,40 @@
         </div>
     </div>
 
+    @php
+        $activeTab = request('tab', 'overview');
+    @endphp
+
     <!-- Main Navigation Tabs -->
-    <div class="flex items-center gap-2 border-b border-slate-200 overflow-x-auto pb-1 custom-scrollbar">
-        <button type="button" @click="activeTab = 'overview'" :class="activeTab === 'overview' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800'" class="px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2">
+    <div class="flex items-center gap-2 border-b border-slate-200 overflow-x-auto pb-1 custom-scrollbar" id="ew-tab-nav">
+        <button type="button" onclick="ewSwitchTab('overview')" id="ew-btn-overview" class="ew-tab-btn px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2 {{ $activeTab === 'overview' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span>Overview &amp; QR Pass</span>
         </button>
 
-        <button type="button" @click="activeTab = 'theme'" :class="activeTab === 'theme' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800'" class="px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2">
+        <button type="button" onclick="ewSwitchTab('theme')" id="ew-btn-theme" class="ew-tab-btn px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2 {{ $activeTab === 'theme' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 4 4 0 014-4 4 4 0 014 4 4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
             <span>Theme &amp; Branding</span>
         </button>
 
-        <button type="button" @click="activeTab = 'sections'" :class="activeTab === 'sections' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800'" class="px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2">
+        <button type="button" onclick="ewSwitchTab('sections')" id="ew-btn-sections" class="ew-tab-btn px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2 {{ $activeTab === 'sections' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
             <span>Sections &amp; Content (13)</span>
         </button>
 
-        <button type="button" @click="activeTab = 'rsvps'" :class="activeTab === 'rsvps' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800'" class="px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2">
+        <button type="button" onclick="ewSwitchTab('rsvps')" id="ew-btn-rsvps" class="ew-tab-btn px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2 {{ $activeTab === 'rsvps' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             <span>Guest RSVP List ({{ $stats['total_responses'] }})</span>
         </button>
 
-        <button type="button" @click="activeTab = 'custom_fields'" :class="activeTab === 'custom_fields' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800'" class="px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2">
+        <button type="button" onclick="ewSwitchTab('custom_fields')" id="ew-btn-custom_fields" class="ew-tab-btn px-4 py-3 border-b-2 text-sm whitespace-nowrap transition-colors flex items-center gap-2 {{ $activeTab === 'custom_fields' ? 'border-indigo-600 text-indigo-600 font-bold' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span>RSVP Form &amp; Questions</span>
         </button>
     </div>
 
     <!-- ==================== TAB 1: OVERVIEW & SHARE ==================== -->
-    <div x-show="activeTab === 'overview'" class="space-y-6">
+    <div id="tab-panel-overview" class="ew-tab-panel space-y-6 {{ $activeTab === 'overview' ? '' : 'hidden' }}">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             <!-- Left: QR Code and Sharing Cards -->
@@ -349,7 +353,7 @@
     </div>
 
     <!-- ==================== TAB 2: THEME & BRANDING ==================== -->
-    <div x-show="activeTab === 'theme'" class="space-y-6">
+    <div id="tab-panel-theme" class="ew-tab-panel space-y-6 {{ $activeTab === 'theme' ? '' : 'hidden' }}">
         <form action="{{ route('host.website.general.update') }}" method="POST" class="space-y-8">
             @csrf
             <!-- Preserve general fields -->
@@ -504,7 +508,7 @@
     </div>
 
     <!-- ==================== TAB 3: SECTIONS & CONTENT MANAGER ==================== -->
-    <div x-show="activeTab === 'sections'" class="space-y-6">
+    <div id="tab-panel-sections" class="ew-tab-panel space-y-6 {{ $activeTab === 'sections' ? '' : 'hidden' }}">
         <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
                 <div>
@@ -515,7 +519,7 @@
 
             <div class="divide-y divide-slate-100">
                 @foreach($sections as $section)
-                    <div class="py-4 flex flex-col md:flex-row md:items-center justify-between gap-4" x-data="{ expanded: false }">
+                    <div class="py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
                             <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs">
                                 {{ $section->sort_order }}
@@ -532,14 +536,14 @@
                         </div>
 
                         <div class="flex items-center gap-3">
-                            <button type="button" @click="expanded = !expanded" class="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors flex items-center gap-1.5">
+                            <button type="button" onclick="ewToggleSectionEditor({{ $section->id }})" class="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors flex items-center gap-1.5">
                                 <span>Edit Content</span>
-                                <svg class="w-3.5 h-3.5 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                <svg id="section-chevron-{{ $section->id }}" class="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             </button>
                         </div>
 
                         <!-- Accordion Content Editor for this Section -->
-                        <div x-show="expanded" class="w-full mt-4 pt-4 border-t border-slate-100 md:col-span-full">
+                        <div id="section-editor-{{ $section->id }}" class="hidden w-full mt-4 pt-4 border-t border-slate-100 md:col-span-full">
                             <form action="{{ route('host.website.sections.update', $section->id) }}" method="POST" enctype="multipart/form-data" class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-4">
                                 @csrf
                                 <div class="flex items-center justify-between">
@@ -602,7 +606,7 @@
     </div>
 
     <!-- ==================== TAB 4: RSVP & GUEST LIST ==================== -->
-    <div x-show="activeTab === 'rsvps'" class="space-y-6">
+    <div id="tab-panel-rsvps" class="ew-tab-panel space-y-6 {{ $activeTab === 'rsvps' ? '' : 'hidden' }}">
         <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-6">
             
             <!-- RSVP Actions Toolbar -->
@@ -753,7 +757,7 @@
     </div>
 
     <!-- ==================== TAB 5: RSVP FORM & QUESTIONS ==================== -->
-    <div x-show="activeTab === 'custom_fields'" class="space-y-6">
+    <div id="tab-panel-custom_fields" class="ew-tab-panel space-y-6 {{ $activeTab === 'custom_fields' ? '' : 'hidden' }}">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
             <!-- Left: RSVP Form Restrictions & Policy -->
@@ -963,3 +967,50 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+function ewSwitchTab(tab) {
+    // 1. Hide all panels
+    const panels = document.querySelectorAll('.ew-tab-panel');
+    panels.forEach(p => p.classList.add('hidden'));
+
+    // 2. Show target panel
+    const targetPanel = document.getElementById('tab-panel-' + tab);
+    if (targetPanel) {
+        targetPanel.classList.remove('hidden');
+    }
+
+    // 3. Reset all tab buttons
+    const buttons = document.querySelectorAll('.ew-tab-btn');
+    buttons.forEach(btn => {
+        btn.classList.remove('border-indigo-600', 'text-indigo-600', 'font-bold');
+        btn.classList.add('border-transparent', 'text-slate-500', 'hover:text-slate-800');
+    });
+
+    // 4. Activate current button
+    const targetBtn = document.getElementById('ew-btn-' + tab);
+    if (targetBtn) {
+        targetBtn.classList.remove('border-transparent', 'text-slate-500', 'hover:text-slate-800');
+        targetBtn.classList.add('border-indigo-600', 'text-indigo-600', 'font-bold');
+    }
+
+    // 5. Update URL query without page reload
+    const url = new URL(window.location);
+    url.searchParams.set('tab', tab);
+    window.history.replaceState({}, '', url);
+}
+
+function ewToggleSectionEditor(id) {
+    const editor = document.getElementById('section-editor-' + id);
+    const chevron = document.getElementById('section-chevron-' + id);
+    if (editor) {
+        editor.classList.toggle('hidden');
+    }
+    if (chevron) {
+        chevron.classList.toggle('rotate-180');
+    }
+}
+</script>
+@endpush
+
