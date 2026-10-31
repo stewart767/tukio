@@ -14,6 +14,12 @@ class ExampleTest extends TestCase
      */
     public function test_the_application_returns_a_successful_response(): void
     {
+        \App\Models\Page::create([
+            'slug' => 'homepage',
+            'title' => 'Tukio360 Home',
+            'is_active' => true,
+        ]);
+
         $response = $this->get('/');
 
         $response->assertStatus(200);

@@ -171,8 +171,20 @@
             <p class="text-xs text-slate-500">Fast access to essential event planning modules.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
             
+            <!-- Action: Event Website & RSVP (Premium) -->
+            <a href="{{ route('host.website.index') }}" class="group p-5 rounded-2xl bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-purple-500/10 border-2 border-amber-400/60 hover:border-amber-500 hover:shadow-xl hover:shadow-amber-500/15 transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
+                <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider bg-amber-500 text-slate-950">New</span>
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-500 text-slate-950 flex items-center justify-center mb-3 shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-slate-900 text-sm mb-1">Event Website &amp; RSVP</h3>
+                <p class="text-xs text-slate-500">Live countdown, custom RSVP &amp; pass</p>
+            </a>
+
             <!-- Action: Billing -->
             <a href="{{ route('host.payments.index') }}" class="group p-5 rounded-2xl bg-gradient-to-br from-amber-50/80 to-amber-100/40 border border-amber-200/80 hover:border-amber-400 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-300 transform hover:-translate-y-1">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center mb-3 shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform">

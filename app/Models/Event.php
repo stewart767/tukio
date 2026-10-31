@@ -111,6 +111,74 @@ class Event extends Model
     }
 
     /**
+     * Get the digital website for the event.
+     */
+    public function website()
+    {
+        return $this->hasOne(EventWebsite::class);
+    }
+
+    /**
+     * Get the RSVPs for the event.
+     */
+    public function rsvps()
+    {
+        return $this->hasMany(EventRsvp::class);
+    }
+
+    /**
+     * Ensure this event has an event website initialized.
+     */
+    public function ensureWebsite(): EventWebsite
+    {
+        $website = $this->website;
+
+        if (!$website) {
+            $baseSlug = \Illuminate\Support\Str::slug($this->title);
+            if (empty($baseSlug)) {
+                $baseSlug = 'event-' . $this->id;
+            }
+
+            $slug = $baseSlug;
+            $counter = 1;
+            while (EventWebsite::where('slug', $slug)->exists()) {
+                $slug = $baseSlug . '-' . (++$counter);
+            }
+
+            $hostName = $this->host?->full_name ?? $this->user?->name;
+
+            $website = EventWebsite::create([
+                'event_id' => $this->id,
+                'slug' => $slug,
+                'title' => $this->title,
+                'category' => $this->category ?: 'birthday',
+                'tagline' => 'We joyfully invite you to celebrate with us.',
+                'host_names' => $hostName,
+                'event_date' => $this->date,
+                'event_time' => $this->time ? date('H:i', strtotime($this->time)) : '18:00',
+                'venue_name' => $this->venue,
+                'venue_address' => $this->venue_address,
+                'google_maps_url' => 'https://maps.google.com/?q=' . urlencode($this->venue . ' ' . $this->venue_address),
+                'theme' => match ($this->category) {
+                    'wedding' => 'elegant_wedding',
+                    'send_off' => 'african_heritage',
+                    'kitchen_party' => 'african_heritage',
+                    'corporate' => 'corporate_celebration',
+                    default => 'luxury_gold',
+                },
+                'is_published' => true,
+                'allow_guest_updates' => true,
+                'require_phone' => true,
+                'max_plus_ones' => 1,
+            ]);
+
+            $website->initDefaultSections();
+        }
+
+        return $website;
+    }
+
+    /**
      * Ensure this event has an invoice created.
      */
     public function ensureInvoice(): Invoice

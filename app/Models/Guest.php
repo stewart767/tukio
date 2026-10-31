@@ -44,4 +44,12 @@ class Guest extends Model
     {
         return $this->hasOne(Invitation::class);
     }
+
+    /**
+     * Get the RSVP record for the guest.
+     */
+    public function rsvp()
+    {
+        return $this->hasOne(EventRsvp::class);
+    }
 }

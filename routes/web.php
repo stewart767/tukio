@@ -64,6 +64,11 @@ Route::get('/invitation/{slug}', [App\Http\Controllers\InvitationPublicControlle
 Route::post('/invitation/{slug}/rsvp', [App\Http\Controllers\InvitationPublicController::class, 'rsvp'])->name('invitation.rsvp');
 Route::get('/invitation/{slug}/pdf', [App\Http\Controllers\InvitationPublicController::class, 'pdf'])->name('invitation.pdf');
 
+// Digital Event Websites & Guest RSVP routes (inspired by alices50thbirthdaycelebrations.co.za)
+Route::get('/e/{slug}', [App\Http\Controllers\EventWebsitePublicController::class, 'show'])->name('event.website.show');
+Route::get('/e/{slug}/preview', [App\Http\Controllers\EventWebsitePublicController::class, 'preview'])->name('event.website.preview');
+Route::post('/e/{slug}/rsvp', [App\Http\Controllers\EventWebsitePublicController::class, 'submitRsvp'])->name('event.website.rsvp');
+
 // Public Track & Verification route (supa.ac.tz style)
 Route::match(['get', 'post'], '/track', function (\Illuminate\Http\Request $request) {
     $query = trim($request->input('query', ''));
@@ -82,6 +87,12 @@ Route::match(['get', 'post'], '/track', function (\Illuminate\Http\Request $requ
             $invitation = \App\Models\Invitation::where('slug', $query)->first();
             if ($invitation) {
                 return redirect()->route('invitation.show', $invitation->slug);
+            }
+
+            // 2b. Check EventRsvp by confirmation_code
+            $rsvp = \App\Models\EventRsvp::with('website')->where('confirmation_code', $query)->first();
+            if ($rsvp && $rsvp->website) {
+                return redirect()->route('event.website.show', ['slug' => $rsvp->website->slug, 'rsvp_verified' => $rsvp->confirmation_code]);
             }
 
             // 3. Check CarBooking by booking_reference
@@ -149,6 +160,26 @@ Route::prefix('host')->name('host.')->group(function () {
             
             // Event Management Routes
             Route::get('/events', [App\Http\Controllers\Host\EventController::class, 'index'])->name('events.index');
+            
+            // Digital Event Website & RSVP Management Routes
+            Route::prefix('website')->name('website.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Host\EventWebsiteController::class, 'index'])->name('index');
+                Route::post('/general', [App\Http\Controllers\Host\EventWebsiteController::class, 'updateGeneral'])->name('general.update');
+                Route::post('/media', [App\Http\Controllers\Host\EventWebsiteController::class, 'updateMedia'])->name('media.update');
+                Route::post('/sections/{id}', [App\Http\Controllers\Host\EventWebsiteController::class, 'updateSection'])->name('sections.update');
+                Route::post('/sections-reorder', [App\Http\Controllers\Host\EventWebsiteController::class, 'reorderSections'])->name('sections.reorder');
+                Route::post('/custom-fields', [App\Http\Controllers\Host\EventWebsiteController::class, 'storeCustomField'])->name('custom-fields.store');
+                Route::delete('/custom-fields/{id}', [App\Http\Controllers\Host\EventWebsiteController::class, 'destroyCustomField'])->name('custom-fields.destroy');
+                Route::post('/rsvps', [App\Http\Controllers\Host\EventWebsiteController::class, 'storeRsvp'])->name('rsvps.store');
+                Route::put('/rsvps/{id}', [App\Http\Controllers\Host\EventWebsiteController::class, 'updateRsvp'])->name('rsvps.update');
+                Route::delete('/rsvps/{id}', [App\Http\Controllers\Host\EventWebsiteController::class, 'destroyRsvp'])->name('rsvps.destroy');
+                Route::post('/rsvps/{id}/checkin', [App\Http\Controllers\Host\EventWebsiteController::class, 'toggleCheckIn'])->name('rsvps.checkin');
+                Route::get('/rsvps/export/excel', [App\Http\Controllers\Host\EventWebsiteController::class, 'exportExcel'])->name('rsvps.export.excel');
+                Route::get('/rsvps/export/pdf', [App\Http\Controllers\Host\EventWebsiteController::class, 'exportPdf'])->name('rsvps.export.pdf');
+                Route::get('/rsvps/print', [App\Http\Controllers\Host\EventWebsiteController::class, 'printRoster'])->name('rsvps.print');
+                Route::get('/distribution', [App\Http\Controllers\Host\EventWebsiteController::class, 'distribution'])->name('distribution');
+                Route::post('/distribution/send', [App\Http\Controllers\Host\EventWebsiteController::class, 'sendBroadcast'])->name('distribution.send');
+            });
             
             // Guest Management Routes
             Route::resource('guests', App\Http\Controllers\Host\GuestController::class);

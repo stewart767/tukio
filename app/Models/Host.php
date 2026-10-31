@@ -51,6 +51,15 @@ class Host extends Authenticatable
     }
 
     /**
+     * Get the digital event website for this host's primary event.
+     */
+    public function eventWebsite(): ?EventWebsite
+    {
+        $event = $this->events()->latest()->first();
+        return $event ? $event->ensureWebsite() : null;
+    }
+
+    /**
      * Get the car bookings for the host.
      */
     public function carBookings()

@@ -60,6 +60,13 @@ class ScannerController extends Controller
             $guest = Guest::where('invitation_code', $scanValue)
                 ->with('event')
                 ->first();
+        }
+
+        if (!$guest) {
+            $rsvp = \App\Models\EventRsvp::with(['guest.event', 'event'])->where('confirmation_code', $scanValue)->first();
+            if ($rsvp) {
+                $guest = $rsvp->guest;
+            }
         } else {
             $guest->loadMissing('event');
         }
@@ -100,6 +107,13 @@ class ScannerController extends Controller
             'attended_at' => now(),
             'status' => 'attended'
         ]);
+
+        if ($guest->rsvp) {
+            $guest->rsvp->update([
+                'is_checked_in' => true,
+                'checked_in_at' => now(),
+            ]);
+        }
 
         return response()->json([
             'success' => true,
