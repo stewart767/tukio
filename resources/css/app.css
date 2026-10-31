@@ -411,11 +411,29 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 /* Admin Glass Sidebar */
 .admin-glass-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 18rem;
+    z-index: 50;
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-right: 1px solid rgba(226, 232, 240, 0.8);
     box-shadow: 4px 0 24px -2px rgba(15, 23, 42, 0.03);
+}
+
+.admin-main-workspace {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+    .admin-main-workspace {
+        padding-left: 18rem;
+    }
 }
 
 /* Admin Nav Items */
@@ -513,11 +531,29 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 /* Host Glass Sidebar */
 .host-glass-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 18rem;
+    z-index: 50;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-right: 1px solid rgba(226, 232, 240, 0.85);
     box-shadow: 4px 0 24px -2px rgba(15, 23, 42, 0.03);
+}
+
+.host-main-workspace {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+    .host-main-workspace {
+        padding-left: 18rem;
+    }
 }
 
 /* Host Navigation Items */

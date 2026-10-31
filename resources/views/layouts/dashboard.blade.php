@@ -38,12 +38,12 @@
     @stack('styles')
 </head>
 <body class="h-full bg-[#f3ffe3] text-slate-800 font-sans antialiased selection:bg-indigo-500 selection:text-white" style="background-color: #f3ffe3;">
-    <div class="min-h-full flex flex-col bg-[#f3ffe3]">
+    <div class="min-h-full bg-[#f3ffe3]">
         <!-- Mobile sidebar overlay -->
         <div class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm hidden transition-opacity duration-300" id="mobile-sidebar-overlay"></div>
         
         <!-- Modern Frosted Glass Sidebar -->
-        <aside class="fixed inset-y-0 z-50 w-72 flex-col transform -translate-x-full transition-transform duration-300 ease-in-out lg:translate-x-0 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 admin-glass-sidebar custom-scrollbar overflow-y-auto" id="mobile-sidebar">
+        <aside class="fixed inset-y-0 left-0 z-50 w-72 flex flex-col -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out admin-glass-sidebar custom-scrollbar overflow-y-auto" id="mobile-sidebar">
             <div class="flex grow flex-col gap-y-6 px-6 pb-6 pt-5">
                 
                 <!-- Brand Header -->
@@ -338,7 +338,7 @@
         </aside>
 
         <!-- Main Content Wrapper -->
-        <div class="lg:pl-72 flex flex-col min-h-screen bg-[#f3ffe3]">
+        <div class="admin-main-workspace lg:pl-72 flex flex-col min-h-screen bg-[#f3ffe3]">
             
             <!-- Sleek Top Header Command Bar -->
             <header class="sticky top-0 z-40 flex h-18 shrink-0 items-center justify-between gap-x-4 border-b border-slate-200/70 bg-white/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 shadow-xs">
