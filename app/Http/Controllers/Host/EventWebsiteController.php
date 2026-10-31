@@ -183,35 +183,69 @@ class EventWebsiteController extends Controller
     {
         [, , $website] = $this->getHostEventAndWebsite();
 
+        // Check if PHP dropped POST data because post_max_size was exceeded
+        if (empty($_POST) && empty($_FILES) && (int) $request->server('CONTENT_LENGTH', 0) > 0) {
+            return redirect()->back()->withErrors([
+                'music_file' => 'The uploaded file is too large for the server upload limit. Please upload an audio file under 20MB or paste an audio URL.',
+            ]);
+        }
+
         $request->validate([
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
-            'music_file' => 'nullable|file|mimes:mp3,wav,m4a,ogg,oga,webma,aac,mpeg|max:20480',
+            'music_file' => 'nullable|file|max:30720',
             'cover_video_url' => 'nullable|url|max:500',
-            'music_url' => 'nullable|string|max:500',
+            'music_url' => 'nullable|string|max:1000',
             'music_title' => 'nullable|string|max:255',
+            'remove_music' => 'nullable|boolean',
         ]);
 
         $updates = [];
 
+        // 1. Cover Image
         if ($request->hasFile('cover_image')) {
             $coverFile = $request->file('cover_image');
             $coverPath = $coverFile->store('websites/covers', 'public');
             $updates['cover_image'] = $coverPath;
         }
 
-        if ($request->hasFile('music_file')) {
+        // 2. Background Music
+        if ($request->boolean('remove_music')) {
+            $updates['music_url'] = null;
+            $updates['music_title'] = null;
+        } elseif ($request->hasFile('music_file')) {
             $musicFile = $request->file('music_file');
+            if (!$musicFile->isValid()) {
+                $err = $musicFile->getError();
+                $msg = match ($err) {
+                    UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => 'The audio file is too large for the server. Please compress the file or choose an MP3 under 20MB.',
+                    UPLOAD_ERR_PARTIAL => 'The audio file was only partially uploaded. Please try again.',
+                    default => 'Audio upload failed (error code: ' . $err . '). Please try again.',
+                };
+                return redirect()->back()->withErrors(['music_file' => $msg]);
+            }
+
+            $ext = strtolower($musicFile->getClientOriginalExtension());
+            $validExts = ['mp3', 'wav', 'm4a', 'ogg', 'oga', 'aac', 'webm', 'mpeg', 'mpga', 'flac'];
+            if (!in_array($ext, $validExts, true)) {
+                return redirect()->back()->withErrors(['music_file' => 'Unsupported audio format (.' . $ext . '). Please upload an MP3, M4A, WAV, OGG, or AAC file.']);
+            }
+
             $musicPath = $musicFile->store('websites/audio', 'public');
             $updates['music_url'] = $musicPath;
+            if (!$request->filled('music_title')) {
+                $updates['music_title'] = pathinfo($musicFile->getClientOriginalName(), PATHINFO_FILENAME);
+            }
         } elseif ($request->filled('music_url')) {
-            $updates['music_url'] = $request->input('music_url');
+            $updates['music_url'] = trim($request->input('music_url'));
         }
 
+        // 3. Optional Cover Video URL
         if ($request->has('cover_video_url')) {
             $updates['cover_video_url'] = $request->input('cover_video_url');
         }
 
-        if ($request->has('music_title')) {
+        // 4. Music Title (if supplied and not removing)
+        if (!$request->boolean('remove_music') && $request->filled('music_title')) {
             $updates['music_title'] = $request->input('music_title');
         }
 

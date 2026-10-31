@@ -125,14 +125,14 @@
             };
         @endphp
         <div id="audio-widget" class="fixed bottom-6 right-6 z-50">
-            <audio id="bg-audio" loop preload="metadata" playsinline>
+            <audio id="bg-audio" loop autoplay preload="auto" playsinline>
                 @if($musicMime)
                     <source src="{{ $musicUrl }}" type="{{ $musicMime }}">
                 @endif
                 <source src="{{ $musicUrl }}">
             </audio>
 
-            <button type="button" id="audio-toggle-btn" onclick="toggleAudio()" class="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-slate-900/95 text-white border border-amber-400/40 shadow-2xl backdrop-blur-md hover:scale-105 transition-all hover:border-amber-400">
+            <button type="button" id="audio-toggle-btn" onclick="toggleAudio()" class="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-slate-900/95 text-white border border-amber-400/40 shadow-2xl backdrop-blur-md hover:scale-105 transition-all hover:border-amber-400 ring-2 ring-amber-400/50">
                 <div class="relative w-7 h-7 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center">
                     <svg id="play-icon" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
                     <svg id="pause-icon" class="w-3.5 h-3.5 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
@@ -874,7 +874,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 2. Background Audio Controller with Gesture-Based Autoplay Fallback
+        // 2. Background Audio Controller with Automatic Playback & Gesture Fallback
         const bgAudio = document.getElementById('bg-audio');
         let hasInteractedWithAudio = false;
 
@@ -883,6 +883,7 @@
             const pauseIcon = document.getElementById('pause-icon');
             const soundBars = document.getElementById('sound-bars');
             const statusLabel = document.getElementById('audio-status-label');
+            const toggleBtn = document.getElementById('audio-toggle-btn');
 
             if (playIcon) playIcon.classList.toggle('hidden', isPlaying);
             if (pauseIcon) pauseIcon.classList.toggle('hidden', !isPlaying);
@@ -892,9 +893,40 @@
                     soundBars.children[i].classList.toggle(`animate-bar-${i+1}`, isPlaying);
                 }
             }
-            if (statusLabel) {
-                statusLabel.textContent = isPlaying ? 'Playing Melody' : 'Music Paused';
+            if (toggleBtn) {
+                if (isPlaying) {
+                    toggleBtn.classList.remove('ring-2', 'ring-amber-400/50');
+                } else {
+                    toggleBtn.classList.add('ring-2', 'ring-amber-400/50');
+                }
             }
+            if (statusLabel) {
+                statusLabel.textContent = isPlaying ? 'Playing Melody' : 'Play Music';
+            }
+        }
+
+        function attemptPlayAudio() {
+            if (!bgAudio || !bgAudio.paused) return;
+            const playPromise = bgAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    hasInteractedWithAudio = true;
+                    removeGestureListeners();
+                }).catch(err => {
+                    // Browser policy restricted unprompted autoplay - waiting for user touch/scroll/click
+                    console.log('Autoplay waiting for user gesture:', err.name);
+                });
+            }
+        }
+
+        const gestureEvents = ['click', 'touchstart', 'touchend', 'scroll', 'pointerdown', 'mousedown', 'keydown'];
+        const onUserGesture = () => {
+            if (bgAudio && bgAudio.paused) {
+                attemptPlayAudio();
+            }
+        };
+        function removeGestureListeners() {
+            gestureEvents.forEach(evt => window.removeEventListener(evt, onUserGesture, { capture: true, passive: true }));
         }
 
         if (bgAudio) {
@@ -907,6 +939,20 @@
                 if (statusLabel) statusLabel.textContent = 'Audio Unavailable';
                 updateAudioUI(false);
             });
+
+            // 1. Immediate attempt upon script load
+            attemptPlayAudio();
+
+            // 2. Attempt on DOM ready and Window load
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', attemptPlayAudio, { once: true });
+            }
+            window.addEventListener('load', attemptPlayAudio, { once: true });
+
+            // 3. Fallback for strict browsers: start on first touch, scroll, swipe, or click anywhere
+            gestureEvents.forEach(evt => {
+                window.addEventListener(evt, onUserGesture, { capture: true, passive: true });
+            });
         }
 
         function toggleAudio() {
@@ -915,7 +961,7 @@
 
             if (bgAudio.paused) {
                 bgAudio.play().catch(err => {
-                    console.warn('Audio play request error:', err);
+                    console.warn('Manual audio play error:', err);
                     const statusLabel = document.getElementById('audio-status-label');
                     if (statusLabel) statusLabel.textContent = 'Tap to Play';
                 });
@@ -923,24 +969,6 @@
                 bgAudio.pause();
             }
         }
-
-        // Attempt graceful autoplay on first user gesture (touch/click)
-        function tryAutoplayOnFirstGesture() {
-            if (hasInteractedWithAudio || !bgAudio || !bgAudio.paused) return;
-
-            const playPromise = bgAudio.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    hasInteractedWithAudio = true;
-                }).catch(() => {
-                    // Browser policy blocked until user taps the audio widget explicitly
-                });
-            }
-        }
-
-        ['click', 'touchstart'].forEach(evt => {
-            document.addEventListener(evt, tryAutoplayOnFirstGesture, { once: true, passive: true });
-        });
 
         function togglePlusOne(show) {
             const container = document.getElementById('plus-one-container');

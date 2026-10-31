@@ -14,6 +14,20 @@
         </div>
     @endif
 
+    @if($errors->any())
+        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 space-y-2">
+            <div class="flex items-center gap-2 font-bold text-sm">
+                <svg class="w-5 h-5 text-rose-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Please note the following form issues:</span>
+            </div>
+            <ul class="list-disc list-inside text-xs space-y-1 pl-1 font-medium">
+                @foreach($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Hero Header Banner with Actions -->
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 sm:p-8 text-white shadow-xl">
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -355,27 +369,65 @@
                                 </div>
                             @endif
                             <input type="file" name="cover_image" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                            <p class="text-[10px] text-slate-400">Supported: JPG, PNG, WEBP up to 10MB.</p>
                         </div>
 
-                        <!-- Music MP3 -->
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Background Music (MP3)</label>
+                        <!-- Music MP3 & Melodies -->
+                        <div class="space-y-3">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Background Music</label>
+                            
                             @if($website->music_url)
-                                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-xs flex items-center justify-between">
-                                    <span class="truncate font-mono text-[11px] text-slate-700">{{ $website->music_title ?: 'Active Audio Track' }}</span>
-                                    <audio controls class="h-6 w-36">
+                                <div class="p-3 bg-indigo-50/60 rounded-2xl border border-indigo-100 space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                            <span class="font-bold text-xs text-indigo-950 truncate max-w-[160px]">{{ $website->music_title ?: 'Active Melody' }}</span>
+                                        </div>
+                                        <label class="flex items-center gap-1.5 cursor-pointer text-[11px] text-rose-600 font-bold hover:underline">
+                                            <input type="checkbox" name="remove_music" value="1" class="rounded text-rose-600 focus:ring-rose-500 text-xs">
+                                            <span>Remove</span>
+                                        </label>
+                                    </div>
+                                    <audio controls class="w-full h-8" preload="metadata">
                                         <source src="{{ $website->music_url }}">
                                     </audio>
                                 </div>
                             @endif
-                            <input type="file" name="music_file" accept="audio/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                            <input type="text" name="music_title" value="{{ old('music_title', $website->music_title) }}" placeholder="Song / Melody Title" class="w-full rounded-xl border-slate-200 text-xs mt-2">
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Upload Audio File (MP3, WAV, M4A up to 30MB)</label>
+                                <input type="file" name="music_file" accept="audio/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                                @error('music_file')
+                                    <p class="text-rose-600 text-xs font-bold mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="pt-1">
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Or Choose Curated Celebration Melody</label>
+                                <select onchange="if(this.value){ document.getElementById('music_url_field').value = this.value; document.getElementById('music_title_field').value = this.options[this.selectedIndex].text; }" class="w-full rounded-xl border-slate-200 text-xs text-slate-700">
+                                    <option value="">-- Choose a Preset Melody --</option>
+                                    <option value="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=wedding-115317.mp3">Romantic Wedding Acoustic Guitar</option>
+                                    <option value="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=wedding-piano-10065.mp3">Luxury Grand Piano Love Melody</option>
+                                    <option value="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=canon-in-d-major-romantic-wedding-piano-orchestra-10384.mp3">Canon in D - Romantic Grand Orchestra</option>
+                                    <option value="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3234907a7e.mp3?filename=happy-acoustic-guitar-background-music-for-videos-5950.mp3">Upbeat Celebration & Joyful Beats</option>
+                                </select>
+                            </div>
+
+                            <div class="pt-1">
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Or Direct Audio URL (Optional)</label>
+                                <input type="url" name="music_url" id="music_url_field" value="{{ old('music_url', (str_starts_with($website->getRawOriginal('music_url') ?? '', 'http') ? $website->getRawOriginal('music_url') : '')) }}" placeholder="https://domain.com/song.mp3" class="w-full rounded-xl border-slate-200 text-xs">
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Display Title for Song</label>
+                                <input type="text" name="music_title" id="music_title_field" value="{{ old('music_title', $website->music_title) }}" placeholder="e.g. Wedding March / Love Symphony" class="w-full rounded-xl border-slate-200 text-xs">
+                            </div>
                         </div>
                     </div>
 
                     <div class="pt-4 border-t border-slate-100 flex justify-end">
                         <button type="submit" class="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-all">
-                            Upload Media
+                            Save Media &amp; Audio
                         </button>
                     </div>
                 </form>
