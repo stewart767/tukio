@@ -334,4 +334,58 @@ class EventWebsiteTest extends TestCase
         $this->assertTrue($guest->fresh()->attended);
         $this->assertTrue($rsvp->fresh()->is_checked_in);
     }
+
+    public function test_admin_can_view_event_websites_master_list(): void
+    {
+        $admin = User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'phone' => '255700111222',
+            'password' => Hash::make('password'),
+            'role' => 'super_admin',
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($admin);
+
+        $response = $this->get(route('admin.event-websites.index'));
+        $response->assertStatus(200);
+        $response->assertSeeText($this->website->title);
+    }
+
+    public function test_admin_can_view_global_rsvps_and_export_csv(): void
+    {
+        $admin = User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'phone' => '255700111222',
+            'password' => Hash::make('password'),
+            'role' => 'super_admin',
+            'is_active' => true,
+        ]);
+
+        EventRsvp::create([
+            'event_website_id' => $this->website->id,
+            'event_id' => $this->event->id,
+            'full_name' => 'Global Guest 1',
+            'phone' => '255711223344',
+            'attendance_status' => 'attending',
+            'confirmation_code' => 'RSVP-GLOBAL1',
+            'plus_one_count' => 1,
+            'is_checked_in' => false,
+        ]);
+
+        $this->actingAs($admin);
+
+        // Test roster view
+        $viewResponse = $this->get(route('admin.rsvps.index'));
+        $viewResponse->assertStatus(200);
+        $viewResponse->assertSeeText('Global Guest 1');
+        $viewResponse->assertSeeText('RSVP-GLOBAL1');
+
+        // Test CSV export
+        $exportResponse = $this->get(route('admin.rsvps.export'));
+        $exportResponse->assertStatus(200);
+        $this->assertStringContainsString('text/csv', $exportResponse->headers->get('content-type'));
+    }
 }

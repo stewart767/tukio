@@ -172,45 +172,71 @@
             
             <!-- Left: QR Code and Sharing Cards -->
             <div class="lg:col-span-5 space-y-6">
-                <!-- QR Code Box -->
+                <!-- QR Code & Link Sharing Box -->
                 <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm text-center space-y-4">
-                    <h3 class="font-heading font-black text-lg text-slate-900">Website QR Code</h3>
+                    <h3 class="font-heading font-black text-lg text-slate-900">Website QR Code &amp; Link</h3>
                     <p class="text-xs text-slate-500">Scan to open the event website instantly on any mobile device.</p>
                     
                     <div class="w-56 h-56 mx-auto p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center shadow-inner">
                         <img src="{{ $websiteQrCodeUrl }}" alt="Event QR Code" class="w-full h-full object-contain">
                     </div>
 
-                    <div class="flex items-center justify-center gap-3">
-                        <a href="{{ $websiteQrCodeUrl }}" download="{{ $website->slug }}-qrcode.svg" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all">
-                            Download QR Code
+                    <!-- Direct Public Link Copy Strip -->
+                    <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between gap-2 text-left">
+                        <div class="min-w-0 flex-1">
+                            <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Public Event Link</span>
+                            <span class="text-xs font-mono font-bold text-indigo-600 truncate block">{{ $website->public_url }}</span>
+                        </div>
+                        <button type="button" onclick="navigator.clipboard.writeText('{{ $website->public_url }}'); this.innerText='Copied!'; setTimeout(() => this.innerText='Copy', 2000);" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shrink-0 transition-all shadow-xs">
+                            Copy
+                        </button>
+                    </div>
+
+                    <!-- WhatsApp One-Click Direct Share -->
+                    @php
+                        $shareText = urlencode("Hello! You are cordially invited to celebrate " . $website->title . ".\n\nPlease view our official event website and confirm your attendance (RSVP) here:\n" . $website->public_url);
+                        $waShareUrl = "https://api.whatsapp.com/send?text=" . $shareText;
+                    @endphp
+                    <a href="{{ $waShareUrl }}" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold text-xs shadow-md shadow-emerald-500/20 transition-all flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.073-2.072-.497-1.758-.729-2.883-2.518-2.97-2.634-.088-.117-.714-.951-.714-1.815 0-.864.453-1.289.614-1.464.161-.176.351-.22.468-.22.117 0 .234.001.336.006.107.005.252-.04.394.301.146.353.498 1.216.542 1.304.044.088.073.191.015.308-.059.117-.088.19-.176.293-.088.102-.185.228-.264.307-.088.088-.18.183-.078.359.102.176.455.751.977 1.216.671.597 1.238.782 1.414.87.176.088.278.073.38-.044.102-.117.439-.512.556-.688.117-.176.234-.146.395-.088.161.059 1.025.483 1.201.571.176.088.293.132.336.205.044.073.044.425-.1.83z"/></svg>
+                        <span>Share Invite via WhatsApp</span>
+                    </a>
+
+                    <div class="flex items-center justify-center gap-3 pt-1">
+                        <a href="{{ $websiteQrCodeUrl }}" download="{{ $website->slug }}-qrcode.svg" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            <span>Download QR Code</span>
                         </a>
-                        <button type="button" onclick="window.print()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-all">
-                            Print Stand
+                        <button type="button" onclick="window.print()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-all flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                            <span>Print Stand</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Live Countdown Design Preview -->
                 <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-3">
-                    <h3 class="font-heading font-black text-sm text-slate-900">Active Countdown Timer</h3>
-                    <p class="text-xs text-slate-500">Target Date: {{ $website->event_date ? $website->event_date->format('M d, Y') : 'Not Set' }} at {{ $website->event_time ?: '18:00' }}</p>
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-heading font-black text-sm text-slate-900">Active Countdown Clock</h3>
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live Clock"></span>
+                    </div>
+                    <p class="text-xs text-slate-500">Target: {{ $website->event_date ? $website->event_date->format('M d, Y') : 'Not Set' }} at {{ $website->event_time ?: '18:00' }}</p>
 
-                    <div class="grid grid-cols-4 gap-2 pt-2 text-center">
+                    <div class="grid grid-cols-4 gap-2 pt-2 text-center" id="host-preview-countdown">
                         <div class="bg-slate-900 text-amber-400 p-2.5 rounded-xl border border-amber-500/20 shadow-sm">
-                            <span class="text-lg font-black font-heading block">00</span>
+                            <span id="dash-cd-days" class="text-lg font-black font-heading block">00</span>
                             <span class="text-[9px] uppercase tracking-wider text-slate-400">Days</span>
                         </div>
                         <div class="bg-slate-900 text-amber-400 p-2.5 rounded-xl border border-amber-500/20 shadow-sm">
-                            <span class="text-lg font-black font-heading block">00</span>
+                            <span id="dash-cd-hours" class="text-lg font-black font-heading block">00</span>
                             <span class="text-[9px] uppercase tracking-wider text-slate-400">Hours</span>
                         </div>
                         <div class="bg-slate-900 text-amber-400 p-2.5 rounded-xl border border-amber-500/20 shadow-sm">
-                            <span class="text-lg font-black font-heading block">00</span>
+                            <span id="dash-cd-mins" class="text-lg font-black font-heading block">00</span>
                             <span class="text-[9px] uppercase tracking-wider text-slate-400">Mins</span>
                         </div>
                         <div class="bg-slate-900 text-amber-400 p-2.5 rounded-xl border border-amber-500/20 shadow-sm">
-                            <span class="text-lg font-black font-heading block">00</span>
+                            <span id="dash-cd-secs" class="text-lg font-black font-heading block">00</span>
                             <span class="text-[9px] uppercase tracking-wider text-slate-400">Secs</span>
                         </div>
                     </div>
@@ -1013,6 +1039,36 @@ function ewToggleSectionEditor(id) {
         chevron.classList.toggle('rotate-180');
     }
 }
+
+// Live Dashboard Countdown Clock
+document.addEventListener('DOMContentLoaded', function() {
+    const targetDateStr = "{{ $website->event_date ? $website->event_date->format('Y-m-d') : '' }} {{ $website->event_time ?: '18:00' }}".trim();
+    if (targetDateStr) {
+        const targetDate = new Date(targetDateStr.replace(' ', 'T')).getTime();
+        function updateDashCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const dEl = document.getElementById('dash-cd-days');
+                const hEl = document.getElementById('dash-cd-hours');
+                const mEl = document.getElementById('dash-cd-mins');
+                const sEl = document.getElementById('dash-cd-secs');
+
+                if (dEl) dEl.innerText = String(days).padStart(2, '0');
+                if (hEl) hEl.innerText = String(hours).padStart(2, '0');
+                if (mEl) mEl.innerText = String(minutes).padStart(2, '0');
+                if (sEl) sEl.innerText = String(seconds).padStart(2, '0');
+            }
+        }
+        updateDashCountdown();
+        setInterval(updateDashCountdown, 1000);
+    }
+});
 </script>
 @endpush
 

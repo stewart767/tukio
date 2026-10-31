@@ -319,6 +319,11 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('venues/{venue}/toggle-active', [App\Http\Controllers\Admin\VenueController::class, 'toggleActive'])->name('venues.toggle-active');
         Route::patch('venues/{venue}/toggle-featured', [App\Http\Controllers\Admin\VenueController::class, 'toggleFeatured'])->name('venues.toggle-featured');
 
+        // Digital Event Websites & Global RSVP Control
+        Route::get('event-websites', [App\Http\Controllers\Admin\AdminEventWebsiteController::class, 'index'])->name('event-websites.index');
+        Route::get('rsvps', [App\Http\Controllers\Admin\AdminEventWebsiteController::class, 'allRsvps'])->name('rsvps.index');
+        Route::get('rsvps/export', [App\Http\Controllers\Admin\AdminEventWebsiteController::class, 'exportRsvps'])->name('rsvps.export');
+
         Route::prefix('settings')->name('settings.')->controller(SettingController::class)->group(function () {
             Route::get('', 'index')->name('index');
             Route::post('/system', 'updateSystem')->name('system');
