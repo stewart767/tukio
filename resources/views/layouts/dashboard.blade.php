@@ -286,17 +286,18 @@
                         </li>
                         @endif
 
-                        <!-- Staff Specific Section -->
-                        @if(auth()->user()->role === 'staff')
+                        <!-- Smart Gate & QR Scanner (Admin & Staff) -->
+                        @if(in_array(auth()->user()->role, ['super_admin', 'event_admin', 'staff']))
                         <li>
-                            <div class="text-[11px] font-bold leading-5 text-slate-400 uppercase tracking-wider px-3 mb-2">Staff Terminal</div>
+                            <div class="text-[11px] font-bold leading-5 text-slate-400 uppercase tracking-wider px-3 mb-2">Gate &amp; Scanner</div>
                             <ul role="list" class="space-y-1">
                                 <li>
-                                    <a href="{{ route('staff.scanner') }}" class="admin-nav-link {{ request()->routeIs('staff.scanner') ? 'active' : '' }}">
-                                        <svg class="h-5 w-5 shrink-0 transition-colors {{ request()->routeIs('staff.scanner') ? 'text-indigo-600' : 'text-slate-400' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                    <a href="{{ route('staff.scanner') }}" class="admin-nav-link {{ request()->routeIs('staff.scanner', 'admin.scanner') ? 'active' : '' }}">
+                                        <svg class="h-5 w-5 shrink-0 transition-colors {{ request()->routeIs('staff.scanner', 'admin.scanner') ? 'text-indigo-600' : 'text-slate-400' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
                                         </svg>
-                                        <span>QR Scanner</span>
+                                        <span class="flex-1 font-semibold">Smart Gate Scanner</span>
+                                        <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700">Live</span>
                                     </a>
                                 </li>
                                 <li>
@@ -304,7 +305,7 @@
                                         <svg class="h-5 w-5 shrink-0 transition-colors {{ request()->routeIs('staff.attendance') ? 'text-indigo-600' : 'text-slate-400' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-                                        <span>Attendance</span>
+                                        <span>Attendance Records</span>
                                     </a>
                                 </li>
                             </ul>
@@ -386,7 +387,14 @@
 
                         <!-- Quick Action Dropdown Menu -->
                         <div id="quick-action-menu" class="hidden absolute right-0 mt-2 w-56 rounded-2xl bg-white p-2 shadow-2xl border border-slate-100 ring-1 ring-black/5 z-50 transform origin-top-right transition-all">
-                            <div class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">Create New</div>
+                            <div class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">Gate &amp; Operations</div>
+                            <a href="{{ route('staff.scanner') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-emerald-800 bg-emerald-50/70 rounded-xl hover:bg-emerald-100 transition-colors mb-1">
+                                <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                                </span>
+                                <span class="font-bold">Open Gate Scanner</span>
+                            </a>
+                            <div class="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-t border-slate-100 mt-1 pt-1.5">Create New</div>
                             @if(auth()->user()->role === 'super_admin')
                                 <a href="{{ route('admin.hosts.create') }}" class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
                                     <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">

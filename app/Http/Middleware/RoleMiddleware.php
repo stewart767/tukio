@@ -13,16 +13,33 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
-        $roles = explode(',', $role);
         $userRole = auth()->user()->role;
 
-        if (!in_array($userRole, $roles)) {
+        // Super Admin has universal access to all staff and administrative endpoints
+        if ($userRole === 'super_admin') {
+            return $next($request);
+        }
+
+        // Unpack variadic, comma-separated, or pipe-separated roles
+        $allowedRoles = [];
+        foreach ($roles as $roleArg) {
+            foreach (explode(',', $roleArg) as $subRole) {
+                foreach (explode('|', $subRole) as $finalRole) {
+                    $cleaned = trim($finalRole);
+                    if ($cleaned !== '') {
+                        $allowedRoles[] = $cleaned;
+                    }
+                }
+            }
+        }
+
+        if (!in_array($userRole, $allowedRoles, true)) {
             abort(403, 'Unauthorized access.');
         }
 

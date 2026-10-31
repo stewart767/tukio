@@ -23,7 +23,13 @@
             <p class="text-xs sm:text-sm text-slate-500">Add an individual guest or import your guest list in bulk.</p>
         </div>
 
-        <div class="flex items-center gap-3 shrink-0">
+        <div class="flex items-center gap-3 shrink-0 flex-wrap">
+            <button type="button" id="phoneContactsBtn" class="modern-button bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 font-semibold">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+                <span>📱 Chagua Toka Simu (Contacts)</span>
+            </button>
             <button type="button" onclick="openBulkImportModal()" class="modern-button modern-button-secondary {{ $remainingGuests <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}"
                     @if($remainingGuests <= 0) onclick="return false;" title="Guest limit reached" @endif>
                 <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,6 +105,68 @@
                     @error('phone')
                         <p class="error-message">{{ $message }}</p>
                     @enderror
+                </div>
+
+                <!-- Table Number -->
+                <div class="space-y-1.5">
+                    <label for="table_number" class="modern-label">
+                        Namba ya Meza (Table No.)
+                    </label>
+                    <input id="table_number" name="table_number" type="text"
+                           value="{{ old('table_number') }}"
+                           class="modern-input"
+                           placeholder="Mfano: Meza Na. 4 au VIP 1">
+                </div>
+
+                <!-- Category / Group -->
+                <div class="space-y-1.5">
+                    <label for="category" class="modern-label">
+                        Kundi la Mgeni (Category)
+                    </label>
+                    <select id="category" name="category" class="modern-select">
+                        <option value="friends">Marafiki (Friends)</option>
+                        <option value="family">Familia / Ndugu</option>
+                        <option value="work">Wafanyakazi Wenzangu (Colleagues)</option>
+                        <option value="vip">Wageni Maalum (VIP)</option>
+                        <option value="committee">Kamati ya Maandalizi</option>
+                        <option value="other">Wengineo</option>
+                    </select>
+                </div>
+
+                <!-- Ahadi ya Mchango (Amount Pledged) -->
+                <div class="space-y-1.5">
+                    <label for="amount_pledged" class="modern-label">
+                        Ahadi ya Mchango (TZS)
+                    </label>
+                    <input id="amount_pledged" name="amount_pledged" type="number" step="1000" min="0"
+                           value="{{ old('amount_pledged', '0') }}"
+                           class="modern-input"
+                           placeholder="Mfano: 100000">
+                </div>
+
+                <!-- Kiasi Kilicholipwa (Amount Paid) -->
+                <div class="space-y-1.5">
+                    <label for="amount_paid" class="modern-label">
+                        Kiasi Kilicholipwa (TZS)
+                    </label>
+                    <input id="amount_paid" name="amount_paid" type="number" step="1000" min="0"
+                           value="{{ old('amount_paid', '0') }}"
+                           class="modern-input"
+                           placeholder="Mfano: 100000">
+                </div>
+
+                <!-- Njia ya Malipo (Payment Method) -->
+                <div class="space-y-1.5 md:col-span-2">
+                    <label for="payment_method" class="modern-label">
+                        Njia ya Malipo (Kama amelipa)
+                    </label>
+                    <select id="payment_method" name="payment_method" class="modern-select">
+                        <option value="">-- Bado Hajalipa --</option>
+                        <option value="cash">Pesa Taslimu (Cash Mkononi)</option>
+                        <option value="wakala">Wakala / M-Pesa / Tigo-Pesa</option>
+                        <option value="lipa_namba">Lipa Namba ya Kamati</option>
+                        <option value="bank">Akaunti ya Benki (CRDB/NMB)</option>
+                    </select>
                 </div>
             </div>
 
@@ -202,5 +270,30 @@ function closeBulkImportModal() {
         modal.classList.remove('flex');
     }
 }
+
+// Smartphone Contact Picker API
+document.getElementById('phoneContactsBtn')?.addEventListener('click', async () => {
+    if ('contacts' in navigator && 'ContactsManager' in window) {
+        try {
+            const props = ['name', 'tel'];
+            const contacts = await navigator.contacts.select(props, { multiple: false });
+            if (contacts && contacts.length > 0) {
+                const c = contacts[0];
+                if (c.name && c.name.length > 0) {
+                    document.getElementById('full_name').value = c.name[0];
+                }
+                if (c.tel && c.tel.length > 0) {
+                    // Auto clean phone number for Tanzania
+                    let rawPhone = c.tel[0].replace(/[^0-9+]/g, '');
+                    document.getElementById('phone').value = rawPhone;
+                }
+            }
+        } catch (ex) {
+            console.log('Contact picker error or cancelled:', ex);
+        }
+    } else {
+        alert('📱 Kipengele cha kuchagua mawasiliano kinaruhusiwa unapotumia simu (Android / iOS / Chrome). Kwenye kompyuta, tafadhali andika jina na namba hapo chini.');
+    }
+});
 </script>
 @endsection

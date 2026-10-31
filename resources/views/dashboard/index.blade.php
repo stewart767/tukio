@@ -5,33 +5,32 @@
 @section('content')
 <div class="space-y-8 pb-8">
     
-    <!-- Executive Welcome Hero Hub -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 lg:p-10 shadow-xl border border-indigo-900/40">
-        <!-- Ambient decorative lights -->
-        <div class="absolute top-0 right-0 -mt-8 -mr-8 w-72 h-72 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 left-1/3 -mb-12 w-64 h-64 rounded-full bg-purple-500/15 blur-3xl pointer-events-none"></div>
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+    <!-- Executive Welcome Hero Hub (Clean Light Theme) -->
+    <div class="relative overflow-hidden rounded-3xl bg-white/95 text-slate-900 p-6 sm:p-8 lg:p-10 shadow-sm border border-slate-200/80 backdrop-blur-md">
+        <!-- Ambient decorative soft glow -->
+        <div class="absolute top-0 right-0 -mt-8 -mr-8 w-72 h-72 rounded-full bg-emerald-100/50 blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-1/3 -mb-12 w-64 h-64 rounded-full bg-indigo-50/70 blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div class="space-y-3">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-indigo-200">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span>Executive Command Center</span>
-                    <span class="text-white/40">•</span>
-                    <span class="text-emerald-300">Live Synced</span>
+                    <span class="text-slate-300">•</span>
+                    <span class="text-emerald-700">Live Synced</span>
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 to-slate-900 p-0.5 shadow-lg shadow-indigo-500/30 flex items-center justify-center shrink-0">
-                        <div class="w-full h-full bg-slate-900/40 rounded-[14px] flex items-center justify-center backdrop-blur-xs text-indigo-300">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-indigo-600 p-0.5 shadow-md shadow-emerald-500/20 flex items-center justify-center shrink-0">
+                        <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center text-emerald-700">
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white font-heading">
-                            Welcome back, <span class="bg-gradient-to-r from-white via-indigo-100 to-indigo-300 bg-clip-text text-transparent">{{ auth()->user()->name }}</span>
+                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 font-heading">
+                            Welcome back, <span class="text-emerald-700">{{ auth()->user()->name }}</span>
                         </h1>
-                        <p class="text-slate-300 text-sm sm:text-base mt-1">
+                        <p class="text-slate-600 text-sm sm:text-base mt-1">
                             Here's what is happening across your events, hosts, and fleet mobility today.
                         </p>
                     </div>
@@ -41,33 +40,33 @@
             <!-- Quick Action Hub in Hero -->
             <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 @if(auth()->user()->isSuperAdmin())
-                    <a href="{{ route('admin.hosts.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:scale-[1.02]">
-                        <svg class="w-4 h-4 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('admin.hosts.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs sm:text-sm font-bold text-slate-800 shadow-xs transition-all duration-200 hover:scale-[1.02]">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                         </svg>
                         <span>Add Host</span>
                     </a>
-                    <a href="{{ route('admin.vehicles.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:scale-[1.02]">
-                        <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.175V3.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75"></path>
+                    <a href="{{ route('staff.scanner') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-xs sm:text-sm font-bold text-emerald-800 shadow-xs transition-all duration-200 hover:scale-[1.02]">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
                         </svg>
-                        <span>Fleet Center</span>
+                        <span>Gate Scanner</span>
                     </a>
-                    <a href="{{ route('admin.reports.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:scale-[1.02]">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('admin.reports.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs sm:text-sm font-bold text-white shadow-md shadow-slate-900/10 transition-all duration-200 hover:scale-[1.02]">
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
                         <span>View Analytics</span>
                     </a>
                 @elseif(auth()->user()->isEventAdmin())
-                    <a href="{{ route('host.events.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:scale-[1.02]">
+                    <a href="{{ route('host.events.index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs sm:text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-all duration-200 hover:scale-[1.02]">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
                         <span>Manage Events</span>
                     </a>
                 @elseif(auth()->user()->isStaff())
-                    <a href="{{ route('staff.scanner') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition-all duration-200 hover:scale-[1.02]">
+                    <a href="{{ route('staff.scanner') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs sm:text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-all duration-200 hover:scale-[1.02]">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
                         </svg>
@@ -283,20 +282,20 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             <!-- 1. Recent Events Interactive List -->
-            <div class="glass-surface rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm">
-                <div class="p-5 sm:p-6 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between">
+            <div class="glass-surface rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm bg-white">
+                <div class="p-5 sm:p-6 bg-slate-50/90 border-b border-slate-200/80 text-slate-800 flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-indigo-300">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-white font-heading">Recent Events</h3>
-                            <p class="text-xs text-indigo-200">Latest created event workspaces</p>
+                            <h3 class="text-base font-bold text-slate-900 font-heading">Recent Events</h3>
+                            <p class="text-xs text-slate-500">Latest created event workspaces</p>
                         </div>
                     </div>
-                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/10">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-white text-slate-700 border border-slate-200 shadow-xs">
                         {{ count($data['recent_events']) }} Shown
                     </span>
                 </div>
@@ -341,20 +340,20 @@
             </div>
 
             <!-- 2. Recent Users & Team Access Hub -->
-            <div class="glass-surface rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm">
-                <div class="p-5 sm:p-6 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between">
+            <div class="glass-surface rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm bg-white">
+                <div class="p-5 sm:p-6 bg-slate-50/90 border-b border-slate-200/80 text-slate-800 flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-emerald-300">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-white font-heading">Recent Users</h3>
-                            <p class="text-xs text-emerald-200">System accounts and roles</p>
+                            <h3 class="text-base font-bold text-slate-900 font-heading">Recent Users</h3>
+                            <p class="text-xs text-slate-500">System accounts and roles</p>
                         </div>
                     </div>
-                    <a href="{{ route('admin.users.index') }}" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/10 text-white hover:bg-white/20 transition-colors border border-white/10">
+                    <a href="{{ route('admin.users.index') }}" class="px-3 py-1 rounded-full text-xs font-bold bg-white text-indigo-600 hover:text-indigo-800 border border-slate-200 shadow-xs transition-colors">
                         View All Users &rarr;
                     </a>
                 </div>

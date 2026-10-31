@@ -25,7 +25,8 @@ class ExampleDataSeeder extends Seeder
         $superAdmin = User::where('role', 'super_admin')->first();
         $staffUser = User::where('role', 'staff')->first();
 
-        $weddingTemplate = Template::where('category', 'wedding')->first();
+        $weddingTemplate = Template::where('slug', 'luxury-ivory-gold-nuptials')->first() 
+            ?? Template::where('category', 'wedding')->first();
         $birthdayTemplate = Template::where('category', 'birthday')->first();
         $kitchenPartyTemplate = Template::where('category', 'kitchen_party')->first();
         $sendOffTemplate = Template::where('category', 'send_off')->first();
@@ -79,6 +80,10 @@ class ExampleDataSeeder extends Seeder
                 'template_id' => $weddingTemplate?->id,
                 'status' => 'active',
                 'event_password' => 'WED26',
+                'gate_pin' => '4829',
+                'lipa_namba' => '5544332',
+                'account_name' => 'HARUSI YA MICHAEL NA JESSICA',
+                'treasurer_phone' => '+255754123456',
                 'guest_count' => 300,
                 'total_cost' => 600000.00,
                 'staff_id' => $staffUser?->id,
@@ -86,22 +91,24 @@ class ExampleDataSeeder extends Seeder
             ]
         );
 
-        // Assign staff to event
-        if ($staffUser) {
-            $weddingEvent->staffMembers()->syncWithoutDetaching([$staffUser->id]);
+        // Assign staff and all 3 admin accounts to the event
+        $allAdminAndStaffIds = User::whereIn('role', ['super_admin', 'staff'])->pluck('id')->toArray();
+        if (!empty($allAdminAndStaffIds)) {
+            $weddingEvent->staffMembers()->syncWithoutDetaching($allAdminAndStaffIds);
         }
 
         // Guests & Invitations for Wedding
         $weddingGuests = [
-            ['name' => 'Hon. Juma Mwinyi', 'phone' => '255711000001', 'type' => 'double', 'status' => 'active', 'attended' => false],
-            ['name' => 'Dr. Grace Massawe', 'phone' => '255711000002', 'type' => 'single', 'status' => 'attended', 'attended' => true, 'attended_at' => now()->subMinutes(45)],
-            ['name' => 'Mr. Emmanuel & Sarah Temu', 'phone' => '255711000003', 'type' => 'double', 'status' => 'active', 'attended' => false],
-            ['name' => 'Eng. Peter Lyimo', 'phone' => '255711000004', 'type' => 'single', 'status' => 'active', 'attended' => false],
-            ['name' => 'Asha Bakari', 'phone' => '255711000005', 'type' => 'single', 'status' => 'active', 'attended' => false],
+            ['name' => 'Hon. Juma Mwinyi', 'phone' => '255711000001', 'type' => 'double', 'table' => 'Meza VIP 1', 'pin' => '4821', 'status' => 'active', 'attended' => false],
+            ['name' => 'Dr. Grace Massawe', 'phone' => '255711000002', 'type' => 'single', 'table' => 'Meza VIP 2', 'pin' => '4822', 'status' => 'attended', 'attended' => true, 'attended_at' => now()->subMinutes(45)],
+            ['name' => 'Mr. Emmanuel & Sarah Temu', 'phone' => '255711000003', 'type' => 'double', 'table' => 'Meza Na. 3 (Familia)', 'pin' => '4823', 'status' => 'active', 'attended' => false],
+            ['name' => 'Eng. Peter Lyimo', 'phone' => '255711000004', 'type' => 'single', 'table' => 'Meza Na. 4 (Kazini)', 'pin' => '4824', 'status' => 'active', 'attended' => false],
+            ['name' => 'Asha Bakari (Kitochi SMS)', 'phone' => '255711000005', 'type' => 'single', 'table' => 'Meza Na. 5 (Marafiki)', 'pin' => '4825', 'status' => 'active', 'attended' => false],
         ];
 
         foreach ($weddingGuests as $idx => $gData) {
             $code = '1000' . ($idx + 1);
+            $pax = $gData['type'] === 'double' ? 2 : 1;
             $guest = Guest::updateOrCreate(
                 ['event_id' => $weddingEvent->id, 'phone' => $gData['phone']],
                 [
@@ -112,6 +119,16 @@ class ExampleDataSeeder extends Seeder
                     'attended_at' => $gData['attended_at'] ?? null,
                     'qr_code' => Str::random(12),
                     'invitation_code' => $code,
+                    'pin_code' => $gData['pin'],
+                    'table_number' => $gData['table'],
+                    'pax' => $pax,
+                    'pax_checked_in' => $gData['attended'] ? $pax : 0,
+                    'amount_pledged' => 100000.00,
+                    'amount_paid' => 100000.00,
+                    'payment_method' => 'cash',
+                    'payment_status' => 'paid',
+                    'rsvp_status' => $gData['attended'] ? 'confirmed' : 'pending',
+                    'category' => 'friends',
                 ]
             );
 
