@@ -239,6 +239,113 @@ class EventWebsite extends Model
     }
 
     /**
+     * Get primary hero cover photo, seamlessly falling back to host event uploads.
+     */
+    public function getHeroPhotoUrl(): ?string
+    {
+        if (!empty($this->cover_image)) {
+            return storage_url($this->cover_image);
+        }
+
+        $host = $this->event?->host;
+        $eventData = array_merge(
+            (array) ($host?->event_config_data ?? []),
+            (array) ($this->event?->custom_data ?? [])
+        );
+
+        foreach (['couple_photo_main', 'couple_photo_secondary', 'photo', 'celebrant_photo', 'bride_photo'] as $key) {
+            if (!empty($eventData[$key])) {
+                return storage_url('event_uploads/' . $eventData[$key]);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get celebrant / about photo, seamlessly falling back to host event uploads.
+     */
+    public function getAboutPhotoUrl(): ?string
+    {
+        $aboutSec = $this->getSection('about');
+        if (!empty($aboutSec?->content['image'])) {
+            return storage_url($aboutSec->content['image']);
+        }
+
+        if (!empty($this->cover_image)) {
+            return storage_url($this->cover_image);
+        }
+
+        $host = $this->event?->host;
+        $eventData = array_merge(
+            (array) ($host?->event_config_data ?? []),
+            (array) ($this->event?->custom_data ?? [])
+        );
+
+        foreach (['couple_photo_main', 'celebrant_photo', 'photo', 'bride_photo', 'couple_photo_secondary'] as $key) {
+            if (!empty($eventData[$key])) {
+                return storage_url('event_uploads/' . $eventData[$key]);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get gallery photos, showcasing uploaded celebration photos if gallery section is unset.
+     */
+    public function getGalleryPhotos(): array
+    {
+        $galSec = $this->getSection('gallery');
+        $rawImages = $galSec?->content['images'] ?? [];
+        $images = [];
+
+        foreach ($rawImages as $img) {
+            if (!empty($img['url'])) {
+                $images[] = [
+                    'url' => storage_url($img['url']),
+                    'caption' => $img['caption'] ?? 'Celebration moment',
+                ];
+            }
+        }
+
+        // Seamless fallback to host event uploads if no custom gallery was uploaded
+        if (empty($images)) {
+            $host = $this->event?->host;
+            $eventData = array_merge(
+                (array) ($host?->event_config_data ?? []),
+                (array) ($this->event?->custom_data ?? [])
+            );
+
+            $labels = [
+                'couple_photo_main' => 'Happy Couple',
+                'couple_photo_secondary' => 'Special Moments',
+                'photo' => 'Celebration Portrait',
+                'bride_photo' => 'The Bride',
+                'celebrant_photo' => 'The Celebrant',
+            ];
+
+            foreach ($labels as $key => $label) {
+                if (!empty($eventData[$key])) {
+                    $images[] = [
+                        'url' => storage_url('event_uploads/' . $eventData[$key]),
+                        'caption' => $label,
+                    ];
+                }
+            }
+
+            if (!empty($this->cover_image)) {
+                $images[] = [
+                    'url' => storage_url($this->cover_image),
+                    'caption' => $this->title,
+                ];
+            }
+        }
+
+        return $images;
+    }
+
+    /**
      * Initialize all 13 standard sections with rich default configurations.
      */
     public function initDefaultSections(): void

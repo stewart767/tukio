@@ -212,9 +212,12 @@
     <!-- SECTION 1: HERO / WELCOME -->
     <section id="home" class="relative min-h-[92vh] flex items-center justify-center text-center px-4 py-24 overflow-hidden" style="background-color: var(--bg-color);">
         <!-- Background Image / Video with Gradient Overlay -->
-        @if($website->cover_image)
+        @php
+            $heroPhoto = $website->getHeroPhotoUrl();
+        @endphp
+        @if($heroPhoto)
             <div class="absolute inset-0 z-0">
-                <img src="{{ Storage::url($website->cover_image) }}" alt="Hero Background" class="w-full h-full object-cover opacity-35">
+                <img src="{{ storage_url($heroPhoto) }}" alt="Hero Background" class="w-full h-full object-cover opacity-35">
                 <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-black/60 to-black/80"></div>
             </div>
         @else
@@ -339,10 +342,11 @@
                     <div class="relative mx-auto max-w-sm">
                         <div class="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-amber-400 via-amber-500 to-amber-200 opacity-30 blur-xl"></div>
                         <div class="relative rounded-3xl overflow-hidden border-2 border-amber-400/30 bg-slate-900 shadow-2xl aspect-[4/5] flex items-center justify-center">
-                            @if(!empty($aboutContent['image']))
-                                <img src="{{ $aboutContent['image'] }}" alt="Celebrant" class="w-full h-full object-cover">
-                            @elseif($website->cover_image)
-                                <img src="{{ Storage::url($website->cover_image) }}" alt="Celebrant" class="w-full h-full object-cover">
+                            @php
+                                $aboutPhoto = $website->getAboutPhotoUrl();
+                            @endphp
+                            @if($aboutPhoto)
+                                <img src="{{ storage_url($aboutPhoto) }}" alt="{{ $website->host_names ?: $website->title }}" class="w-full h-full object-cover">
                             @else
                                 <div class="text-center p-8 space-y-3">
                                     <span class="w-20 h-20 rounded-full border border-amber-400/40 bg-amber-400/10 flex items-center justify-center text-4xl text-amber-300 font-theme-heading font-black mx-auto">
@@ -569,8 +573,7 @@
     <!-- SECTION 11: PHOTO GALLERY -->
     @if($website->isSectionEnabled('gallery'))
         @php
-            $galSec = $website->getSection('gallery');
-            $galImages = array_filter($galSec?->content['images'] ?? [], fn($i) => !empty($i['url']));
+            $galImages = $website->getGalleryPhotos();
         @endphp
         @if(count($galImages) > 0)
             <section id="gallery" class="py-24 px-4 bg-slate-950/40 border-t border-white/10">
@@ -585,7 +588,7 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @foreach($galImages as $img)
                             <div class="group relative rounded-2xl overflow-hidden aspect-square border border-white/10 bg-slate-900 shadow-lg">
-                                <img src="{{ $img['url'] }}" alt="{{ $img['caption'] ?? 'Moment' }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <img src="{{ storage_url($img['url']) }}" alt="{{ $img['caption'] ?? 'Moment' }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                 @if(!empty($img['caption']))
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex items-end text-xs text-white">
                                         {{ $img['caption'] }}

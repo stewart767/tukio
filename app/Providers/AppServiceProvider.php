@@ -58,20 +58,27 @@ namespace {
                 return $path;
             }
 
+            // Clean path - strip any leading slashes and whitespace
+            $clean = ltrim(trim($path), '/\\');
+
             // If already begins with asset paths like media/ or storage/
-            if (str_starts_with($path, 'media/')) {
-                return asset($path);
+            if (str_starts_with($clean, 'media/')) {
+                return asset($clean);
             }
 
-            if (str_starts_with($path, 'storage/')) {
-                return asset($path);
+            if (str_starts_with($clean, 'storage/')) {
+                return asset($clean);
             }
 
             // Normalize path - remove 'public/' prefix if present
-            $normalized = preg_replace('#^public/#', '', (string) $path);
-            $normalized = ltrim($normalized, '/');
+            $normalized = preg_replace('#^public/#', '', $clean);
+            $normalized = ltrim($normalized, '/\\');
 
-            // Use asset() for consistent relative URLs that work with .htaccess routing
+            if (str_starts_with($normalized, 'storage/')) {
+                return asset($normalized);
+            }
+
+            // Use asset() for consistent URLs
             return asset('storage/' . $normalized);
         }
     }

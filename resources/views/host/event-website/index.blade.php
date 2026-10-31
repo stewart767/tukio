@@ -343,9 +343,15 @@
                         <!-- Cover Image -->
                         <div class="space-y-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Cover Image / Hero Artwork</label>
-                            @if($website->cover_image)
-                                <div class="w-full h-32 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 mb-2">
-                                    <img src="{{ Storage::url($website->cover_image) }}" alt="Cover" class="w-full h-full object-cover">
+                            @php
+                                $currentHeroPhoto = $website->getHeroPhotoUrl();
+                            @endphp
+                            @if($currentHeroPhoto)
+                                <div class="relative w-full h-36 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 mb-2 group">
+                                    <img src="{{ storage_url($currentHeroPhoto) }}" alt="Cover" class="w-full h-full object-cover">
+                                    <div class="absolute bottom-2 left-2 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur text-[10px] text-white font-medium">
+                                        {{ $website->cover_image ? 'Custom Website Cover' : 'Inherited from Event Setup' }}
+                                    </div>
                                 </div>
                             @endif
                             <input type="file" name="cover_image" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
@@ -603,6 +609,15 @@
                                         <input type="text" name="content[quote]" value="{{ $section->content['quote'] ?? '' }}" class="w-full rounded-xl border-slate-200 text-xs">
 
                                         <label class="block text-xs font-bold text-slate-600">Celebrant Portrait Photo</label>
+                                        @php
+                                            $aboutThumb = $website->getAboutPhotoUrl();
+                                        @endphp
+                                        @if($aboutThumb)
+                                            <div class="flex items-center gap-3 p-2 bg-slate-50 border border-slate-200 rounded-xl mb-2">
+                                                <img src="{{ storage_url($aboutThumb) }}" alt="Preview" class="w-12 h-12 rounded-lg object-cover">
+                                                <span class="text-xs text-slate-600 font-medium truncate">Active Celebrant Photo</span>
+                                            </div>
+                                        @endif
                                         <input type="file" name="about_image" accept="image/*" class="w-full text-xs text-slate-500">
                                     </div>
                                 @elseif($section->section_key === 'dress_code')
@@ -615,7 +630,20 @@
                                     </div>
                                 @elseif($section->section_key === 'gallery')
                                     <div class="space-y-3 pt-2">
-                                        <label class="block text-xs font-bold text-slate-600">Upload Additional Gallery Photos</label>
+                                        <label class="block text-xs font-bold text-slate-600">Gallery Photos</label>
+                                        @php
+                                            $currentGal = $website->getGalleryPhotos();
+                                        @endphp
+                                        @if(count($currentGal) > 0)
+                                            <div class="flex flex-wrap gap-2 mb-2">
+                                                @foreach($currentGal as $gImg)
+                                                    <div class="relative w-14 h-14 rounded-lg overflow-hidden border border-slate-200 shadow-xs">
+                                                        <img src="{{ storage_url($gImg['url']) }}" alt="Photo" class="w-full h-full object-cover">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                        <label class="block text-[11px] font-semibold text-slate-500">Upload Additional Gallery Photos</label>
                                         <input type="file" name="gallery_images[]" multiple accept="image/*" class="w-full text-xs text-slate-500">
                                     </div>
                                 @endif
