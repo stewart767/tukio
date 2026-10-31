@@ -80,6 +80,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('guests', function (Blueprint $table) {
+            $table->dropIndex(['pin_code']);
             $table->dropColumn([
                 'pin_code',
                 'table_number',

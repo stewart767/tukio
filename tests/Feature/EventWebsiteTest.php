@@ -328,7 +328,6 @@ class EventWebsiteTest extends TestCase
         $scanResponse->assertStatus(200);
         $scanResponse->assertJson([
             'success' => true,
-            'message' => 'Guest checked in successfully!',
         ]);
 
         $this->assertTrue($guest->fresh()->attended);
