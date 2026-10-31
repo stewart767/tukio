@@ -49,7 +49,7 @@
                     <!-- Clean Graphical Brand Logo (No Cluttered Raw Text) -->
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ route('home') }}" class="flex items-center group py-0.5" title="{{ $brandName }}">
-                            <img src="{{ asset('images/logo-tukio-cropped.png') }}" alt="{{ $brandName }}" class="h-14 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105" onerror="this.src='{{ asset('images/logo-tukio.png') }}'">
+                            <img src="{{ asset('images/logo-tukio-cropped.png') }}" alt="{{ $brandName }}" class="h-14 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105" style="max-height: 56px; width: auto;" onerror="this.src='{{ asset('images/logo-tukio.png') }}'">
                         </a>
                     </div>
 
