@@ -81,6 +81,7 @@
                 @if($hostUser)
                     <div class="p-3.5 rounded-2xl bg-gradient-to-r from-indigo-50 via-purple-50 to-indigo-50/50 border border-indigo-100/80">
                         <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
                                 <div class="w-7 h-7 rounded-lg bg-indigo-600/10 text-indigo-600 flex items-center justify-center flex-shrink-0">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 </div>

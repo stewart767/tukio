@@ -519,31 +519,33 @@
 
             <div class="divide-y divide-slate-100">
                 @foreach($sections as $section)
-                    <div class="py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div class="flex items-center gap-4">
-                            <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs">
-                                {{ $section->sort_order }}
-                            </span>
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-bold text-slate-900 text-sm capitalize">{{ str_replace('_', ' ', $section->section_key) }}</h4>
-                                    <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {{ $section->is_enabled ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-500' }}">
-                                        {{ $section->is_enabled ? 'Active' : 'Disabled' }}
-                                    </span>
+                    <div class="py-4">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div class="flex items-center gap-4">
+                                <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs shrink-0">
+                                    {{ $section->sort_order }}
+                                </span>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="font-bold text-slate-900 text-sm capitalize">{{ str_replace('_', ' ', $section->section_key) }}</h4>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {{ $section->is_enabled ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-500' }}">
+                                            {{ $section->is_enabled ? 'Active' : 'Disabled' }}
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-0.5">{{ $section->title ?: 'No custom title' }}</p>
                                 </div>
-                                <p class="text-xs text-slate-500 mt-0.5">{{ $section->title ?: 'No custom title' }}</p>
+                            </div>
+
+                            <div class="flex items-center gap-3 shrink-0">
+                                <button type="button" onclick="ewToggleSectionEditor({{ $section->id }})" class="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors flex items-center gap-1.5">
+                                    <span>Edit Content</span>
+                                    <svg id="section-chevron-{{ $section->id }}" class="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-3">
-                            <button type="button" onclick="ewToggleSectionEditor({{ $section->id }})" class="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors flex items-center gap-1.5">
-                                <span>Edit Content</span>
-                                <svg id="section-chevron-{{ $section->id }}" class="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                            </button>
-                        </div>
-
                         <!-- Accordion Content Editor for this Section -->
-                        <div id="section-editor-{{ $section->id }}" class="hidden w-full mt-4 pt-4 border-t border-slate-100 md:col-span-full">
+                        <div id="section-editor-{{ $section->id }}" class="hidden w-full mt-4 pt-4 border-t border-slate-100">
                             <form action="{{ route('host.website.sections.update', $section->id) }}" method="POST" enctype="multipart/form-data" class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-4">
                                 @csrf
                                 <div class="flex items-center justify-between">
