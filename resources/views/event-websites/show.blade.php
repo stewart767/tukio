@@ -95,9 +95,87 @@
         .animate-bar-2 { animation: soundBars 1.2s ease-in-out infinite 0.2s; }
         .animate-bar-3 { animation: soundBars 0.9s ease-in-out infinite 0.4s; }
         .animate-bar-4 { animation: soundBars 1.1s ease-in-out infinite 0.1s; }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.92) translateY(10px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .animate-modal-pop {
+            animation: modalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
     </style>
 </head>
 <body class="selection:bg-amber-400 selection:text-slate-900 antialiased overflow-x-hidden">
+
+    <!-- Luxury Entrance Language Selection Pop-up Modal -->
+    <div id="language-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-xl transition-all duration-300">
+        <div class="relative w-full max-w-md rounded-3xl bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-amber-400/40 p-6 sm:p-8 text-center shadow-2xl space-y-6 animate-modal-pop">
+            
+            <!-- Glowing Monogram / Language Icon -->
+            <div class="relative mx-auto w-16 h-16 rounded-full border border-amber-400/50 bg-amber-400/10 flex items-center justify-center text-amber-300 shadow-lg shadow-amber-400/20">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                </svg>
+                <span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-amber-400 animate-ping"></span>
+            </div>
+
+            <div class="space-y-2">
+                <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-amber-300 bg-amber-400/10 border border-amber-400/30">
+                    <span>✦</span>
+                    <span>KARIBU &bull; WELCOME</span>
+                    <span>✦</span>
+                </div>
+                <h3 class="font-theme-heading text-2xl sm:text-3xl font-black text-white tracking-tight">
+                    Chagua Lugha / Language
+                </h3>
+                <p class="text-xs text-slate-300 leading-relaxed max-w-xs mx-auto">
+                    Tafadhali chagua lugha ya kutumia kwenye tovuti hii ya sherehe.<br>
+                    <span class="text-slate-400">Please choose your preferred language to experience this website.</span>
+                </p>
+            </div>
+
+            <!-- Language Cards -->
+            <div class="grid grid-cols-1 gap-3.5 pt-1">
+                <!-- Kiswahili Option -->
+                <button type="button" onclick="selectEventLanguage('sw')" class="group relative flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-amber-400/15 border-2 border-white/10 hover:border-amber-400 transition-all text-left shadow-lg hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-amber-400">
+                    <div class="flex items-center gap-3.5">
+                        <span class="text-3xl">🇹🇿</span>
+                        <div>
+                            <div class="font-bold text-base text-white group-hover:text-amber-300 transition-colors flex items-center gap-2">
+                                <span>Kiswahili</span>
+                                <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 font-bold">Tanzania</span>
+                            </div>
+                            <div class="text-[11px] text-slate-400 group-hover:text-slate-200 mt-0.5">Endelea kwa lugha ya Kiswahili</div>
+                        </div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-white/10 group-hover:bg-amber-400 group-hover:text-slate-950 flex items-center justify-center text-slate-300 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                </button>
+
+                <!-- English Option -->
+                <button type="button" onclick="selectEventLanguage('en')" class="group relative flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-amber-400/15 border-2 border-white/10 hover:border-amber-400 transition-all text-left shadow-lg hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-amber-400">
+                    <div class="flex items-center gap-3.5">
+                        <span class="text-3xl">🇬🇧</span>
+                        <div>
+                            <div class="font-bold text-base text-white group-hover:text-amber-300 transition-colors flex items-center gap-2">
+                                <span>English</span>
+                                <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-300 font-bold">International</span>
+                            </div>
+                            <div class="text-[11px] text-slate-400 group-hover:text-slate-200 mt-0.5">Continue in English language</div>
+                        </div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-white/10 group-hover:bg-amber-400 group-hover:text-slate-950 flex items-center justify-center text-slate-300 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                </button>
+            </div>
+
+            <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold pt-1">
+                Unaweza kubadilisha lugha muda wowote &bull; Switch anytime
+            </p>
+        </div>
+    </div>
 
     <!-- Preview Mode Notification Banner -->
     @if($isPreview && !$website->is_published)
@@ -174,33 +252,45 @@
 
             <!-- Desktop Links -->
             <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold tracking-wider uppercase text-slate-300">
-                <a href="#home" class="hover:text-amber-300 transition-colors">Home</a>
+                <a href="#home" data-i18n="nav_home" class="hover:text-amber-300 transition-colors">Home</a>
                 @if($website->isSectionEnabled('about'))
-                    <a href="#about" class="hover:text-amber-300 transition-colors">Story</a>
+                    <a href="#about" data-i18n="nav_story" class="hover:text-amber-300 transition-colors">Story</a>
                 @endif
                 @if($website->isSectionEnabled('schedule'))
-                    <a href="#schedule" class="hover:text-amber-300 transition-colors">Itinerary</a>
+                    <a href="#schedule" data-i18n="nav_itinerary" class="hover:text-amber-300 transition-colors">Itinerary</a>
                 @endif
                 @if($website->isSectionEnabled('venue'))
-                    <a href="#venue" class="hover:text-amber-300 transition-colors">Venue</a>
+                    <a href="#venue" data-i18n="nav_venue" class="hover:text-amber-300 transition-colors">Venue</a>
                 @endif
                 @if($website->isSectionEnabled('dress_code'))
-                    <a href="#dress-code" class="hover:text-amber-300 transition-colors">Dress Code</a>
+                    <a href="#dress-code" data-i18n="nav_dress_code" class="hover:text-amber-300 transition-colors">Dress Code</a>
                 @endif
                 @if($website->isSectionEnabled('faq'))
-                    <a href="#faq" class="hover:text-amber-300 transition-colors">FAQs</a>
+                    <a href="#faq" data-i18n="nav_faqs" class="hover:text-amber-300 transition-colors">FAQs</a>
                 @endif
                 @if($website->isSectionEnabled('gallery'))
-                    <a href="#gallery" class="hover:text-amber-300 transition-colors">Gallery</a>
+                    <a href="#gallery" data-i18n="nav_gallery" class="hover:text-amber-300 transition-colors">Gallery</a>
                 @endif
                 @if($website->isSectionEnabled('contact'))
-                    <a href="#contact" class="hover:text-amber-300 transition-colors">Contact</a>
+                    <a href="#contact" data-i18n="nav_contact" class="hover:text-amber-300 transition-colors">Contact</a>
                 @endif
             </nav>
 
-            <!-- RSVP Button & Mobile Toggle -->
-            <div class="flex items-center gap-3">
-                <a href="#rsvp" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-400/20 transition-all hover:scale-105">
+            <!-- Language Switcher Pill & RSVP Button -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Language Selector Toggle Pill -->
+                <div class="inline-flex items-center p-0.5 rounded-full bg-slate-800/90 border border-white/20 text-xs font-bold shadow-lg">
+                    <button type="button" onclick="selectEventLanguage('sw')" id="lang-btn-sw" class="px-2.5 py-1 rounded-full transition-all text-slate-300 hover:text-white flex items-center gap-1" title="Badili kwenda Kiswahili">
+                        <span>🇹🇿</span>
+                        <span class="text-[11px] font-bold">SW</span>
+                    </button>
+                    <button type="button" onclick="selectEventLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-full transition-all text-slate-300 hover:text-white flex items-center gap-1" title="Switch to English">
+                        <span>🇬🇧</span>
+                        <span class="text-[11px] font-bold">EN</span>
+                    </button>
+                </div>
+
+                <a href="#rsvp" data-i18n="nav_rsvp" class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-400/20 transition-all hover:scale-105">
                     RSVP Now
                 </a>
 
@@ -213,14 +303,23 @@
 
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden lg:hidden bg-slate-900 border-b border-white/10 px-6 py-4 space-y-3 text-sm font-semibold uppercase tracking-wider text-slate-300">
-            <a href="#home" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Home</a>
-            <a href="#about" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Story</a>
-            <a href="#schedule" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Itinerary</a>
-            <a href="#venue" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Venue</a>
-            <a href="#dress-code" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Dress Code</a>
-            <a href="#faq" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">FAQs</a>
-            <a href="#gallery" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Gallery</a>
-            <a href="#contact" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Contact</a>
+            <!-- Mobile Language Switcher Row -->
+            <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <span class="text-xs text-slate-400 font-bold">Lugha / Language</span>
+                <div class="inline-flex items-center p-0.5 rounded-full bg-slate-800 border border-white/20 text-xs">
+                    <button type="button" onclick="selectEventLanguage('sw')" id="mobile-lang-btn-sw" class="px-3 py-1 rounded-full transition-all text-slate-300">🇹🇿 Kiswahili</button>
+                    <button type="button" onclick="selectEventLanguage('en')" id="mobile-lang-btn-en" class="px-3 py-1 rounded-full transition-all text-slate-300">🇬🇧 English</button>
+                </div>
+            </div>
+
+            <a href="#home" data-i18n="nav_home" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Home</a>
+            <a href="#about" data-i18n="nav_story" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Story</a>
+            <a href="#schedule" data-i18n="nav_itinerary" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Itinerary</a>
+            <a href="#venue" data-i18n="nav_venue" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Venue</a>
+            <a href="#dress-code" data-i18n="nav_dress_code" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Dress Code</a>
+            <a href="#faq" data-i18n="nav_faqs" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">FAQs</a>
+            <a href="#gallery" data-i18n="nav_gallery" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Gallery</a>
+            <a href="#contact" data-i18n="nav_contact" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block py-1 hover:text-amber-300">Contact</a>
         </div>
     </header>
 
@@ -246,7 +345,7 @@
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-400/40 bg-slate-900/80 backdrop-blur-md text-amber-300 text-xs font-bold uppercase tracking-widest shadow-lg shadow-black/40">
                 <span>✦</span>
-                <span>{{ $website->getSection('hero')?->content['badge'] ?? 'Celebration of a Lifetime' }}</span>
+                <span data-i18n="hero_badge">{{ $website->getSection('hero')?->content['badge'] ?? 'Celebration of a Lifetime' }}</span>
                 <span>✦</span>
             </div>
 
@@ -283,10 +382,10 @@
 
             <!-- Action Buttons -->
             <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
-                <a href="#rsvp" class="px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/30 transition-all hover:scale-105">
+                <a href="#rsvp" data-i18n="hero_rsvp_btn" class="px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/30 transition-all hover:scale-105">
                     Confirm Attendance (RSVP)
                 </a>
-                <a href="#schedule" class="px-8 py-4 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white font-bold text-sm border border-white/30 backdrop-blur-md transition-all shadow-lg hover:border-amber-400/50 hover:scale-105">
+                <a href="#schedule" data-i18n="hero_program_btn" class="px-8 py-4 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white font-bold text-sm border border-white/30 backdrop-blur-md transition-all shadow-lg hover:border-amber-400/50 hover:scale-105">
                     View Celebration Program
                 </a>
             </div>
@@ -298,11 +397,11 @@
         <section id="countdown-section" class="py-16 px-4 border-y border-white/10 bg-slate-950/60 backdrop-blur-md">
             <div class="max-w-4xl mx-auto text-center space-y-8">
                 <div>
-                    <span class="font-script text-3xl text-amber-300 block">Anticipation</span>
-                    <h2 class="font-theme-heading text-2xl sm:text-3xl font-black text-white uppercase tracking-wider">
+                    <span data-i18n="timer_sub" class="font-script text-3xl text-amber-300 block">Anticipation</span>
+                    <h2 data-i18n="timer_title" class="font-theme-heading text-2xl sm:text-3xl font-black text-white uppercase tracking-wider">
                         {{ $website->getSection('countdown')?->title ?: 'Countdown to the Celebration' }}
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-400 mt-2">
+                    <p data-i18n="timer_desc" class="text-xs sm:text-sm text-slate-400 mt-2">
                         {{ $website->getSection('countdown')?->subtitle ?: 'Every second brings us closer to celebrating together.' }}
                     </p>
                 </div>
@@ -312,32 +411,32 @@
                     <!-- Days -->
                     <div class="p-6 rounded-3xl bg-slate-900/90 border border-amber-400/20 shadow-xl shadow-black/30 flex flex-col items-center">
                         <span id="timer-days" class="font-theme-heading text-4xl sm:text-5xl font-black text-amber-300 block">--</span>
-                        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Days</span>
+                        <span data-i18n="timer_days" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Days</span>
                     </div>
 
                     <!-- Hours -->
                     <div class="p-6 rounded-3xl bg-slate-900/90 border border-amber-400/20 shadow-xl shadow-black/30 flex flex-col items-center">
                         <span id="timer-hours" class="font-theme-heading text-4xl sm:text-5xl font-black text-amber-300 block">--</span>
-                        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Hours</span>
+                        <span data-i18n="timer_hours" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Hours</span>
                     </div>
 
                     <!-- Minutes -->
                     <div class="p-6 rounded-3xl bg-slate-900/90 border border-amber-400/20 shadow-xl shadow-black/30 flex flex-col items-center">
                         <span id="timer-minutes" class="font-theme-heading text-4xl sm:text-5xl font-black text-amber-300 block">--</span>
-                        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Minutes</span>
+                        <span data-i18n="timer_mins" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Minutes</span>
                     </div>
 
                     <!-- Seconds -->
                     <div class="p-6 rounded-3xl bg-slate-900/90 border border-amber-400/20 shadow-xl shadow-black/30 flex flex-col items-center">
                         <span id="timer-seconds" class="font-theme-heading text-4xl sm:text-5xl font-black text-amber-300 block">--</span>
-                        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Seconds</span>
+                        <span data-i18n="timer_secs" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">Seconds</span>
                     </div>
                 </div>
 
                 <!-- Banner when event has started -->
                 <div id="countdown-completed" class="hidden p-6 rounded-3xl bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border border-amber-400/40 text-amber-200">
-                    <span class="text-2xl font-black font-theme-heading block">🎉 The Celebration is Underway! 🎉</span>
-                    <p class="text-sm mt-1 text-slate-200">Welcome to all our guests. Let the music play and the celebration begin!</p>
+                    <span data-i18n="timer_completed" class="text-2xl font-black font-theme-heading block">🎉 The Celebration is Underway! 🎉</span>
+                    <p data-i18n="timer_completed_sub" class="text-sm mt-1 text-slate-200">Welcome to all our guests. Let the music play and the celebration begin!</p>
                 </div>
             </div>
         </section>
@@ -377,8 +476,8 @@
                 <!-- Story & Bio -->
                 <div class="lg:col-span-7 space-y-6 text-left">
                     <div>
-                        <span class="font-script text-3xl text-amber-300 block">Honoring</span>
-                        <h2 class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                        <span data-i18n="about_sub" class="font-script text-3xl text-amber-300 block">Honoring</span>
+                        <h2 data-i18n="about_title" class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
                             {{ $aboutSec->title ?: 'About the Celebration' }}
                         </h2>
                     </div>
@@ -395,7 +494,7 @@
 
                     <div class="pt-2">
                         <a href="#rsvp" class="inline-flex items-center gap-2 text-xs uppercase font-bold tracking-wider text-amber-400 hover:text-amber-300 transition-colors">
-                            <span>RSVP to join the celebration</span>
+                            <span data-i18n="about_rsvp_link">RSVP to join the celebration</span>
                             <span>&rarr;</span>
                         </a>
                     </div>
@@ -414,11 +513,11 @@
         <section id="schedule" class="py-24 px-4 bg-slate-950/40 border-t border-white/10">
             <div class="max-w-4xl mx-auto text-center space-y-12">
                 <div>
-                    <span class="font-script text-3xl text-amber-300 block">The Program</span>
-                    <h2 class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                    <span data-i18n="schedule_sub" class="font-script text-3xl text-amber-300 block">The Program</span>
+                    <h2 data-i18n="schedule_title" class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
                         {{ $schedSec->title ?: 'Event Itinerary' }}
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-400 mt-2">
+                    <p data-i18n="schedule_desc" class="text-xs sm:text-sm text-slate-400 mt-2">
                         {{ $schedSec->subtitle ?: 'Timeline of festivities and moments to share.' }}
                     </p>
                 </div>
@@ -455,11 +554,11 @@
         <section id="venue" class="py-24 px-4 max-w-5xl mx-auto">
             <div class="text-center space-y-10">
                 <div>
-                    <span class="font-script text-3xl text-amber-300 block">Where to Find Us</span>
-                    <h2 class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                    <span data-i18n="venue_sub" class="font-script text-3xl text-amber-300 block">Where to Find Us</span>
+                    <h2 data-i18n="venue_title" class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
                         Venue &amp; Location
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-400 mt-2">
+                    <p data-i18n="venue_desc" class="text-xs sm:text-sm text-slate-400 mt-2">
                         Join us at the prestigious venue setting.
                     </p>
                 </div>
@@ -470,7 +569,7 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
                         </div>
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Venue Setting</span>
+                            <span data-i18n="venue_setting" class="text-xs font-bold uppercase tracking-wider text-amber-300">Venue Setting</span>
                             <h3 class="font-theme-heading text-2xl font-black text-white mt-1">{{ $website->venue_name }}</h3>
                             <p class="text-sm text-slate-300 mt-2">{{ $website->venue_address }}</p>
                         </div>
@@ -482,7 +581,7 @@
                         @if($website->google_maps_url)
                             <div class="pt-2">
                                 <a href="{{ $website->google_maps_url }}" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all">
-                                    <span>Open in Google Maps</span>
+                                    <span data-i18n="venue_maps_btn">Open in Google Maps</span>
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                                 </a>
                             </div>
@@ -499,7 +598,7 @@
                             <p class="text-xs text-slate-300 max-w-xs mx-auto">Tap below to launch GPS navigation directly to the celebration gate.</p>
                             @if($website->google_maps_url)
                                 <a href="{{ $website->google_maps_url }}" target="_blank" class="inline-block px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all">
-                                    Launch GPS Navigation
+                                    <span data-i18n="venue_nav_btn">Launch GPS Navigation</span>
                                 </a>
                             @endif
                         </div>
@@ -524,8 +623,8 @@
         <section id="dress-code" class="py-24 px-4 bg-slate-950/40 border-t border-white/10">
             <div class="max-w-4xl mx-auto text-center space-y-10">
                 <div>
-                    <span class="font-script text-3xl text-amber-300 block">Attire Guidelines</span>
-                    <h2 class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                    <span data-i18n="dress_sub" class="font-script text-3xl text-amber-300 block">Attire Guidelines</span>
+                    <h2 data-i18n="dress_title" class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
                         Dress Code &amp; Palette
                     </h2>
                     <p class="text-lg font-theme-heading text-amber-300 font-bold mt-2">
@@ -559,11 +658,11 @@
         <section id="faq" class="py-24 px-4 max-w-4xl mx-auto">
             <div class="text-center space-y-10">
                 <div>
-                    <span class="font-script text-3xl text-amber-300 block">Clarifications</span>
-                    <h2 class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                    <span data-i18n="faq_sub" class="font-script text-3xl text-amber-300 block">Clarifications</span>
+                    <h2 data-i18n="faq_title" class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
                         Frequently Asked Questions
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-400 mt-2">
+                    <p data-i18n="faq_desc" class="text-xs sm:text-sm text-slate-400 mt-2">
                         Quick answers to assist in your planning.
                     </p>
                 </div>
@@ -594,8 +693,8 @@
             <section id="gallery" class="py-24 px-4 bg-slate-950/40 border-t border-white/10">
                 <div class="max-w-6xl mx-auto text-center space-y-10">
                     <div>
-                        <span class="font-script text-3xl text-amber-300 block">Moments</span>
-                        <h2 class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
+                        <span data-i18n="gallery_sub" class="font-script text-3xl text-amber-300 block">Moments</span>
+                        <h2 data-i18n="gallery_title" class="font-theme-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
                             Celebration Gallery
                         </h2>
                     </div>
@@ -622,16 +721,16 @@
         <div class="max-w-3xl mx-auto space-y-10">
             
             <div class="text-center space-y-3">
-                <span class="font-script text-4xl text-amber-300 block">Your Presence</span>
-                <h2 class="font-theme-heading text-3xl sm:text-5xl font-black text-white uppercase tracking-tight">
+                <span data-i18n="rsvp_sub" class="font-script text-4xl text-amber-300 block">Your Presence</span>
+                <h2 data-i18n="rsvp_title" class="font-theme-heading text-3xl sm:text-5xl font-black text-white uppercase tracking-tight">
                     RSVP &amp; Registration
                 </h2>
-                <p class="text-sm text-slate-300 max-w-xl mx-auto">
+                <p data-i18n="rsvp_desc" class="text-sm text-slate-300 max-w-xl mx-auto">
                     Kindly complete the confirmation form below. Upon submission, you will receive your personal entry pass.
                 </p>
                 @if($website->rsvp_deadline)
                     <div class="inline-block px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-300 text-xs font-bold">
-                        RSVP Deadline: {{ $website->rsvp_deadline->format('l, F j, Y') }}
+                        <span data-i18n="rsvp_deadline_prefix">RSVP Deadline: </span>{{ $website->rsvp_deadline->format('l, F j, Y') }}
                     </div>
                 @endif
             </div>
@@ -650,17 +749,17 @@
                 <!-- Digital Pass Details Card -->
                 <div class="p-6 rounded-2xl bg-white/5 border border-white/10 max-w-md mx-auto space-y-4 text-left">
                     <div class="flex items-center justify-between border-b border-white/10 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">Entry Pass Code</span>
+                        <span data-i18n="pass_code" class="text-xs uppercase tracking-wider text-slate-400 font-bold">Entry Pass Code</span>
                         <span class="font-mono text-base font-black text-amber-400" id="pass-code"></span>
                     </div>
 
                     <div class="flex items-center justify-between border-b border-white/10 pb-3 text-xs">
-                        <span class="text-slate-400 font-bold">Guest Name</span>
+                        <span data-i18n="pass_guest" class="text-slate-400 font-bold">Guest Name</span>
                         <span class="font-bold text-white" id="pass-name"></span>
                     </div>
 
                     <div class="flex items-center justify-between border-b border-white/10 pb-3 text-xs">
-                        <span class="text-slate-400 font-bold">Total Party Size</span>
+                        <span data-i18n="pass_party" class="text-slate-400 font-bold">Total Party Size</span>
                         <span class="font-bold text-white" id="pass-party-size"></span>
                     </div>
 
@@ -669,7 +768,7 @@
                         <div class="w-40 h-40 mx-auto p-3 bg-white rounded-xl shadow-inner flex items-center justify-center">
                             <img id="pass-qr-img" src="" alt="RSVP QR Code" class="w-full h-full object-contain">
                         </div>
-                        <span class="text-[10px] text-slate-400 mt-2 block">Present this QR code to the door ushers upon arrival.</span>
+                        <span data-i18n="pass_qr_instruction" class="text-[10px] text-slate-400 mt-2 block">Present this QR code to the door ushers upon arrival.</span>
                     </div>
                 </div>
 
@@ -677,11 +776,11 @@
                 <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
                     <a id="success-calendar-btn" href="{{ $googleCalendarUrl }}" target="_blank" class="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all flex items-center gap-2">
                         <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        <span>Add to Google Calendar</span>
+                        <span data-i18n="pass_calendar_btn">Add to Google Calendar</span>
                     </a>
 
                     <button type="button" onclick="document.getElementById('rsvp-success-card').classList.add('hidden'); document.getElementById('rsvp-form').classList.remove('hidden');" class="px-5 py-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-all">
-                        Update Response
+                        <span data-i18n="pass_update_btn">Update Response</span>
                     </button>
                 </div>
             </div>
@@ -696,38 +795,38 @@
 
                 <!-- 1. Full Name -->
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Full Name *</label>
+                    <label data-i18n="rsvp_name_label" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Full Name *</label>
                     <input type="text" name="full_name" required placeholder="e.g. Sarah Mrema" class="w-full rounded-2xl bg-white/5 border border-white/15 p-3.5 text-sm text-white focus:border-amber-400 focus:ring-amber-400 placeholder-slate-500">
                 </div>
 
                 <!-- 2. Phone & Email -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Mobile Phone Number *</label>
+                        <label data-i18n="rsvp_phone_label" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Mobile Phone Number *</label>
                         <input type="tel" name="phone" required placeholder="07XXXXXXXX or +255..." class="w-full rounded-2xl bg-white/5 border border-white/15 p-3.5 text-sm text-white focus:border-amber-400 focus:ring-amber-400 placeholder-slate-500">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Email Address {{ $website->require_email ? '*' : '(Optional)' }}</label>
+                        <label data-i18n="rsvp_email_label" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Email Address {{ $website->require_email ? '*' : '(Optional)' }}</label>
                         <input type="email" name="email" {{ $website->require_email ? 'required' : '' }} placeholder="sarah@example.com" class="w-full rounded-2xl bg-white/5 border border-white/15 p-3.5 text-sm text-white focus:border-amber-400 focus:ring-amber-400 placeholder-slate-500">
                     </div>
                 </div>
 
                 <!-- 3. Attendance Status Choice -->
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Will you attend? *</label>
+                    <label data-i18n="rsvp_attend_choice" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Will you attend? *</label>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-white/15 bg-white/5 cursor-pointer hover:border-amber-400 transition-colors">
                             <input type="radio" name="attendance_status" value="attending" checked onchange="togglePlusOne(true)" class="text-amber-400 focus:ring-amber-400">
-                            <span class="text-xs font-bold text-white">Joyfully Accept</span>
+                            <span data-i18n="rsvp_attending" class="text-xs font-bold text-white">Joyfully Accept</span>
                         </label>
                         <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-white/15 bg-white/5 cursor-pointer hover:border-rose-400 transition-colors">
                             <input type="radio" name="attendance_status" value="declined" onchange="togglePlusOne(false)" class="text-rose-400 focus:ring-rose-400">
-                            <span class="text-xs font-bold text-white">Regretfully Decline</span>
+                            <span data-i18n="rsvp_declined" class="text-xs font-bold text-white">Regretfully Decline</span>
                         </label>
                         <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-white/15 bg-white/5 cursor-pointer hover:border-amber-400 transition-colors">
                             <input type="radio" name="attendance_status" value="tentative" onchange="togglePlusOne(false)" class="text-amber-400 focus:ring-amber-400">
-                            <span class="text-xs font-bold text-white">Tentative / Unsure</span>
+                            <span data-i18n="rsvp_tentative" class="text-xs font-bold text-white">Tentative / Unsure</span>
                         </label>
                     </div>
                 </div>
@@ -735,7 +834,7 @@
                 <!-- 4. Number of Accompanying Guests (+1s) -->
                 @if($website->max_plus_ones > 0)
                     <div id="plus-one-container">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                        <label data-i18n="rsvp_plus_one_label" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
                             Number of Accompanying Guests (Max {{ $website->max_plus_ones }})
                         </label>
                         <select name="plus_one_count" class="w-full rounded-2xl bg-slate-900 border border-white/15 p-3.5 text-sm text-white focus:border-amber-400">
@@ -748,7 +847,7 @@
 
                 <!-- 5. Dietary Requirements -->
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Dietary Requirements</label>
+                    <label data-i18n="rsvp_diet_label" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Dietary Requirements</label>
                     <select name="dietary_requirements" class="w-full rounded-2xl bg-slate-900 border border-white/15 p-3.5 text-sm text-white focus:border-amber-400">
                         <option value="">No special dietary restrictions (Standard banquet)</option>
                         <option value="Vegetarian">Vegetarian</option>
@@ -762,8 +861,8 @@
 
                 <!-- 6. Special Requests / Heartfelt Wishes -->
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Congratulatory Message / Special Requests</label>
-                    <textarea name="special_requests" rows="3" placeholder="Leave a heartfelt note or any specific arrival requests for the celebrant..." class="w-full rounded-2xl bg-white/5 border border-white/15 p-3.5 text-sm text-white focus:border-amber-400 focus:ring-amber-400 placeholder-slate-500"></textarea>
+                    <label data-i18n="rsvp_wishes_label" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Congratulatory Message / Special Requests</label>
+                    <textarea name="special_requests" id="rsvp-wishes-input" rows="3" placeholder="Leave a heartfelt note or any specific arrival requests for the celebrant..." class="w-full rounded-2xl bg-white/5 border border-white/15 p-3.5 text-sm text-white focus:border-amber-400 focus:ring-amber-400 placeholder-slate-500"></textarea>
                 </div>
 
                 <!-- 7. Dynamic Custom Questions -->
@@ -790,7 +889,7 @@
                 <!-- Submit Button -->
                 <div class="pt-4">
                     <button type="submit" id="rsvp-submit-btn" class="w-full py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-400/25 transition-all flex items-center justify-center gap-2">
-                        <span>Submit My RSVP Confirmation</span>
+                        <span data-i18n="rsvp_submit_btn">Submit My RSVP Confirmation</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
                 </div>
@@ -809,17 +908,17 @@
         @endphp
         <section id="contact" class="py-20 px-4 max-w-4xl mx-auto text-center space-y-8">
             <div>
-                <span class="font-script text-3xl text-amber-300 block">Assistance</span>
-                <h2 class="font-theme-heading text-3xl font-black text-white uppercase tracking-tight">
+                <span data-i18n="contact_sub" class="font-script text-3xl text-amber-300 block">Assistance</span>
+                <h2 data-i18n="contact_title" class="font-theme-heading text-3xl font-black text-white uppercase tracking-tight">
                     Contact &amp; Event Coordinator
                 </h2>
-                <p class="text-xs text-slate-400 mt-1">For concierge assistance, directions, or urgent inquiries.</p>
+                <p data-i18n="contact_desc" class="text-xs text-slate-400 mt-1">For concierge assistance, directions, or urgent inquiries.</p>
             </div>
 
             <div class="flex flex-wrap items-center justify-center gap-6">
                 <a href="{{ $waContactLink }}" target="_blank" class="px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/20 transition-all flex items-center gap-2">
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.073-2.072-.497-1.758-.729-2.883-2.518-2.97-2.634-.088-.117-.714-.951-.714-1.815 0-.864.453-1.289.614-1.464.161-.176.351-.22.468-.22.117 0 .234.001.336.006.107.005.252-.04.394.301.146.353.498 1.216.542 1.304.044.088.073.191.015.308-.059.117-.088.19-.176.293-.088.102-.185.228-.264.307-.088.088-.18.183-.078.359.102.176.455.751.977 1.216.671.597 1.238.782 1.414.87.176.088.278.073.38-.044.102-.117.439-.512.556-.688.117-.176.234-.146.395-.088.161.059 1.025.483 1.201.571.176.088.293.132.336.205.044.073.044.425-.1.83z"/></svg>
-                    <span>Chat on WhatsApp</span>
+                    <span data-i18n="contact_wa_btn">Chat on WhatsApp</span>
                 </a>
 
                 <a href="tel:{{ $contactPhone }}" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider border border-white/20 transition-all flex items-center gap-2">
@@ -833,7 +932,7 @@
     <!-- FOOTER -->
     <footer class="py-12 px-4 border-t border-white/10 text-center text-xs text-slate-500 space-y-3">
         <p class="font-theme-heading text-sm text-slate-300 font-bold uppercase tracking-wider">{{ $website->title }}</p>
-        <p>&copy; {{ date('Y') }} All rights reserved &bull; Powered by <a href="{{ route('home') }}" class="text-amber-400 hover:underline font-bold">Tukio360</a></p>
+        <p>&copy; {{ date('Y') }} <span data-i18n="footer_rights">All rights reserved</span> &bull; Powered by <a href="{{ route('home') }}" class="text-amber-400 hover:underline font-bold">Tukio360</a></p>
     </footer>
 
     <!-- JAVASCRIPT: Real-time Countdown, Audio Player & AJAX RSVP Engine -->
@@ -1042,6 +1141,246 @@
                 `;
             }
         }
+        // 4. Bilingual Language Engine (Swahili & English)
+        const eventTranslations = {
+            sw: {
+                nav_home: "Nyumbani",
+                nav_story: "Hadithi Yetu",
+                nav_itinerary: "Ratiba",
+                nav_venue: "Ukumbi",
+                nav_dress_code: "Mavazi",
+                nav_faqs: "Maswali",
+                nav_gallery: "Picha",
+                nav_contact: "Mawasiliano",
+                nav_rsvp: "Thibitisha RSVP",
+                hero_badge: "Sherehe ya Kipekee Maishani",
+                hero_rsvp_btn: "Thibitisha Kuhudhuria (RSVP)",
+                hero_program_btn: "Tazama Ratiba ya Sherehe",
+                timer_sub: "Matarajio",
+                timer_title: "Kuhesabu Muda wa Sherehe",
+                timer_desc: "Kila sekunde inatuleta karibu zaidi na sherehe yetu maalum.",
+                timer_days: "Siku",
+                timer_hours: "Masaa",
+                timer_mins: "Dakika",
+                timer_secs: "Sekunde",
+                timer_completed: "🎉 Sherehe Imeanza Rasmi! 🎉",
+                timer_completed_sub: "Karibuni wageni wote waalikwa. Furahia wakati mzuri pamoja nasi!",
+                about_sub: "Kumheshimu",
+                about_title: "Kuhusu Sherehe",
+                about_rsvp_link: "Thibitisha ushiriki wako hapa →",
+                schedule_sub: "Ratiba",
+                schedule_title: "Mpangilio wa Sherehe",
+                schedule_desc: "Mlolongo wa matukio na wakati wa kujumuika pamoja.",
+                venue_sub: "Mahali pa Kufika",
+                venue_title: "Ukumbi na Eneo",
+                venue_desc: "Karibu kwenye ukumbi maridadi wa sherehe yetu.",
+                venue_setting: "Mpangilio wa Ukumbi",
+                venue_maps_btn: "Fungua Google Maps",
+                venue_nav_btn: "Washa GPS ya Kufika",
+                dress_sub: "Mwongozo wa Mavazi",
+                dress_title: "Mavazi na Rangi Zilizopendekezwa",
+                faq_sub: "Ufafanuzi",
+                faq_title: "Maswali Yanayoulizwa Mara kwa Mara",
+                faq_desc: "Majibu ya haraka ya kukusaidia katika kujiandaa.",
+                gallery_sub: "Kumbukumbu",
+                gallery_title: "Picha za Sherehe",
+                rsvp_sub: "Ushiriki Wako",
+                rsvp_title: "Thibitisha Kuhudhuria (RSVP)",
+                rsvp_desc: "Tafadhali jaza fomu hii fupi ili kupokea pasi yako rasmi ya kuingilia.",
+                rsvp_deadline_prefix: "Mwisho wa Kuthibitisha: ",
+                rsvp_name_label: "Jina Kamili *",
+                rsvp_phone_label: "Namba ya Simu ya Mkononi *",
+                rsvp_email_label: "Barua Pepe (Hiari)",
+                rsvp_attend_choice: "Je, utahudhuria? *",
+                rsvp_attending: "Ndio, Nitahudhuria kwa Furaha",
+                rsvp_declined: "Samahani, Sitoweza Kuhudhuria",
+                rsvp_tentative: "Bado Sijawa na Uhakika",
+                rsvp_plus_one_label: "Idadi ya Wageni Wengine Utakaofuatana Nao",
+                rsvp_diet_label: "Mahitaji Maalum ya Chakula",
+                rsvp_wishes_label: "Ujumbe wa Pongezi / Maombi Maalum",
+                rsvp_wishes_placeholder: "Andika pongezi zako au maelezo maalum kwa wenye sherehe...",
+                rsvp_submit_btn: "Tuma Uthibitisho Wangu wa RSVP",
+                rsvp_success_headline: "Uthibitisho Umepokelewa Kikamilifu! 🎉",
+                pass_code: "Nambari ya Pasi",
+                pass_guest: "Jina la Mgeni",
+                pass_party: "Viti Vilivyotengwa",
+                pass_qr_instruction: "Onyesha nambari hii ya QR kwa wasimamizi wa mlango ukifika.",
+                pass_calendar_btn: "Weka Kwenye Google Calendar",
+                pass_update_btn: "Badilisha Majibu",
+                contact_sub: "Msaada & Mawasiliano",
+                contact_title: "Mawasiliano na Mratibu wa Sherehe",
+                contact_desc: "Kwa maswali, maelekezo ya kufika au msaada wowote wa haraka.",
+                contact_wa_btn: "Wasiliana kwa WhatsApp",
+                music_label: "Muziki",
+                music_play: "Gusa Kucheza",
+                music_playing: "Unacheza Wimbo",
+                music_paused: "Muziki Umesimamishwa",
+                footer_rights: "Haki zote zimehifadhiwa",
+            },
+            en: {
+                nav_home: "Home",
+                nav_story: "Story",
+                nav_itinerary: "Itinerary",
+                nav_venue: "Venue",
+                nav_dress_code: "Dress Code",
+                nav_faqs: "FAQs",
+                nav_gallery: "Gallery",
+                nav_contact: "Contact",
+                nav_rsvp: "RSVP Now",
+                hero_badge: "Celebration of a Lifetime",
+                hero_rsvp_btn: "Confirm Attendance (RSVP)",
+                hero_program_btn: "View Celebration Program",
+                timer_sub: "Anticipation",
+                timer_title: "Countdown to the Celebration",
+                timer_desc: "Every second brings us closer to celebrating together.",
+                timer_days: "Days",
+                timer_hours: "Hours",
+                timer_mins: "Mins",
+                timer_secs: "Secs",
+                timer_completed: "🎉 The Celebration is Underway! 🎉",
+                timer_completed_sub: "Welcome to all our guests. Let the music play and celebration begin!",
+                about_sub: "Honoring",
+                about_title: "About the Celebration",
+                about_rsvp_link: "RSVP to join the celebration →",
+                schedule_sub: "The Program",
+                schedule_title: "Event Itinerary",
+                schedule_desc: "Timeline of festivities and moments to share.",
+                venue_sub: "Where to Find Us",
+                venue_title: "Venue & Location",
+                venue_desc: "Join us at the prestigious venue setting.",
+                venue_setting: "Venue Setting",
+                venue_maps_btn: "Open in Google Maps",
+                venue_nav_btn: "Launch GPS Navigation",
+                dress_sub: "Attire Guidelines",
+                dress_title: "Dress Code & Palette",
+                faq_sub: "Clarifications",
+                faq_title: "Frequently Asked Questions",
+                faq_desc: "Quick answers to assist in your planning.",
+                gallery_sub: "Moments",
+                gallery_title: "Celebration Gallery",
+                rsvp_sub: "Your Presence",
+                rsvp_title: "RSVP & Registration",
+                rsvp_desc: "Kindly complete the confirmation form below to receive your digital pass.",
+                rsvp_deadline_prefix: "RSVP Deadline: ",
+                rsvp_name_label: "Full Name *",
+                rsvp_phone_label: "Mobile Phone Number *",
+                rsvp_email_label: "Email Address",
+                rsvp_attend_choice: "Will you attend? *",
+                rsvp_attending: "Joyfully Accept",
+                rsvp_declined: "Regretfully Decline",
+                rsvp_tentative: "Tentative / Unsure",
+                rsvp_plus_one_label: "Number of Accompanying Guests",
+                rsvp_diet_label: "Dietary Requirements",
+                rsvp_wishes_label: "Congratulatory Message / Special Requests",
+                rsvp_wishes_placeholder: "Leave a heartfelt note or any specific arrival requests...",
+                rsvp_submit_btn: "Submit My RSVP Confirmation",
+                rsvp_success_headline: "Attendance Confirmed! 🎉",
+                pass_code: "Entry Pass Code",
+                pass_guest: "Guest Name",
+                pass_party: "Total Party Size",
+                pass_qr_instruction: "Present this QR code to the door ushers upon arrival.",
+                pass_calendar_btn: "Add to Google Calendar",
+                pass_update_btn: "Update Response",
+                contact_sub: "Assistance",
+                contact_title: "Contact & Event Coordinator",
+                contact_desc: "For concierge assistance, directions, or urgent inquiries.",
+                contact_wa_btn: "Chat on WhatsApp",
+                music_label: "Music",
+                music_play: "Play Melody",
+                music_playing: "Playing Melody",
+                music_paused: "Music Paused",
+                footer_rights: "All rights reserved",
+            }
+        };
+
+        let currentEventLanguage = 'sw';
+
+        function applyTranslations(lang) {
+            if (!eventTranslations[lang]) return;
+            const dict = eventTranslations[lang];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
+
+            // Update placeholders
+            const wishesInput = document.getElementById('rsvp-wishes-input');
+            if (wishesInput && dict['rsvp_wishes_placeholder']) {
+                wishesInput.placeholder = dict['rsvp_wishes_placeholder'];
+            }
+        }
+
+        function updateLanguageSwitcherUI(lang) {
+            const btnSw = document.getElementById('lang-btn-sw');
+            const btnEn = document.getElementById('lang-btn-en');
+            const mBtnSw = document.getElementById('mobile-lang-btn-sw');
+            const mBtnEn = document.getElementById('mobile-lang-btn-en');
+
+            const activeClass = ['bg-amber-400', 'text-slate-950', 'font-black', 'shadow-md'];
+            const inactiveClass = ['text-slate-300', 'hover:text-white'];
+
+            if (lang === 'sw') {
+                if (btnSw) { btnSw.classList.add(...activeClass); btnSw.classList.remove(...inactiveClass); }
+                if (btnEn) { btnEn.classList.remove(...activeClass); btnEn.classList.add(...inactiveClass); }
+                if (mBtnSw) { mBtnSw.classList.add(...activeClass); mBtnSw.classList.remove(...inactiveClass); }
+                if (mBtnEn) { mBtnEn.classList.remove(...activeClass); mBtnEn.classList.add(...inactiveClass); }
+            } else {
+                if (btnEn) { btnEn.classList.add(...activeClass); btnEn.classList.remove(...inactiveClass); }
+                if (btnSw) { btnSw.classList.remove(...activeClass); btnSw.classList.add(...inactiveClass); }
+                if (mBtnEn) { mBtnEn.classList.add(...activeClass); mBtnEn.classList.remove(...inactiveClass); }
+                if (mBtnSw) { mBtnSw.classList.remove(...activeClass); mBtnSw.classList.add(...inactiveClass); }
+            }
+        }
+
+        function selectEventLanguage(lang) {
+            if (!['sw', 'en'].includes(lang)) lang = 'sw';
+            currentEventLanguage = lang;
+            localStorage.setItem('tukio_event_lang', lang);
+
+            applyTranslations(lang);
+            updateLanguageSwitcherUI(lang);
+
+            // Animate out modal
+            const modal = document.getElementById('language-modal');
+            if (modal) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 350);
+            }
+
+            // Trigger audio playback smoothly on this explicit user interaction
+            if (typeof attemptPlayAudio === 'function') {
+                attemptPlayAudio();
+            }
+        }
+
+        window.openLanguageModal = function() {
+            const modal = document.getElementById('language-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                }, 10);
+            }
+        };
+
+        // Initialize Language on Page Load
+        (function initLanguage() {
+            const saved = localStorage.getItem('tukio_event_lang');
+            if (saved && ['sw', 'en'].includes(saved)) {
+                currentEventLanguage = saved;
+                applyTranslations(saved);
+                updateLanguageSwitcherUI(saved);
+            } else {
+                // Default to Kiswahili for East Africa
+                applyTranslations('sw');
+                updateLanguageSwitcherUI('sw');
+            }
+        })();
     </script>
 </body>
 </html>
