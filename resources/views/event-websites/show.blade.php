@@ -108,9 +108,14 @@
 <body class="selection:bg-amber-400 selection:text-slate-900 antialiased overflow-x-hidden">
 
     <!-- Luxury Entrance Language Selection Pop-up Modal -->
-    <div id="language-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-xl transition-all duration-300">
-        <div class="relative w-full max-w-md rounded-3xl bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-amber-400/40 p-6 sm:p-8 text-center shadow-2xl space-y-6 animate-modal-pop">
+    <div id="language-modal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 9999999; background: rgba(2, 6, 23, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: none; align-items: center; justify-content: center; padding: 1rem;" class="transition-opacity duration-300">
+        <div class="relative w-full max-w-md rounded-3xl p-6 sm:p-8 text-center shadow-2xl space-y-6 animate-modal-pop" style="background: linear-gradient(180deg, #0f172a 0%, #020617 100%); border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.85); z-index: 10000000;">
             
+            <!-- Close Modal Button (X) -->
+            <button type="button" onclick="closeLanguageModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors text-sm font-bold focus:outline-none" title="Close / Funga">
+                ✕
+            </button>
+
             <!-- Glowing Monogram / Language Icon -->
             <div class="relative mx-auto w-16 h-16 rounded-full border border-amber-400/50 bg-amber-400/10 flex items-center justify-center text-amber-300 shadow-lg shadow-amber-400/20">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -231,6 +236,15 @@
         </div>
     @endif
 
+    <!-- Floating Language Switcher Badge (Bottom-Left) -->
+    <div id="floating-lang-widget" class="fixed bottom-6 left-6 z-40 hidden sm:block">
+        <button type="button" onclick="window.openLanguageModal()" class="flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-slate-900/95 text-white border border-amber-400/40 shadow-2xl backdrop-blur-md hover:scale-105 transition-all hover:border-amber-400 text-xs font-bold" title="Badili Lugha / Change Language">
+            <span class="text-base" id="float-lang-flag">🇹🇿</span>
+            <span id="float-lang-text" class="tracking-wide">Kiswahili</span>
+            <svg class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+    </div>
+
     <!-- Navigation Bar -->
     <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-white/10 text-white transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -251,7 +265,7 @@
             </a>
 
             <!-- Desktop Links -->
-            <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold tracking-wider uppercase text-slate-300">
+            <nav class="hidden xl:flex items-center gap-5 text-xs font-semibold tracking-wider uppercase text-slate-300">
                 <a href="#home" data-i18n="nav_home" class="hover:text-amber-300 transition-colors">Home</a>
                 @if($website->isSectionEnabled('about'))
                     <a href="#about" data-i18n="nav_story" class="hover:text-amber-300 transition-colors">Story</a>
@@ -276,33 +290,36 @@
                 @endif
             </nav>
 
-            <!-- Language Switcher Pill & RSVP Button -->
-            <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Right Actions: Language Switcher + RSVP Button -->
+            <div class="flex items-center gap-3 shrink-0">
+                <!-- Vertical Divider separating Nav from Language/CTA -->
+                <div class="hidden xl:block h-5 w-px bg-white/15"></div>
+
                 <!-- Language Selector Toggle Pill -->
-                <div class="inline-flex items-center p-0.5 rounded-full bg-slate-800/90 border border-white/20 text-xs font-bold shadow-lg">
+                <div class="inline-flex items-center p-0.5 rounded-full bg-slate-800/95 border border-amber-400/30 text-xs font-bold shadow-md">
                     <button type="button" onclick="selectEventLanguage('sw')" id="lang-btn-sw" class="px-2.5 py-1 rounded-full transition-all text-slate-300 hover:text-white flex items-center gap-1" title="Badili kwenda Kiswahili">
                         <span>🇹🇿</span>
-                        <span class="text-[11px] font-bold">SW</span>
+                        <span class="text-[11px] font-black">SW</span>
                     </button>
                     <button type="button" onclick="selectEventLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-full transition-all text-slate-300 hover:text-white flex items-center gap-1" title="Switch to English">
                         <span>🇬🇧</span>
-                        <span class="text-[11px] font-bold">EN</span>
+                        <span class="text-[11px] font-black">EN</span>
                     </button>
                 </div>
 
-                <a href="#rsvp" data-i18n="nav_rsvp" class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-400/20 transition-all hover:scale-105">
+                <a href="#rsvp" data-i18n="nav_rsvp" class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-400/20 transition-all hover:scale-105 shrink-0">
                     RSVP Now
                 </a>
 
                 <!-- Mobile Menu Button -->
-                <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="lg:hidden p-2 text-slate-300 hover:text-white">
+                <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="xl:hidden p-2 text-slate-300 hover:text-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-slate-900 border-b border-white/10 px-6 py-4 space-y-3 text-sm font-semibold uppercase tracking-wider text-slate-300">
+        <div id="mobile-menu" class="hidden xl:hidden bg-slate-900 border-b border-white/10 px-6 py-4 space-y-3 text-sm font-semibold uppercase tracking-wider text-slate-300">
             <!-- Mobile Language Switcher Row -->
             <div class="flex items-center justify-between pb-3 border-b border-white/10">
                 <span class="text-xs text-slate-400 font-bold">Lugha / Language</span>
@@ -1318,6 +1335,8 @@
             const btnEn = document.getElementById('lang-btn-en');
             const mBtnSw = document.getElementById('mobile-lang-btn-sw');
             const mBtnEn = document.getElementById('mobile-lang-btn-en');
+            const floatFlag = document.getElementById('float-lang-flag');
+            const floatText = document.getElementById('float-lang-text');
 
             const activeClass = ['bg-amber-400', 'text-slate-950', 'font-black', 'shadow-md'];
             const inactiveClass = ['text-slate-300', 'hover:text-white'];
@@ -1327,11 +1346,28 @@
                 if (btnEn) { btnEn.classList.remove(...activeClass); btnEn.classList.add(...inactiveClass); }
                 if (mBtnSw) { mBtnSw.classList.add(...activeClass); mBtnSw.classList.remove(...inactiveClass); }
                 if (mBtnEn) { mBtnEn.classList.remove(...activeClass); mBtnEn.classList.add(...inactiveClass); }
+                if (floatFlag) floatFlag.textContent = '🇹🇿';
+                if (floatText) floatText.textContent = 'Kiswahili';
             } else {
                 if (btnEn) { btnEn.classList.add(...activeClass); btnEn.classList.remove(...inactiveClass); }
                 if (btnSw) { btnSw.classList.remove(...activeClass); btnSw.classList.add(...inactiveClass); }
                 if (mBtnEn) { mBtnEn.classList.add(...activeClass); mBtnEn.classList.remove(...inactiveClass); }
                 if (mBtnSw) { mBtnSw.classList.remove(...activeClass); mBtnSw.classList.add(...inactiveClass); }
+                if (floatFlag) floatFlag.textContent = '🇬🇧';
+                if (floatText) floatText.textContent = 'English';
+            }
+        }
+
+        function closeLanguageModal() {
+            const modal = document.getElementById('language-modal');
+            if (modal) {
+                modal.style.opacity = '0';
+                modal.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    modal.style.opacity = '1';
+                    modal.style.pointerEvents = 'auto';
+                }, 250);
             }
         }
 
@@ -1342,15 +1378,7 @@
 
             applyTranslations(lang);
             updateLanguageSwitcherUI(lang);
-
-            // Animate out modal
-            const modal = document.getElementById('language-modal');
-            if (modal) {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                }, 350);
-            }
+            closeLanguageModal();
 
             // Trigger audio playback smoothly on this explicit user interaction
             if (typeof attemptPlayAudio === 'function') {
@@ -1361,9 +1389,11 @@
         window.openLanguageModal = function() {
             const modal = document.getElementById('language-modal');
             if (modal) {
-                modal.classList.remove('hidden');
+                modal.style.display = 'flex';
+                modal.style.opacity = '0';
+                modal.style.pointerEvents = 'auto';
                 setTimeout(() => {
-                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modal.style.opacity = '1';
                 }, 10);
             }
         };
@@ -1375,8 +1405,14 @@
                 currentEventLanguage = saved;
                 applyTranslations(saved);
                 updateLanguageSwitcherUI(saved);
+                // Already chosen by visitor -> keep modal hidden
             } else {
-                // Default to Kiswahili for East Africa
+                // First-time visit -> show entrance modal on top of page
+                const modal = document.getElementById('language-modal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    modal.style.opacity = '1';
+                }
                 applyTranslations('sw');
                 updateLanguageSwitcherUI('sw');
             }
