@@ -135,7 +135,17 @@ class Host extends Authenticatable
      */
     public function hasConfiguredEvent()
     {
-        return $this->event_configured;
+        if ($this->event_configured) {
+            return true;
+        }
+
+        // If an event already exists for this host, mark event_configured as true so future checks are fast
+        if ($this->events()->exists()) {
+            $this->update(['event_configured' => true]);
+            return true;
+        }
+
+        return false;
     }
 
     /**

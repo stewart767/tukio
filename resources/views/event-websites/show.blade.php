@@ -80,10 +80,10 @@
         }
 
         .gold-shimmer {
-            background: linear-gradient(135deg, #ffffff 0%, #fde68a 25%, var(--primary-color) 50%, var(--accent-color) 75%, #ffffff 100%);
+            background: linear-gradient(135deg, #FFF1BF 0%, #F59E0B 25%, #D4AF37 50%, #B45309 75%, #FFF1BF 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+            filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.9));
         }
 
         /* Equalizer sound animation */
@@ -324,20 +324,20 @@
     </header>
 
     <!-- SECTION 1: HERO / WELCOME -->
-    <section id="home" class="relative min-h-[92vh] flex items-center justify-center text-center px-4 py-24 overflow-hidden" style="background-color: var(--bg-color);">
+    <section id="home" class="relative min-h-[92vh] flex items-center justify-center text-center px-4 py-24 overflow-hidden bg-slate-950">
         <!-- Background Image / Video with Gradient Overlay -->
         @php
             $heroPhoto = $website->getHeroPhotoUrl();
         @endphp
         @if($heroPhoto)
             <div class="absolute inset-0 z-0">
-                <img src="{{ storage_url($heroPhoto) }}" alt="Hero Background" class="w-full h-full object-cover opacity-35">
-                <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-black/60 to-black/80"></div>
+                <img src="{{ storage_url($heroPhoto) }}" alt="Hero Background" class="w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/90"></div>
             </div>
         @else
             <div class="absolute inset-0 z-0">
-                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-500/10 via-black/75 to-[var(--bg-color)]"></div>
-                <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-black/55 to-[var(--bg-color)]"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"></div>
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-500/20 via-slate-950/70 to-slate-950"></div>
             </div>
         @endif
 

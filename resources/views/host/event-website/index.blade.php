@@ -517,48 +517,104 @@
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-6">
                 <div>
                     <h3 class="font-heading font-black text-xl text-slate-900">Custom Colors &amp; Typography (Optional)</h3>
-                    <p class="text-xs text-slate-500 mt-1">Override preset colors with your exact palette hex codes.</p>
+                    <p class="text-xs text-slate-500 mt-1">Write your exact color code (e.g. #D4AF37) or choose visually from the color picker box.</p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Primary Color</label>
-                        <div class="flex items-center gap-2">
-                            <input type="color" onchange="this.nextElementSibling.value = this.value" value="{{ $website->primary_color ?: '#D4AF37' }}" class="w-8 h-8 rounded-lg cursor-pointer border-0 p-0">
-                            <input type="text" name="primary_color" value="{{ old('primary_color', $website->primary_color) }}" placeholder="#D4AF37" class="w-full text-xs font-mono rounded-lg border-slate-200">
+                <!-- Quick Luxury Swatches -->
+                <div>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Quick Palette Shortcuts (Click to apply to Primary color)</span>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="applyQuickColor('text-primary_color', 'picker-primary_color', 'preview-primary_color', '#D4AF37')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 transition-colors shadow-2xs">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#D4AF37] border border-amber-300"></span>
+                            <span>Royal Gold (#D4AF37)</span>
+                        </button>
+                        <button type="button" onclick="applyQuickColor('text-primary_color', 'picker-primary_color', 'preview-primary_color', '#0F4D3C')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-2xs">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#0F4D3C] border border-emerald-300"></span>
+                            <span>Emerald (#0F4D3C)</span>
+                        </button>
+                        <button type="button" onclick="applyQuickColor('text-primary_color', 'picker-primary_color', 'preview-primary_color', '#0B132B')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100 transition-colors shadow-2xs">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#0B132B] border border-indigo-300"></span>
+                            <span>Midnight (#0B132B)</span>
+                        </button>
+                        <button type="button" onclick="applyQuickColor('text-primary_color', 'picker-primary_color', 'preview-primary_color', '#B76E79')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100 transition-colors shadow-2xs">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#B76E79] border border-rose-300"></span>
+                            <span>Rose Gold (#B76E79)</span>
+                        </button>
+                        <button type="button" onclick="applyQuickColor('text-primary_color', 'picker-primary_color', 'preview-primary_color', '#881337')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-pink-50 text-pink-900 border border-pink-200 hover:bg-pink-100 transition-colors shadow-2xs">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#881337] border border-pink-300"></span>
+                            <span>Burgundy (#881337)</span>
+                        </button>
+                        <button type="button" onclick="applyQuickColor('text-primary_color', 'picker-primary_color', 'preview-primary_color', '#0F172A')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-800 border border-slate-200 hover:bg-slate-200 transition-colors shadow-2xs">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#0F172A] border border-slate-400"></span>
+                            <span>Obsidian (#0F172A)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <!-- Primary Color -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-bold text-slate-700">Primary Color</label>
+                            <div id="preview-primary_color" class="w-4 h-4 rounded-full border border-slate-300 shadow-xs" style="background-color: {{ $website->primary_color ?: '#D4AF37' }}"></div>
                         </div>
+                        <div class="flex items-center gap-2">
+                            <input type="color" id="picker-primary_color" value="{{ $website->primary_color ?: '#D4AF37' }}" oninput="syncColorFromPicker(this, 'text-primary_color', 'preview-primary_color')" class="w-10 h-9 rounded-xl cursor-pointer border border-slate-200 p-0.5 bg-white shrink-0 hover:scale-105 transition-transform" title="Click to choose visually">
+                            <input type="text" id="text-primary_color" name="primary_color" value="{{ old('primary_color', $website->primary_color) }}" oninput="syncColorFromText(this, 'picker-primary_color', 'preview-primary_color')" placeholder="#D4AF37" class="w-full text-xs font-mono uppercase rounded-xl border-slate-200 py-2 focus:border-indigo-500">
+                        </div>
+                        <span class="text-[10px] text-slate-400 block">Headings &amp; primary buttons</span>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Secondary Color</label>
-                        <div class="flex items-center gap-2">
-                            <input type="color" onchange="this.nextElementSibling.value = this.value" value="{{ $website->secondary_color ?: '#1F2937' }}" class="w-8 h-8 rounded-lg cursor-pointer border-0 p-0">
-                            <input type="text" name="secondary_color" value="{{ old('secondary_color', $website->secondary_color) }}" placeholder="#1F2937" class="w-full text-xs font-mono rounded-lg border-slate-200">
+                    <!-- Secondary Color -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-bold text-slate-700">Secondary Color</label>
+                            <div id="preview-secondary_color" class="w-4 h-4 rounded-full border border-slate-300 shadow-xs" style="background-color: {{ $website->secondary_color ?: '#1F2937' }}"></div>
                         </div>
+                        <div class="flex items-center gap-2">
+                            <input type="color" id="picker-secondary_color" value="{{ $website->secondary_color ?: '#1F2937' }}" oninput="syncColorFromPicker(this, 'text-secondary_color', 'preview-secondary_color')" class="w-10 h-9 rounded-xl cursor-pointer border border-slate-200 p-0.5 bg-white shrink-0 hover:scale-105 transition-transform" title="Click to choose visually">
+                            <input type="text" id="text-secondary_color" name="secondary_color" value="{{ old('secondary_color', $website->secondary_color) }}" oninput="syncColorFromText(this, 'picker-secondary_color', 'preview-secondary_color')" placeholder="#1F2937" class="w-full text-xs font-mono uppercase rounded-xl border-slate-200 py-2 focus:border-indigo-500">
+                        </div>
+                        <span class="text-[10px] text-slate-400 block">Cards &amp; container backgrounds</span>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Accent Color</label>
-                        <div class="flex items-center gap-2">
-                            <input type="color" onchange="this.nextElementSibling.value = this.value" value="{{ $website->accent_color ?: '#FBBF24' }}" class="w-8 h-8 rounded-lg cursor-pointer border-0 p-0">
-                            <input type="text" name="accent_color" value="{{ old('accent_color', $website->accent_color) }}" placeholder="#FBBF24" class="w-full text-xs font-mono rounded-lg border-slate-200">
+                    <!-- Accent Color -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-bold text-slate-700">Accent Color</label>
+                            <div id="preview-accent_color" class="w-4 h-4 rounded-full border border-slate-300 shadow-xs" style="background-color: {{ $website->accent_color ?: '#FBBF24' }}"></div>
                         </div>
+                        <div class="flex items-center gap-2">
+                            <input type="color" id="picker-accent_color" value="{{ $website->accent_color ?: '#FBBF24' }}" oninput="syncColorFromPicker(this, 'text-accent_color', 'preview-accent_color')" class="w-10 h-9 rounded-xl cursor-pointer border border-slate-200 p-0.5 bg-white shrink-0 hover:scale-105 transition-transform" title="Click to choose visually">
+                            <input type="text" id="text-accent_color" name="accent_color" value="{{ old('accent_color', $website->accent_color) }}" oninput="syncColorFromText(this, 'picker-accent_color', 'preview-accent_color')" placeholder="#FBBF24" class="w-full text-xs font-mono uppercase rounded-xl border-slate-200 py-2 focus:border-indigo-500">
+                        </div>
+                        <span class="text-[10px] text-slate-400 block">Highlights, badges &amp; stars</span>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Background Color</label>
-                        <div class="flex items-center gap-2">
-                            <input type="color" onchange="this.nextElementSibling.value = this.value" value="{{ $website->background_color ?: '#0F172A' }}" class="w-8 h-8 rounded-lg cursor-pointer border-0 p-0">
-                            <input type="text" name="background_color" value="{{ old('background_color', $website->background_color) }}" placeholder="#0F172A" class="w-full text-xs font-mono rounded-lg border-slate-200">
+                    <!-- Background Color -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-bold text-slate-700">Background Color</label>
+                            <div id="preview-background_color" class="w-4 h-4 rounded-full border border-slate-300 shadow-xs" style="background-color: {{ $website->background_color ?: '#0F172A' }}"></div>
                         </div>
+                        <div class="flex items-center gap-2">
+                            <input type="color" id="picker-background_color" value="{{ $website->background_color ?: '#0F172A' }}" oninput="syncColorFromPicker(this, 'text-background_color', 'preview-background_color')" class="w-10 h-9 rounded-xl cursor-pointer border border-slate-200 p-0.5 bg-white shrink-0 hover:scale-105 transition-transform" title="Click to choose visually">
+                            <input type="text" id="text-background_color" name="background_color" value="{{ old('background_color', $website->background_color) }}" oninput="syncColorFromText(this, 'picker-background_color', 'preview-background_color')" placeholder="#0F172A" class="w-full text-xs font-mono uppercase rounded-xl border-slate-200 py-2 focus:border-indigo-500">
+                        </div>
+                        <span class="text-[10px] text-slate-400 block">Page background shade</span>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Text Color</label>
-                        <div class="flex items-center gap-2">
-                            <input type="color" onchange="this.nextElementSibling.value = this.value" value="{{ $website->text_color ?: '#F8FAFC' }}" class="w-8 h-8 rounded-lg cursor-pointer border-0 p-0">
-                            <input type="text" name="text_color" value="{{ old('text_color', $website->text_color) }}" placeholder="#F8FAFC" class="w-full text-xs font-mono rounded-lg border-slate-200">
+                    <!-- Text Color -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-bold text-slate-700">Text Color</label>
+                            <div id="preview-text_color" class="w-4 h-4 rounded-full border border-slate-300 shadow-xs" style="background-color: {{ $website->text_color ?: '#F8FAFC' }}"></div>
                         </div>
+                        <div class="flex items-center gap-2">
+                            <input type="color" id="picker-text_color" value="{{ $website->text_color ?: '#F8FAFC' }}" oninput="syncColorFromPicker(this, 'text-text_color', 'preview-text_color')" class="w-10 h-9 rounded-xl cursor-pointer border border-slate-200 p-0.5 bg-white shrink-0 hover:scale-105 transition-transform" title="Click to choose visually">
+                            <input type="text" id="text-text_color" name="text_color" value="{{ old('text_color', $website->text_color) }}" oninput="syncColorFromText(this, 'picker-text_color', 'preview-text_color')" placeholder="#F8FAFC" class="w-full text-xs font-mono uppercase rounded-xl border-slate-200 py-2 focus:border-indigo-500">
+                        </div>
+                        <span class="text-[10px] text-slate-400 block">Paragraphs &amp; body font</span>
                     </div>
                 </div>
 
@@ -673,12 +729,58 @@
                                         <input type="file" name="about_image" accept="image/*" class="w-full text-xs text-slate-500">
                                     </div>
                                 @elseif($section->section_key === 'dress_code')
-                                    <div class="space-y-3 pt-2">
-                                        <label class="block text-xs font-bold text-slate-600">Attire Style</label>
-                                        <input type="text" name="content[style]" value="{{ $section->content['style'] ?? 'Black Tie / Evening Wear' }}" class="w-full rounded-xl border-slate-200 text-xs">
+                                    <div class="space-y-4 pt-2">
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-700 mb-1">Attire Style</label>
+                                            <input type="text" name="content[style]" value="{{ $section->content['style'] ?? 'Black Tie / Evening Wear' }}" class="w-full rounded-xl border-slate-200 text-xs">
+                                        </div>
                                         
-                                        <label class="block text-xs font-bold text-slate-600">Dress Guidance Notes</label>
-                                        <textarea name="content[notes]" rows="2" class="w-full rounded-xl border-slate-200 text-xs">{{ $section->content['notes'] ?? '' }}</textarea>
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-700 mb-1">Dress Guidance Notes</label>
+                                            <textarea name="content[notes]" rows="2" class="w-full rounded-xl border-slate-200 text-xs" placeholder="e.g. We encourage our guests to dress in our celebration colors.">{{ $section->content['notes'] ?? '' }}</textarea>
+                                        </div>
+
+                                        <!-- Celebration Color Palette (4 Guest Attire Colors) -->
+                                        <div>
+                                            <div class="flex items-center justify-between mb-2">
+                                                <label class="block text-xs font-bold text-slate-800">Celebration Color Palette (4 Guest Attire Colors)</label>
+                                                <span class="text-[11px] text-slate-500">Choose or write hex color</span>
+                                            </div>
+
+                                            @php
+                                                $dressPalette = $section->content['colors'] ?? [
+                                                    ['name' => 'Metallic Gold', 'hex' => '#D4AF37'],
+                                                    ['name' => 'Royal Emerald', 'hex' => '#0F4D3C'],
+                                                    ['name' => 'Champagne Cream', 'hex' => '#F4E8D1'],
+                                                    ['name' => 'Midnight Slate', 'hex' => '#0D1117']
+                                                ];
+                                            @endphp
+
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                @for($ci = 0; $ci < 4; $ci++)
+                                                    @php
+                                                        $palCol = $dressPalette[$ci] ?? ['name' => 'Color ' . ($ci + 1), 'hex' => '#D4AF37'];
+                                                    @endphp
+                                                    <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                                                        <div class="flex items-center justify-between">
+                                                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Shade #{{ $ci + 1 }}</span>
+                                                            <div id="palette-swatch-{{ $ci }}" class="w-5 h-5 rounded-full border border-slate-300 shadow-xs" style="background-color: {{ $palCol['hex'] }}"></div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-[10px] text-slate-400 mb-0.5">Color Name</label>
+                                                            <input type="text" name="content[colors][{{ $ci }}][name]" value="{{ $palCol['name'] }}" placeholder="e.g. Metallic Gold" class="w-full text-xs rounded-lg border-slate-200 py-1.5 font-medium">
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-[10px] text-slate-400 mb-0.5">Pick or Write Hex Code</label>
+                                                            <div class="flex items-center gap-2">
+                                                                <input type="color" id="palette-picker-{{ $ci }}" value="{{ $palCol['hex'] }}" oninput="syncColorFromPicker(this, 'palette-hex-{{ $ci }}', 'palette-swatch-{{ $ci }}')" class="w-9 h-8 rounded-lg cursor-pointer border border-slate-200 p-0.5 bg-white shrink-0 hover:scale-105 transition-transform" title="Choose color visually">
+                                                                <input type="text" id="palette-hex-{{ $ci }}" name="content[colors][{{ $ci }}][hex]" value="{{ $palCol['hex'] }}" oninput="syncColorFromText(this, 'palette-picker-{{ $ci }}', 'palette-swatch-{{ $ci }}')" placeholder="#D4AF37" class="w-full text-xs font-mono uppercase rounded-lg border-slate-200 py-1.5">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endfor
+                                            </div>
+                                        </div>
                                     </div>
                                 @elseif($section->section_key === 'gallery')
                                     <div class="space-y-3 pt-2">
@@ -1118,6 +1220,57 @@ function ewToggleSectionEditor(id) {
     if (chevron) {
         chevron.classList.toggle('rotate-180');
     }
+}
+
+// Two-way Color Synchronization (Writing or Picking Colors)
+function syncColorFromPicker(pickerInput, textInputId, previewId) {
+    const textInput = document.getElementById(textInputId);
+    const preview = previewId ? document.getElementById(previewId) : null;
+    const hex = pickerInput.value.toUpperCase();
+    if (textInput) {
+        textInput.value = hex;
+    }
+    if (preview) {
+        preview.style.backgroundColor = hex;
+    }
+}
+
+function syncColorFromText(textInput, pickerInputId, previewId) {
+    let val = textInput.value.trim();
+    if (val && !val.startsWith('#') && /^[0-9A-Fa-f]{3,8}$/.test(val)) {
+        val = '#' + val;
+    }
+    const pickerInput = document.getElementById(pickerInputId);
+    const preview = previewId ? document.getElementById(previewId) : null;
+    
+    // Valid 6-digit hex (#RRGGBB)
+    if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+        if (pickerInput) {
+            pickerInput.value = val;
+        }
+        if (preview) {
+            preview.style.backgroundColor = val;
+        }
+    } else if (/^#[0-9A-Fa-f]{3}$/.test(val)) {
+        // Expand 3-digit hex (#RGB -> #RRGGBB)
+        const r = val[1], g = val[2], b = val[3];
+        const fullHex = `#${r}${r}${g}${g}${b}${b}`;
+        if (pickerInput) {
+            pickerInput.value = fullHex;
+        }
+        if (preview) {
+            preview.style.backgroundColor = fullHex;
+        }
+    }
+}
+
+function applyQuickColor(targetTextId, targetPickerId, targetPreviewId, hex) {
+    const textInput = document.getElementById(targetTextId);
+    const pickerInput = document.getElementById(targetPickerId);
+    const preview = document.getElementById(targetPreviewId);
+    if (textInput) textInput.value = hex.toUpperCase();
+    if (pickerInput) pickerInput.value = hex;
+    if (preview) preview.style.backgroundColor = hex;
 }
 
 // Live Dashboard Countdown Clock

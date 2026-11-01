@@ -161,6 +161,17 @@ class EventWebsiteController extends Controller
         $validated['require_email'] = $request->boolean('require_email');
         $validated['is_published'] = $request->boolean('is_published');
 
+        // Normalize color hex codes if user wrote them without leading '#'
+        foreach (['primary_color', 'secondary_color', 'accent_color', 'background_color', 'text_color'] as $colField) {
+            if (!empty($validated[$colField])) {
+                $val = trim($validated[$colField]);
+                if (preg_match('/^[0-9A-Fa-f]{3,8}$/', $val)) {
+                    $val = '#' . $val;
+                }
+                $validated[$colField] = $val;
+            }
+        }
+
         $website->update($validated);
 
         // Also sync event table date/venue if updated
@@ -290,6 +301,27 @@ class EventWebsiteController extends Controller
                 ];
             }
             $content['images'] = $galleryList;
+        }
+
+        // Normalize dress code colors if updating dress_code section
+        if ($section->section_key === 'dress_code' && isset($content['colors']) && is_array($content['colors'])) {
+            $cleanedColors = [];
+            foreach ($content['colors'] as $c) {
+                if (empty($c['name']) && empty($c['hex'])) {
+                    continue;
+                }
+                $hex = trim($c['hex'] ?? '#D4AF37');
+                if (preg_match('/^[0-9A-Fa-f]{3,8}$/', $hex)) {
+                    $hex = '#' . $hex;
+                }
+                $cleanedColors[] = [
+                    'name' => trim($c['name'] ?? 'Celebration Accent'),
+                    'hex' => $hex,
+                ];
+            }
+            if (!empty($cleanedColors)) {
+                $content['colors'] = $cleanedColors;
+            }
         }
 
         $section->update([
