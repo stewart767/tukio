@@ -174,6 +174,38 @@ class EventWebsiteController extends Controller
 
         $website->update($validated);
 
+        // Also save dress code attire colors if submitted from Theme tab
+        if ($request->has('dress_colors') && is_array($request->input('dress_colors'))) {
+            $dressSec = $website->getSection('dress_code');
+            if ($dressSec) {
+                $content = $dressSec->content ?? [];
+                $cleanedColors = [];
+                foreach ($request->input('dress_colors') as $c) {
+                    if (empty($c['name']) && empty($c['hex'])) {
+                        continue;
+                    }
+                    $hex = trim($c['hex'] ?? '#D4AF37');
+                    if (preg_match('/^[0-9A-Fa-f]{3,8}$/', $hex)) {
+                        $hex = '#' . $hex;
+                    }
+                    $cleanedColors[] = [
+                        'name' => trim($c['name'] ?? 'Celebration Accent'),
+                        'hex' => $hex,
+                    ];
+                }
+                if (!empty($cleanedColors)) {
+                    $content['colors'] = $cleanedColors;
+                }
+                if ($request->filled('dress_style')) {
+                    $content['style'] = trim($request->input('dress_style'));
+                }
+                if ($request->has('dress_notes')) {
+                    $content['notes'] = trim($request->input('dress_notes'));
+                }
+                $dressSec->update(['content' => $content]);
+            }
+        }
+
         // Also sync event table date/venue if updated
         if ($website->event) {
             $website->event->update([

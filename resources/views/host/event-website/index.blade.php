@@ -638,6 +638,68 @@
                     </div>
                 </div>
 
+                <!-- Event Dress Code & Attire Palette (Colors for Guests to Wear) -->
+                @php
+                    $themeDressSec = $website->getSection('dress_code');
+                    $themeDressContent = $themeDressSec?->content ?? [];
+                    $themeDressColors = $themeDressContent['colors'] ?? [
+                        ['name' => 'Metallic Gold', 'hex' => '#D4AF37'],
+                        ['name' => 'Royal Emerald', 'hex' => '#0F4D3C'],
+                        ['name' => 'Champagne Cream', 'hex' => '#F4E8D1'],
+                        ['name' => 'Midnight Slate', 'hex' => '#0D1117']
+                    ];
+                @endphp
+                <div class="pt-6 border-t border-slate-200/80 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <h4 class="font-heading font-black text-lg text-slate-900 flex items-center gap-2">
+                                <span>👗</span>
+                                <span>Guest Attire Colors &amp; Dress Code Palette</span>
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-0.5">Customize the exact attire colors displayed on your event website for guests to wear.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Attire Style / Dress Code</label>
+                            <input type="text" name="dress_style" value="{{ $themeDressContent['style'] ?? 'Tuxedo / Suit / strictly black' }}" placeholder="e.g. Tuxedo / Suit / strictly black" class="w-full text-xs rounded-xl border-slate-200 font-semibold focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Guest Attire Guidance Note</label>
+                            <input type="text" name="dress_notes" value="{{ $themeDressContent['notes'] ?? 'We invite you to express your elegance. Feel free to incorporate accents from our celebration color palette.' }}" placeholder="Instructions for guests..." class="w-full text-xs rounded-xl border-slate-200 focus:border-indigo-500">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-slate-800">Attire Color Palette (Edit Names, Pick Colors, or Write Hex Codes)</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                            @for($ti = 0; $ti < 4; $ti++)
+                                @php
+                                    $tCol = $themeDressColors[$ti] ?? ['name' => 'Color ' . ($ti + 1), 'hex' => '#D4AF37'];
+                                @endphp
+                                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2.5">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Attire Color #{{ $ti + 1 }}</span>
+                                        <div id="theme-dress-swatch-{{ $ti }}" class="w-6 h-6 rounded-full border border-slate-300 shadow-xs" style="background-color: {{ $tCol['hex'] }}"></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] text-slate-400 mb-0.5">Color Name</label>
+                                        <input type="text" name="dress_colors[{{ $ti }}][name]" value="{{ $tCol['name'] }}" placeholder="e.g. Strictly Black" class="w-full text-xs rounded-lg border-slate-200 py-1.5 font-medium focus:border-indigo-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] text-slate-400 mb-0.5">Pick or Write Hex Code</label>
+                                        <div class="flex items-center gap-2">
+                                            <input type="color" id="theme-dress-picker-{{ $ti }}" value="{{ $tCol['hex'] }}" oninput="syncColorFromPicker(this, 'theme-dress-hex-{{ $ti }}', 'theme-dress-swatch-{{ $ti }}')" class="w-9 h-8 rounded-lg cursor-pointer border border-slate-200 p-0.5 bg-white shrink-0 hover:scale-105 transition-transform" title="Choose color visually">
+                                            <input type="text" id="theme-dress-hex-{{ $ti }}" name="dress_colors[{{ $ti }}][hex]" value="{{ $tCol['hex'] }}" oninput="syncColorFromText(this, 'theme-dress-picker-{{ $ti }}', 'theme-dress-swatch-{{ $ti }}')" placeholder="#000000" class="w-full text-xs font-mono uppercase rounded-lg border-slate-200 py-1.5 focus:border-indigo-500">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
+                        </div>
+                    </div>
+                </div>
+
                 <div class="flex justify-end pt-4">
                     <button type="submit" class="px-8 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-600/20 transition-all">
                         Apply Theme Changes
@@ -671,8 +733,17 @@
                                         <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {{ $section->is_enabled ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-500' }}">
                                             {{ $section->is_enabled ? 'Active' : 'Disabled' }}
                                         </span>
+                                        @if($section->section_key === 'dress_code')
+                                            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-100 text-amber-900">👗 Attire Palette (Colors to Wear)</span>
+                                        @endif
                                     </div>
-                                    <p class="text-xs text-slate-500 mt-0.5">{{ $section->title ?: 'No custom title' }}</p>
+                                    <p class="text-xs text-slate-500 mt-0.5">
+                                        @if($section->section_key === 'dress_code')
+                                            Guest Attire Guidelines &amp; 4 Celebration Palette Circles
+                                        @else
+                                            {{ $section->title ?: 'No custom title' }}
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
 
