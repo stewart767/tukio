@@ -133,6 +133,14 @@ class Event extends Model
     }
 
     /**
+     * Get the WhatsApp messages sent for this event.
+     */
+    public function whatsappMessages()
+    {
+        return $this->hasMany(WhatsAppMessage::class, 'event_id');
+    }
+
+    /**
      * Ensure this event has an event website initialized.
      */
     public function ensureWebsite(): EventWebsite

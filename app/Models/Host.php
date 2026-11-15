@@ -76,6 +76,59 @@ class Host extends Authenticatable
     }
 
     /**
+     * Get the WhatsApp Business Accounts connected by this host.
+     */
+    public function whatsappAccounts()
+    {
+        return $this->hasMany(WhatsAppBusinessAccount::class, 'host_id');
+    }
+
+    /**
+     * Get the active WhatsApp Business Account for this host.
+     */
+    public function whatsappAccount()
+    {
+        return $this->hasOne(WhatsAppBusinessAccount::class, 'host_id')
+            ->where('status', 'active')
+            ->latest('id');
+    }
+
+    /**
+     * Get all WhatsApp phone numbers owned by this host.
+     */
+    public function whatsappPhoneNumbers()
+    {
+        return $this->hasMany(WhatsAppPhoneNumber::class, 'host_id');
+    }
+
+    /**
+     * Get the active/default WhatsApp phone number for this host.
+     */
+    public function whatsappPhoneNumber()
+    {
+        return $this->hasOne(WhatsAppPhoneNumber::class, 'host_id')
+            ->where('is_default', true)
+            ->latest('id');
+    }
+
+    /**
+     * Get all WhatsApp messages sent/received for this host's events.
+     */
+    public function whatsappMessages()
+    {
+        return $this->hasMany(WhatsAppMessage::class, 'host_id');
+    }
+
+    /**
+     * Check if this host has a live, connected WhatsApp Business Account.
+     */
+    public function hasConnectedWhatsApp(): bool
+    {
+        $account = $this->whatsappAccount;
+        return $account !== null && $account->isConnected();
+    }
+
+    /**
      * Get the latest invoice for the host.
      */
     public function latestInvoice()

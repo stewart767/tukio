@@ -193,7 +193,17 @@ Route::prefix('host')->name('host.')->group(function () {
             Route::get('/invitations/{invitation}/preview', [App\Http\Controllers\Host\InvitationController::class, 'preview'])->name('invitations.preview');
             Route::delete('/invitations/{invitation}', [App\Http\Controllers\Host\InvitationController::class, 'destroy'])->name('invitations.destroy');
             
-            // WhatsApp invitation routes
+            // WhatsApp invitation routes & Multi-Tenant WhatsApp Business Hub
+            Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Host\WhatsAppController::class, 'index'])->name('hub');
+                Route::post('/connect', [App\Http\Controllers\Host\WhatsAppController::class, 'connect'])->name('connect');
+                Route::post('/disconnect', [App\Http\Controllers\Host\WhatsAppController::class, 'disconnect'])->name('disconnect');
+                Route::post('/sync-templates', [App\Http\Controllers\Host\WhatsAppController::class, 'syncTemplates'])->name('sync-templates');
+                Route::post('/register-templates', [App\Http\Controllers\Host\WhatsAppController::class, 'registerTemplates'])->name('register-templates');
+                Route::post('/test-send', [App\Http\Controllers\Host\WhatsAppController::class, 'sendTestMessage'])->name('test-send');
+                Route::post('/broadcast', [App\Http\Controllers\Host\WhatsAppController::class, 'sendBroadcast'])->name('broadcast');
+                Route::post('/retry/{id}', [App\Http\Controllers\Host\WhatsAppController::class, 'retryMessage'])->name('retry');
+            });
             Route::post('/invitations/{invitation}/resend', [App\Http\Controllers\Host\InvitationController::class, 'resend'])->name('invitations.resend');
             Route::get('/whatsapp/test', [App\Http\Controllers\Host\InvitationController::class, 'testWhatsApp'])->name('whatsapp.test');
             Route::post('/whatsapp/send-invitations', [App\Http\Controllers\WhatsAppInvitationController::class, 'sendDirectInvitation'])->name('whatsapp.send-invitations');
@@ -214,11 +224,12 @@ Route::prefix('host')->name('host.')->group(function () {
     });
 });
 
-// WhatsApp webhook routes (no auth required)
+// WhatsApp webhook routes (no auth required, CSRF exempted)
 Route::prefix('webhook')->name('webhook.')->group(function () {
+    Route::get('/whatsapp', [App\Http\Controllers\WhatsAppWebhookController::class, 'verify'])->name('whatsapp.endpoint.verify');
+    Route::post('/whatsapp', [App\Http\Controllers\WhatsAppWebhookController::class, 'webhook'])->name('whatsapp.endpoint.receive');
     Route::get('/whatsapp/verify', [App\Http\Controllers\WhatsAppWebhookController::class, 'verify'])->name('whatsapp.verify');
     Route::post('/whatsapp/webhook', [App\Http\Controllers\WhatsAppWebhookController::class, 'webhook'])->name('whatsapp.webhook');
-    Route::get('/whatsapp/delivery-stats/{event_id}', [App\Http\Controllers\WhatsAppWebhookController::class, 'getDeliveryStats'])->name('whatsapp.delivery-stats');
 });
 
 // Beem SMS & WhatsApp Delivery Report (DLR) webhook routes

@@ -220,6 +220,17 @@ class EventWebsitePublicController extends Controller
             default => "Thank you, {$rsvp->full_name}! Your response has been recorded. Please feel free to update your status before the RSVP deadline."
         };
 
+        // Auto-send WhatsApp RSVP Pass confirmation if host has connected WhatsApp
+        try {
+            $host = $website->event?->host;
+            if ($host && $host->hasConnectedWhatsApp() && !empty($rsvp->phone) && $rsvp->attendance_status === 'attending') {
+                $whatsappMessaging = app(\App\Services\WhatsApp\WhatsAppMessagingService::class);
+                $whatsappMessaging->sendRsvpConfirmation($host, $rsvp);
+            }
+        } catch (\Throwable $e) {
+            Log::warning('[RSVP] Automated WhatsApp confirmation failed: ' . $e->getMessage());
+        }
+
         return response()->json([
             'success' => true,
             'message' => $message,

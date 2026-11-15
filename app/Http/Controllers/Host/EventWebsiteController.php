@@ -728,8 +728,16 @@ class EventWebsiteController extends Controller
                     $failedCount++;
                 }
             } elseif ($channel === 'whatsapp_auto') {
-                // If Meta WhatsApp is configured
-                if ($this->whatsAppService->isConfigured()) {
+                $host = \Illuminate\Support\Facades\Auth::guard('host')->user();
+                if ($host && $host->hasConnectedWhatsApp()) {
+                    $messagingService = app(\App\Services\WhatsApp\WhatsAppMessagingService::class);
+                    $result = $messagingService->sendTextMessage($host, $guest->phone, $personalizedMessage, $event, $guest);
+                    if ($result['success'] ?? false) {
+                        $sentCount++;
+                    } else {
+                        $failedCount++;
+                    }
+                } elseif ($this->whatsAppService->isConfigured()) {
                     $result = $this->whatsAppService->sendMessage($guest->phone, $personalizedMessage);
                     if ($result['success'] ?? false) {
                         $sentCount++;

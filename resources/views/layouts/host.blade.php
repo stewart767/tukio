@@ -153,6 +153,26 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('host.whatsapp.hub') }}" class="host-nav-link justify-between {{ request()->routeIs('host.whatsapp.*') ? 'active' : '' }}">
+                                        <div class="flex items-center gap-3">
+                                            <svg class="h-5 w-5 shrink-0 transition-colors {{ request()->routeIs('host.whatsapp.*') ? 'text-emerald-500' : 'text-slate-400' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6.454 3.14 1.282 4.455l-.837 3.056 3.136-.823A9.704 9.704 0 0012 21.75c5.385 0 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25 2.25 6.615 2.25 12z" />
+                                            </svg>
+                                            <span>WhatsApp Hub</span>
+                                        </div>
+                                        @if($hostUser && $hostUser->hasConnectedWhatsApp())
+                                            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                                Live
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-medium bg-slate-100 text-slate-500">
+                                                Setup
+                                            </span>
+                                        @endif
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ route('host.car-hire.index') }}" class="host-nav-link {{ request()->routeIs('host.car-hire.*') ? 'active' : '' }}">
                                         <svg class="h-5 w-5 shrink-0 transition-colors {{ request()->routeIs('host.car-hire.*') ? 'text-indigo-600' : 'text-slate-400' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.175V3.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75" />

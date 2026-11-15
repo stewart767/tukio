@@ -98,4 +98,22 @@ class Guest extends Model
     {
         return $this->hasOne(EventRsvp::class);
     }
+
+    /**
+     * Get the WhatsApp messages sent to this guest.
+     */
+    public function whatsappMessages()
+    {
+        return $this->hasMany(WhatsAppMessage::class, 'guest_id');
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this->full_name ?? '';
+    }
+
+    public function getPhoneNumberAttribute(): ?string
+    {
+        return $this->phone;
+    }
 }

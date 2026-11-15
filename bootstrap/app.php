@@ -22,11 +22,13 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\SecurityHeadersMiddleware::class,
         ]);
 
-        // Exempt Gate Scanner and RSVP endpoints from CSRF token expiration
+        // Exempt Gate Scanner, RSVP, and external Webhook endpoints from CSRF token verification
         $middleware->validateCsrfTokens(except: [
             'scan',
             'staff/scan',
             'invitation/*/rsvp',
+            'webhook/*',
+            'beem/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
