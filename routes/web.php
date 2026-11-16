@@ -232,6 +232,12 @@ Route::prefix('webhook')->name('webhook.')->group(function () {
     Route::post('/whatsapp/webhook', [App\Http\Controllers\WhatsAppWebhookController::class, 'webhook'])->name('whatsapp.webhook');
 });
 
+// Also support plural /webhooks/whatsapp as configured in Meta Developer portal
+Route::prefix('webhooks')->group(function () {
+    Route::get('/whatsapp', [App\Http\Controllers\WhatsAppWebhookController::class, 'verify']);
+    Route::post('/whatsapp', [App\Http\Controllers\WhatsAppWebhookController::class, 'webhook']);
+});
+
 // Beem SMS & WhatsApp Delivery Report (DLR) webhook routes
 Route::prefix('beem')->name('beem.')->group(function () {
     Route::get('/dlr', function () {

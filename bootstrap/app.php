@@ -29,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'staff/scan',
             'invitation/*/rsvp',
             'webhook/*',
+            'webhooks/*',
             'beem/*',
         ]);
     })
