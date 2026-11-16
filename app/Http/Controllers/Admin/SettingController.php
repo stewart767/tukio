@@ -380,18 +380,39 @@ class SettingController extends Controller
     public function restoreBackup(Request $request)
     {
         $request->validate([
+            'password' => ['required', 'string', 'current_password'],
             'backup_file' => ['required', File::types(['sqlite'])->max(10240)],
         ]);
 
+        if (config('database.default') !== 'sqlite') {
+            return redirect()->route('admin.settings.index')
+                ->with('error', 'Direct SQLite file restoration is disabled when the application is operating on MySQL/MariaDB.');
+        }
+
+        $databasePath = $this->databaseFilePath();
+
+        // 1. Take an automated pre-restore safety snapshot of current database
+        if (file_exists($databasePath)) {
+            $preRestoreSnapshot = storage_path('app/backups/pre-restore-' . now()->format('Ymd-His') . '.sqlite');
+            @copy($databasePath, $preRestoreSnapshot);
+        }
+
+        // 2. Safely store the uploaded backup file
         $uploadedPath = $request->file('backup_file')->storeAs(
             'backups',
             'restore-' . now()->format('Ymd-His') . '.sqlite'
         );
 
         $source = storage_path('app/' . $uploadedPath);
-        $databasePath = $this->databaseFilePath();
 
+        // 3. Atomically restore database
         copy($source, $databasePath);
+
+        \Illuminate\Support\Facades\Log::warning('[SECURITY AUDIT] Superadmin restored database from backup file.', [
+            'admin_id' => auth()->id(),
+            'ip' => $request->ip(),
+            'backup_file' => $uploadedPath,
+        ]);
 
         return redirect()->route('admin.settings.index')->with('success', 'Backup restored successfully.');
     }

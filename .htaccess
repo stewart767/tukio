@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    # Block access to hidden files and directories (dotfiles) except .well-known
+    RewriteRule "(^|/)\.(?!well-known)" - [F,L]
+
+    # Block access to sensitive files (environment, dependencies, logs, backups, and artisan)
+    RewriteRule "(^|/)(composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml|\.env.*|\.(bak|sql|sqlite|ini|log|sh))$" - [F,L,NC]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -21,12 +27,10 @@
     RewriteRule ^images/(.*)$ public/images/$1 [L]
 
     # Route storage assets to public folder (always)
-    # Match storage requests (works for both root and subdirectory setups)
     RewriteCond %{REQUEST_URI} /storage/(.*)$
     RewriteRule ^.*$ public/storage/%1 [L]
 
     # Serve static files from public directory if they exist
-    # This handles all static assets (CSS, JS, images, favicon, robots.txt, etc.)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} !^/public/
@@ -44,6 +48,27 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
+# Direct FilesMatch fallback denial for both Apache 2.2 and 2.4
+<FilesMatch "^\.(?!well-known)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<FilesMatch "(^\.env|\.git|composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml|\.(bak|sql|sqlite|ini|log|sh))$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
 # Defense-in-depth security headers for static assets
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
@@ -53,4 +78,3 @@
     Header always set Permissions-Policy "camera=(self), microphone=(), geolocation=(self), payment=(self), fullscreen=(self)"
     Header always set X-Permitted-Cross-Domain-Policies "none"
 </IfModule>
-

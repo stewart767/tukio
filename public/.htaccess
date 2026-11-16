@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    # Block access to hidden files and directories (dotfiles) except .well-known
+    RewriteRule "(^|/)\.(?!well-known)" - [F,L]
+
+    # Block access to sensitive backup, configuration, or log files in public directory
+    RewriteRule "(^|/)(\.env.*|\.(bak|sql|sqlite|ini|log|sh))$" - [F,L,NC]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -19,6 +25,27 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Direct FilesMatch fallback denial
+<FilesMatch "^\.(?!well-known)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<FilesMatch "(^\.env|\.(bak|sql|sqlite|ini|log|sh))$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
 
 # Defense-in-depth security headers for static assets
 <IfModule mod_headers.c>

@@ -199,8 +199,10 @@ class HostAuthController extends Controller
                             }
                         }
                         
-                        // Generate unique filename
-                        $filename = time() . '_' . $fieldName . '_' . $host->id . '.' . $file->getClientOriginalExtension();
+                        // Generate cryptographically unique safe filename
+                        $safeExtension = strtolower($file->extension() ?: 'jpg');
+                        $cleanField = preg_replace('/[^a-zA-Z0-9_]/', '', $fieldName);
+                        $filename = time() . '_' . $cleanField . '_' . bin2hex(random_bytes(6)) . '.' . $safeExtension;
                         
                         // Store file in public storage
                         $file->storeAs('public/event_uploads', $filename);

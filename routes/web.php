@@ -51,7 +51,7 @@ Route::post('/contact', [App\Http\Controllers\ContactController::class, 'submit'
 // Public Car Hire & Wedding Fleet routes
 Route::get('/car-hire', [App\Http\Controllers\CarHireController::class, 'index'])->name('car-hire.index');
 Route::get('/car-hire/{slug}', [App\Http\Controllers\CarHireController::class, 'show'])->name('car-hire.show');
-Route::post('/car-hire/{slug}/book', [App\Http\Controllers\CarHireController::class, 'book'])->name('car-hire.book');
+Route::post('/car-hire/{slug}/book', [App\Http\Controllers\CarHireController::class, 'book'])->middleware('throttle:15,1')->name('car-hire.book');
 Route::get('/car-hire-booking/{reference}', [App\Http\Controllers\CarHireController::class, 'confirmed'])->name('car-hire.confirmed');
 
 // Public Templates routes
@@ -67,7 +67,7 @@ Route::get('/invitation/{slug}/pdf', [App\Http\Controllers\InvitationPublicContr
 // Digital Event Websites & Guest RSVP routes (inspired by alices50thbirthdaycelebrations.co.za)
 Route::get('/e/{slug}', [App\Http\Controllers\EventWebsitePublicController::class, 'show'])->name('event.website.show');
 Route::get('/e/{slug}/preview', [App\Http\Controllers\EventWebsitePublicController::class, 'preview'])->name('event.website.preview');
-Route::post('/e/{slug}/rsvp', [App\Http\Controllers\EventWebsitePublicController::class, 'submitRsvp'])->name('event.website.rsvp');
+Route::post('/e/{slug}/rsvp', [App\Http\Controllers\EventWebsitePublicController::class, 'submitRsvp'])->middleware('throttle:15,1')->name('event.website.rsvp');
 
 // Public Track & Verification route (supa.ac.tz style)
 Route::match(['get', 'post'], '/track', function (\Illuminate\Http\Request $request) {
@@ -239,6 +239,19 @@ Route::prefix('beem')->name('beem.')->group(function () {
     })->name('dlr.verify');
     
     Route::post('/dlr', function () {
+        // Authenticate webhook: verify secret token from header, query string, or body
+        $expectedSecret = config('services.beem.secret_key');
+        $providedSecret = request()->header('X-Beem-Token') 
+            ?? request()->query('token') 
+            ?? request()->input('secret');
+
+        if (!empty($expectedSecret) && !hash_equals($expectedSecret, (string) $providedSecret)) {
+            \Illuminate\Support\Facades\Log::warning('[Beem DLR] Unauthorized webhook attempt rejected: invalid token.', [
+                'ip' => request()->ip(),
+            ]);
+            return response()->json(['error' => 'Unauthorized: Invalid authentication token.'], 401);
+        }
+
         $payload = request()->all();
         
         \Illuminate\Support\Facades\Log::info('Beem DLR received', [

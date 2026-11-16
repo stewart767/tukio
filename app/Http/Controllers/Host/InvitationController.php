@@ -32,7 +32,7 @@ class InvitationController extends Controller
      */
     public function index()
     {
-        $host = Auth::user();
+        $host = Auth::guard('host')->user();
         
         // Get the host's configured event
         $event = Event::where('host_id', $host->id)->first();
@@ -62,7 +62,7 @@ class InvitationController extends Controller
      */
     public function create()
     {
-        $host = Auth::user();
+        $host = Auth::guard('host')->user();
         
         // Get the host's configured event
         $event = Event::where('host_id', $host->id)->first();
@@ -105,7 +105,7 @@ class InvitationController extends Controller
             'template_id' => 'required|exists:templates,id',
         ]);
 
-        $host = Auth::user();
+        $host = Auth::guard('host')->user();
         
         // Get the host's configured event
         $event = Event::where('host_id', $host->id)->first();
@@ -216,7 +216,7 @@ class InvitationController extends Controller
      */
     public function download(Invitation $invitation, Request $request)
     {
-        $host = Auth::user();
+        $host = Auth::guard('host')->user();
         
         // Verify the invitation belongs to the host's event
         $event = Event::where('host_id', $host->id)->first();
@@ -250,7 +250,7 @@ class InvitationController extends Controller
      */
     public function preview(Invitation $invitation, Request $request)
     {
-        $host = Auth::user();
+        $host = Auth::guard('host')->user();
         
         // Verify the invitation belongs to the host's event
         $event = Event::where('host_id', $host->id)->first();
@@ -299,7 +299,7 @@ class InvitationController extends Controller
      */
     public function destroy(Invitation $invitation)
     {
-        $host = Auth::user();
+        $host = Auth::guard('host')->user();
         
         // Verify the invitation belongs to the host's event
         $event = Event::where('host_id', $host->id)->first();
@@ -407,7 +407,7 @@ class InvitationController extends Controller
      */
     public function resend(Invitation $invitation, Request $request)
     {
-        $host = Auth::user();
+        $host = Auth::guard('host')->user();
         
         // Verify the invitation belongs to the host's event
         $event = Event::where('host_id', $host->id)->first();

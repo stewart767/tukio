@@ -146,39 +146,23 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // First check if user exists and is superadmin
+        $genericError = 'The provided credentials do not match our records.';
+
         $user = User::where('email', $request->email)->first();
-        
-        if (!$user) {
+
+        // Constant-time password check if user exists; dummy check if not to mitigate timing attacks
+        $dummyHash = '$2y$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ012345';
+        $passwordMatches = $user ? Hash::check($request->password, $user->password) : Hash::check($request->password, $dummyHash);
+
+        if (!$user || !$passwordMatches || !$user->isSuperAdmin() || !$user->is_active) {
             return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
+                'email' => $genericError,
             ])->onlyInput('email');
         }
 
-        // Check if user is superadmin before attempting authentication
-        if (!$user->isSuperAdmin()) {
-            return back()->withErrors([
-                'email' => 'Access denied. This login is for superadmin only.',
-            ])->onlyInput('email');
-        }
+        Auth::login($user, $request->boolean('remember'));
+        $request->session()->regenerate();
 
-        // Check if user is active
-        if (!$user->is_active) {
-            return back()->withErrors([
-                'email' => 'Your account is currently inactive. Please contact support for assistance.',
-            ])->onlyInput('email');
-        }
-
-        // Attempt authentication with email and password only
-        $credentials = $request->only('email', 'password');
-        
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
-        }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        return redirect()->intended(route('dashboard'));
     }
 }

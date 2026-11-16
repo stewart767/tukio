@@ -58,7 +58,8 @@ class PaymentController extends Controller
 
         if ($request->hasFile('receipt_image')) {
             $file = $request->file('receipt_image');
-            $filename = 'receipt_' . time() . '_' . $host->id . '.' . $file->getClientOriginalExtension();
+            $safeExtension = strtolower($file->extension() ?: 'jpg');
+            $filename = 'receipt_' . time() . '_' . bin2hex(random_bytes(6)) . '.' . $safeExtension;
             $file->storeAs('public/payment_receipts', $filename);
             $receiptPath = 'payment_receipts/' . $filename;
         }
