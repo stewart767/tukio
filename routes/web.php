@@ -352,6 +352,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('rsvps', [App\Http\Controllers\Admin\AdminEventWebsiteController::class, 'allRsvps'])->name('rsvps.index');
         Route::get('rsvps/export', [App\Http\Controllers\Admin\AdminEventWebsiteController::class, 'exportRsvps'])->name('rsvps.export');
 
+        // Security Operations Center (SOC) & Threat Management
+        Route::prefix('security')->name('security.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'index'])->name('index');
+            Route::post('/block-ip', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'blockIp'])->name('block-ip');
+            Route::post('/unblock-ip/{ip}', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'unblockIp'])->name('unblock-ip');
+            Route::post('/incidents/{incident}/resolve', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'resolveIncident'])->name('resolve');
+            Route::post('/incidents/{incident}/false-positive', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'markFalsePositive'])->name('false-positive');
+            Route::post('/settings', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'updateSettings'])->name('settings');
+        });
+
         Route::prefix('settings')->name('settings.')->controller(SettingController::class)->group(function () {
             Route::get('', 'index')->name('index');
             Route::post('/system', 'updateSystem')->name('system');
