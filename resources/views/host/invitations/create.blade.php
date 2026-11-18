@@ -164,23 +164,35 @@
 
             <!-- Step 4: Card Template Gallery -->
             <div class="space-y-4 pt-4 border-t border-slate-100">
-                <div class="flex items-center justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                         <h3 class="text-sm font-bold text-slate-900">Step 4: Pick Invitation Design Template</h3>
                         <p class="text-xs text-slate-500">Select the card style that will be generated for each guest.</p>
                     </div>
+
+                    <a href="{{ route('host.card-templates.create') }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-xs font-bold text-purple-700 transition-all shrink-0">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        <span>+ Upload Custom Card</span>
+                    </a>
                 </div>
 
                 @if($templates->count() > 0)
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                        @php
+                            $selectedTemplateId = request('template_id', $templates->first()?->id);
+                        @endphp
                         @foreach($templates as $template)
+                            @php
+                                $isHostTemplate = ($template->host_id == auth('host')->id());
+                                $isSelected = ($template->id == $selectedTemplateId);
+                            @endphp
                             <label class="relative cursor-pointer group">
-                                <input type="radio" name="template_id" value="{{ $template->id }}" id="template_{{ $template->id }}" class="sr-only" {{ $loop->first ? 'checked' : '' }}>
-                                <div class="p-4 rounded-3xl border-2 border-slate-200 group-hover:border-indigo-400 transition-all template-card bg-white shadow-sm hover:shadow-lg flex flex-col justify-between" id="template-card-{{ $template->id }}" onclick="selectTemplate({{ $template->id }})">
+                                <input type="radio" name="template_id" value="{{ $template->id }}" id="template_{{ $template->id }}" class="sr-only" {{ $isSelected ? 'checked' : '' }}>
+                                <div class="p-4 rounded-3xl border-2 {{ $isSelected ? 'border-indigo-600 bg-indigo-50/20' : 'border-slate-200' }} group-hover:border-indigo-400 transition-all template-card bg-white shadow-sm hover:shadow-lg flex flex-col justify-between" id="template-card-{{ $template->id }}" onclick="selectTemplate({{ $template->id }})">
                                     <div>
                                         <div class="relative overflow-hidden rounded-2xl mb-3 h-48 bg-slate-900 flex items-center justify-center">
-                                            @if($template->preview_image)
-                                                <img src="{{ storage_url($template->preview_image) }}" alt="{{ $template->name }}" class="w-full h-full object-cover">
+                                            @if($template->preview_image || $template->artwork_path)
+                                                <img src="{{ $template->artwork_url }}" alt="{{ $template->name }}" class="w-full h-full object-cover">
                                             @else
                                                 <div class="text-center p-4 text-white">
                                                     <svg class="w-8 h-8 mx-auto mb-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -194,10 +206,16 @@
                                                 {{ ucfirst(str_replace('_', ' ', $template->category)) }}
                                             </span>
 
-                                            <!-- Price Badge -->
-                                            <span class="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-black shadow-xs backdrop-blur {{ $template->isPaid() ? 'bg-amber-400 text-slate-950' : 'bg-emerald-500 text-white' }}">
-                                                {{ $template->formatted_price }}
-                                            </span>
+                                            <!-- Price or Custom Badge -->
+                                            @if($isHostTemplate)
+                                                <span class="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-black shadow-xs backdrop-blur bg-purple-600 text-white">
+                                                    Your Custom Card
+                                                </span>
+                                            @else
+                                                <span class="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-black shadow-xs backdrop-blur {{ $template->isPaid() ? 'bg-amber-400 text-slate-950' : 'bg-emerald-500 text-white' }}">
+                                                    {{ $template->formatted_price }}
+                                                </span>
+                                            @endif
                                         </div>
 
                                         <div class="space-y-1">
@@ -217,10 +235,18 @@
                                             <span>&rarr;</span>
                                         </span>
 
-                                        <a href="{{ route('admin.templates.preview', $template) }}" target="_blank" onclick="event.stopPropagation();" class="text-[11px] font-bold text-slate-500 hover:text-purple-600 hover:underline inline-flex items-center gap-1">
-                                            <span>Preview</span>
-                                            <span>↗</span>
-                                        </a>
+                                        <div class="flex items-center gap-3">
+                                            @if($isHostTemplate)
+                                                <a href="{{ route('host.card-templates.editor', $template) }}" target="_blank" onclick="event.stopPropagation();" class="text-[11px] font-bold text-purple-600 hover:text-purple-800 hover:underline inline-flex items-center gap-1">
+                                                    <span>Edit Layout</span>
+                                                    <span>✎</span>
+                                                </a>
+                                            @endif
+                                            <a href="{{ $isHostTemplate ? route('host.card-templates.preview', $template) : route('admin.templates.preview', $template) }}" target="_blank" onclick="event.stopPropagation();" class="text-[11px] font-bold text-slate-500 hover:text-purple-600 hover:underline inline-flex items-center gap-1">
+                                                <span>Preview</span>
+                                                <span>↗</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </label>

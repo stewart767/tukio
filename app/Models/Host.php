@@ -51,6 +51,14 @@ class Host extends Authenticatable
     }
 
     /**
+     * Get custom card templates created by or assigned to this host.
+     */
+    public function templates()
+    {
+        return $this->hasMany(Template::class, 'host_id');
+    }
+
+    /**
      * Get the digital event website for this host's primary event.
      */
     public function eventWebsite(): ?EventWebsite

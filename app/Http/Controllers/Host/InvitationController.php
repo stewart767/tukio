@@ -83,7 +83,7 @@ class InvitationController extends Controller
                       ->orWhere('host_id', $host->id);
             })
             ->with('fields')
-            ->orderByRaw("CASE WHEN category = ? THEN 0 ELSE 1 END", [$event->category])
+            ->orderByRaw("CASE WHEN host_id = ? THEN 0 WHEN category = ? THEN 1 ELSE 2 END", [$host->id, $event->category])
             ->orderBy('is_paid', 'asc')
             ->get();
 

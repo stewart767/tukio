@@ -193,6 +193,18 @@ Route::prefix('host')->name('host.')->group(function () {
             Route::get('/invitations/{invitation}/preview', [App\Http\Controllers\Host\InvitationController::class, 'preview'])->name('invitations.preview');
             Route::delete('/invitations/{invitation}', [App\Http\Controllers\Host\InvitationController::class, 'destroy'])->name('invitations.destroy');
             
+            // Custom Card Templates Studio & Visual Editor
+            Route::prefix('card-templates')->name('card-templates.')->group(function () {
+                Route::get('/', [App\Http\Controllers\Host\CardTemplateController::class, 'index'])->name('index');
+                Route::get('/create', [App\Http\Controllers\Host\CardTemplateController::class, 'create'])->name('create');
+                Route::post('/upload', [App\Http\Controllers\Host\CardTemplateController::class, 'upload'])->name('upload');
+                Route::get('/{template}/editor', [App\Http\Controllers\Host\CardTemplateController::class, 'editor'])->name('editor');
+                Route::post('/{template}/editor', [App\Http\Controllers\Host\CardTemplateController::class, 'updateEditorFields'])->name('editor.update');
+                Route::post('/{template}/reanalyze', [App\Http\Controllers\Host\CardTemplateController::class, 'reanalyze'])->name('reanalyze');
+                Route::get('/{template}/preview', [App\Http\Controllers\Host\CardTemplateController::class, 'preview'])->name('preview');
+                Route::delete('/{template}', [App\Http\Controllers\Host\CardTemplateController::class, 'destroy'])->name('destroy');
+            });
+            
             // WhatsApp invitation routes & Multi-Tenant WhatsApp Business Hub
             Route::prefix('whatsapp')->name('whatsapp.')->group(function () {
                 Route::get('/', [App\Http\Controllers\Host\WhatsAppController::class, 'index'])->name('hub');

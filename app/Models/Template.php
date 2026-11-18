@@ -50,6 +50,9 @@ class Template extends Model
                 }
                 $template->slug = $slug;
             }
+            if (empty($template->html_content)) {
+                $template->html_content = "<!-- Template {$template->slug} -->";
+            }
         });
     }
 
