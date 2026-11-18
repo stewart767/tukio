@@ -92,6 +92,8 @@ class CardTemplateController extends Controller
         // Store artwork and thumbnail preview
         $artworkPath = $file->store('templates/artwork', 'public');
         $previewPath = $file->store('templates/previews', 'public');
+        $this->mirrorToPublicStorage($artworkPath);
+        $this->mirrorToPublicStorage($previewPath);
 
         $slug = Str::slug($request->name);
         $baseSlug = $slug;
@@ -388,6 +390,7 @@ class CardTemplateController extends Controller
 
         $file = $request->file('photo');
         $path = $file->store('templates/photos', 'public');
+        $this->mirrorToPublicStorage($path);
         $photoUrl = asset('storage/' . $path);
         $fieldKey = $request->input('field_key', 'couple_photo');
 
@@ -461,6 +464,29 @@ class CardTemplateController extends Controller
                     'configuration' => $field,
                 ]
             );
+        }
+    }
+
+    /**
+     * Safely mirrors stored files into public/storage directory in case symlinks are missing or disabled.
+     */
+    protected function mirrorToPublicStorage(string $relativePath): void
+    {
+        try {
+            $source = storage_path('app/public/' . $relativePath);
+            $target = public_path('storage/' . $relativePath);
+
+            if (!is_link(public_path('storage')) && file_exists($source)) {
+                $dir = dirname($target);
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0755, true);
+                }
+                if (!file_exists($target)) {
+                    @copy($source, $target);
+                }
+            }
+        } catch (\Throwable $e) {
+            // Non-critical mirror fallback
         }
     }
 }

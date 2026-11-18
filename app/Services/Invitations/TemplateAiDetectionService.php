@@ -349,6 +349,26 @@ EOT;
                 'confidence' => round((float) ($field['confidence'] ?? 0.85), 2),
                 'status' => 'detected',
             ];
+
+            // Preserve photo attributes if present
+            if (!empty($field['photo_url'])) {
+                $sanitized[$key]['photo_url'] = $field['photo_url'];
+            }
+            if (!empty($field['photo_path'])) {
+                $sanitized[$key]['photo_path'] = $field['photo_path'];
+            }
+            if (!empty($field['fit'])) {
+                $sanitized[$key]['fit'] = in_array($field['fit'], ['cover', 'contain']) ? $field['fit'] : 'cover';
+            }
+            if (!empty($field['border_radius'])) {
+                $sanitized[$key]['border_radius'] = $field['border_radius'];
+            }
+            if (isset($field['border_width'])) {
+                $sanitized[$key]['border_width'] = (int) $field['border_width'];
+            }
+            if (!empty($field['border_color'])) {
+                $sanitized[$key]['border_color'] = $field['border_color'];
+            }
         }
 
         return $sanitized;
