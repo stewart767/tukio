@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\SecurityAuditLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -34,12 +36,12 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => ['required', 'confirmed', Password::defaults()],
             'role' => 'required|in:super_admin,event_admin,staff',
             'phone' => 'nullable|string|max:20',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -47,6 +49,16 @@ class UserController extends Controller
             'phone' => $request->phone,
             'is_active' => true,
         ]);
+
+        SecurityAuditLog::record(
+            'admin_created_user',
+            [
+                'created_user_id' => $user->id,
+                'email' => $user->email,
+                'role' => $user->role,
+            ],
+            auth()->id()
+        );
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
@@ -97,6 +109,17 @@ class UserController extends Controller
 
         $user->update($request->only(['name', 'email', 'role', 'phone', 'is_active']));
 
+        SecurityAuditLog::record(
+            'admin_updated_user',
+            [
+                'updated_user_id' => $user->id,
+                'email' => $user->email,
+                'role' => $user->role,
+                'is_active' => $user->is_active,
+            ],
+            auth()->id()
+        );
+
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
@@ -112,7 +135,16 @@ class UserController extends Controller
             ]);
         }
 
+        $deletedDetails = [
+            'deleted_user_id' => $user->id,
+            'email' => $user->email,
+            'role' => $user->role,
+        ];
+
         $user->delete();
+
+        SecurityAuditLog::record('admin_deleted_user', $deletedDetails, auth()->id());
+
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
 }

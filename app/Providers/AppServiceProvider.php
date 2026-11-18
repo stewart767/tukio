@@ -6,6 +6,7 @@ namespace App\Providers {
     use Illuminate\Support\Facades\Log;
     use Illuminate\Support\Facades\View;
     use Illuminate\Support\ServiceProvider;
+    use Illuminate\Validation\Rules\Password;
 
     class AppServiceProvider extends ServiceProvider
     {
@@ -26,6 +27,13 @@ namespace App\Providers {
         {
             // Hydrate settings and share with views
             $this->hydrateAndShareSettings();
+
+            // Enforce enterprise password complexity standards across the application
+            Password::defaults(function () {
+                return app()->isProduction()
+                    ? Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised()
+                    : Password::min(8)->letters()->numbers();
+            });
         }
 
         protected function hydrateAndShareSettings(): void

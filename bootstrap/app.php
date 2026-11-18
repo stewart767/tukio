@@ -16,11 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'event.configured' => \App\Http\Middleware\EnsureEventConfigured::class,
         ]);
         
-        // Apply SetLocale, SecurityHeaders, and ThreatDetection middleware to all web routes
+        // Apply SetLocale, SecurityHeaders, ThreatDetection, and AdminInactivityTimeout middleware to all web routes
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\SecurityHeadersMiddleware::class,
             \App\Http\Middleware\ThreatDetectionMiddleware::class,
+            \App\Http\Middleware\AdminInactivityTimeoutMiddleware::class,
         ]);
 
         // Exempt Gate Scanner, RSVP, and external Webhook endpoints from CSRF token verification

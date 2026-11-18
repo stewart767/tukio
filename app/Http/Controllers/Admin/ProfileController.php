@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\SecurityAuditLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
@@ -54,7 +56,7 @@ class ProfileController extends Controller
 
         $request->validate([
             'current_password' => 'required',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         // Verify current password
@@ -67,6 +69,20 @@ class ProfileController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('admin.profile.show')->with('success', 'Password updated successfully.');
+        // Invalidate other devices and cycle session ID for session fixation mitigation
+        try {
+            Auth::logoutOtherDevices($request->password);
+        } catch (\Throwable $e) {
+            // Ignore if session driver does not support logoutOtherDevices
+        }
+        $request->session()->regenerate();
+
+        SecurityAuditLog::record(
+            'admin_password_changed',
+            ['user_id' => $user->id, 'email' => $user->email],
+            $user->id
+        );
+
+        return redirect()->route('admin.profile.show')->with('success', 'Password updated successfully. Other active sessions have been terminated.');
     }
 }

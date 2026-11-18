@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rules\Password;
+use App\Services\Security\AuthenticationGuardService;
 
 class HostAuthController extends Controller
 {
+    public function __construct(
+        protected AuthenticationGuardService $authGuard
+    ) {}
     /**
      * Show the host registration form.
      */
@@ -87,6 +91,8 @@ class HostAuthController extends Controller
         $login = trim($request->login);
         $password = $request->password;
 
+        $this->authGuard->ensureNotRateLimited($request, $login);
+
         // Build phone normalization variants if numeric/phone characters are present
         $cleanedDigits = preg_replace('/[^0-9]/', '', $login);
         $phoneVariants = [$login];
@@ -123,6 +129,8 @@ class HostAuthController extends Controller
                 ])->onlyInput('login');
             }
 
+            $this->authGuard->clearFailedAttempts($request, $login, $host->id);
+
             // Log in the host
             Auth::guard('host')->login($host, $request->boolean('remember'));
             $request->session()->regenerate();
@@ -134,6 +142,8 @@ class HostAuthController extends Controller
 
             return redirect()->intended(route('host.event-config'));
         }
+
+        $this->authGuard->recordFailedAttempt($request, $login, 'host');
 
         return back()->withErrors([
             'login' => 'The provided credentials do not match our records.',

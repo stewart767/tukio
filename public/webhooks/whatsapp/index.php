@@ -43,3 +43,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 // 2. Incoming Webhook POST Events -> Delegate directly to Laravel Front Controller
 require __DIR__ . '/../../index.php';
+
