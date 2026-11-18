@@ -76,9 +76,13 @@ class InvitationRenderer
         $data['qr_code_base64'] = $qrBase64;
 
         $orientation = ($template?->aspect_ratio ?? 0.7) > 1.1 ? 'landscape' : 'portrait';
-        $pdfView = ($template?->artwork_path && ViewFacade::exists('invitations.pdf.card-artwork'))
-            ? 'invitations.pdf.card-artwork'
-            : 'invitations.pdf.default';
+        $pdfView = 'invitations.pdf.default';
+        if ($template?->slug === 'royal-black-gold-double' && ViewFacade::exists('invitations.pdf.royal-black-gold-double')) {
+            $pdfView = 'invitations.pdf.royal-black-gold-double';
+            $orientation = 'landscape';
+        } elseif ($template?->artwork_path && ViewFacade::exists('invitations.pdf.card-artwork')) {
+            $pdfView = 'invitations.pdf.card-artwork';
+        }
 
         if (!ViewFacade::exists($pdfView)) {
             $pdfView = 'invitations.pdf-fallback';
@@ -103,9 +107,13 @@ class InvitationRenderer
         $data['qr_code_base64'] = null;
 
         $orientation = ($template->aspect_ratio ?? 0.7) > 1.1 ? 'landscape' : 'portrait';
-        $pdfView = ($template->artwork_path && ViewFacade::exists('invitations.pdf.card-artwork'))
-            ? 'invitations.pdf.card-artwork'
-            : 'invitations.pdf.default';
+        $pdfView = 'invitations.pdf.default';
+        if ($template->slug === 'royal-black-gold-double' && ViewFacade::exists('invitations.pdf.royal-black-gold-double')) {
+            $pdfView = 'invitations.pdf.royal-black-gold-double';
+            $orientation = 'landscape';
+        } elseif ($template->artwork_path && ViewFacade::exists('invitations.pdf.card-artwork')) {
+            $pdfView = 'invitations.pdf.card-artwork';
+        }
 
         if (!ViewFacade::exists($pdfView)) {
             $pdfView = 'invitations.pdf-fallback';

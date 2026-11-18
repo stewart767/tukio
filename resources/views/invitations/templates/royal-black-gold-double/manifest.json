@@ -1,0 +1,32 @@
+{
+    "name": "Royal Black & Gold Double Card",
+    "slug": "royal-black-gold-double",
+    "category": "wedding",
+    "template_type": "premium",
+    "price": 0,
+    "currency": "TZS",
+    "is_paid": false,
+    "version": "1.0",
+    "description": "An exquisite 2-panel landscape split wedding invitation with full-bleed couple portrait, gold calligraphy, boxed date calendar, 2-column Church & Reception schedule, RSVP contacts, wedding colors palette, and dynamic QR gate pass.",
+    "features": [
+        "2-Panel Landscape Split Double Card",
+        "Full-Bleed Couple Photo on Left Panel",
+        "Calligraphy Cursive Couple Signature",
+        "Personalized Guest Name Header",
+        "Boxed Date Frame with Calendar & Clock Icons",
+        "Two-Column Church Service & Reception Program",
+        "Official RSVP Contacts Section",
+        "Wedding Theme Color Palette Swatches",
+        "Dynamic Entrance Pass QR Code with Badge",
+        "High-Resolution Print-Ready PDF Download"
+    ],
+    "fields": [
+        "guest_name",
+        "couple_names",
+        "event_title",
+        "event_date",
+        "venue_name",
+        "qr_code",
+        "couple_photo"
+    ]
+}
