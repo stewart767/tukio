@@ -274,4 +274,37 @@ class HostCardTemplateTest extends TestCase
             ->assertSee('Your Custom Card')
             ->assertSee('Edit Layout');
     }
+
+    public function test_host_can_upload_couple_photo_and_configure_fit(): void
+    {
+        $template = Template::create([
+            'name' => 'Couple Photo Card',
+            'slug' => 'couple-photo-card',
+            'category' => 'wedding',
+            'template_type' => 'custom',
+            'host_id' => $this->host->id,
+            'approval_status' => 'approved',
+            'is_active' => true,
+        ]);
+
+        $photoFile = UploadedFile::fake()->image('couple.jpg', 600, 800);
+
+        $response = $this->actingAs($this->host, 'host')
+            ->postJson(route('host.card-templates.upload-photo', $template), [
+                'photo' => $photoFile,
+                'field_key' => 'couple_photo',
+            ]);
+
+        $response->assertOk()
+            ->assertJson([
+                'success' => true,
+                'field_key' => 'couple_photo',
+            ]);
+
+        $template->refresh();
+        $normalized = $template->getNormalizedFields();
+        $this->assertArrayHasKey('couple_photo', $normalized);
+        $this->assertNotNull($normalized['couple_photo']['photo_url']);
+        $this->assertEquals('image', $normalized['couple_photo']['type']);
+    }
 }

@@ -138,13 +138,76 @@ class InvitationImageGenerator
                 continue;
             }
 
-            // Photo frame rendering
-            if ($type === 'image' || $key === 'couple_photo') {
-                $photoPath = $data['couple_photo'] ?? ($data['guest_photo'] ?? null);
-                if ($photoPath && file_exists($photoPath)) {
-                    $photoImg = @imagecreatefromstring(file_get_contents($photoPath));
+            // Photo frame rendering (with automatic center-crop cover fitting)
+            if ($type === 'image' || str_contains($key, 'photo')) {
+                $rawPhoto = $field['photo_path'] ?? ($field['photo_url'] ?? ($data['couple_photo'] ?? ($data['guest_photo'] ?? null)));
+                $resolvedPath = null;
+                if ($rawPhoto) {
+                    if (file_exists($rawPhoto)) {
+                        $resolvedPath = $rawPhoto;
+                    } else {
+                        // Strip base URL or leading /storage/ to resolve to local disk path
+                        $relative = preg_replace('#^https?://[^/]+/#i', '', $rawPhoto);
+                        $relative = preg_replace('#^/?storage/#i', '', ltrim($relative, '/'));
+                        $storageCandidate = storage_path('app/public/' . $relative);
+                        if (file_exists($storageCandidate)) {
+                            $resolvedPath = $storageCandidate;
+                        }
+                    }
+                }
+
+                if ($resolvedPath && file_exists($resolvedPath)) {
+                    $photoImg = @imagecreatefromstring(file_get_contents($resolvedPath));
                     if ($photoImg) {
-                        imagecopyresampled($image, $photoImg, $pxX, $pxY, 0, 0, $pxW, $pxH, imagesx($photoImg), imagesy($photoImg));
+                        $srcW = imagesx($photoImg);
+                        $srcH = imagesy($photoImg);
+                        $fitMode = $field['fit'] ?? 'cover';
+
+                        if ($fitMode === 'contain') {
+                            // Scale to fit completely inside the frame without cropping
+                            $ratio = min($pxW / max(1, $srcW), $pxH / max(1, $srcH));
+                            $destW = (int) ($srcW * $ratio);
+                            $destH = (int) ($srcH * $ratio);
+                            $destX = $pxX + (int) (($pxW - $destW) / 2);
+                            $destY = $pxY + (int) (($pxH - $destH) / 2);
+                            imagecopyresampled($image, $photoImg, $destX, $destY, 0, 0, $destW, $destH, $srcW, $srcH);
+                        } else {
+                            // Center-crop Cover: fill the target area completely without stretching
+                            $srcAspect = $srcW / max(1, $srcH);
+                            $dstAspect = $pxW / max(1, $pxH);
+
+                            if ($srcAspect > $dstAspect) {
+                                // Source is wider: crop sides
+                                $cropW = (int) ($srcH * $dstAspect);
+                                $cropH = $srcH;
+                                $srcX = (int) (($srcW - $cropW) / 2);
+                                $srcY = 0;
+                            } else {
+                                // Source is taller: crop top/bottom
+                                $cropW = $srcW;
+                                $cropH = (int) ($srcW / $dstAspect);
+                                $srcX = 0;
+                                $srcY = (int) (($srcH - $cropH) / 2);
+                            }
+
+                            imagecopyresampled($image, $photoImg, $pxX, $pxY, $srcX, $srcY, $pxW, $pxH, $cropW, $cropH);
+                        }
+
+                        // Draw optional border frame if specified
+                        $borderWidth = (int) ($field['border_width'] ?? 0);
+                        if ($borderWidth > 0) {
+                            $bColorHex = ltrim($field['border_color'] ?? 'c59b27', '#');
+                            if (strlen($bColorHex) === 6) {
+                                $r = hexdec(substr($bColorHex, 0, 2));
+                                $g = hexdec(substr($bColorHex, 2, 2));
+                                $b = hexdec(substr($bColorHex, 4, 2));
+                                $borderColor = imagecolorallocate($image, $r, $g, $b);
+                                for ($i = 0; $i < $borderWidth; $i++) {
+                                    imagerectangle($image, $pxX + $i, $pxY + $i, $pxX + $pxW - $i - 1, $pxY + $pxH - $i - 1, $borderColor);
+                                }
+                            }
+                        }
+
                         imagedestroy($photoImg);
                     }
                 }

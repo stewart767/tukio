@@ -19,7 +19,7 @@
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight font-heading">{{ $template->name }}</h1>
                 <p class="text-xs sm:text-sm text-slate-300 max-w-2xl">
-                    Drag and resize the highlighted bounding boxes over your card. When you send invitations, each guest's name, table info, and digital gate QR pass will be rendered at these exact coordinates.
+                    Position your text zones, upload and fit your couple picture, and place the digital entrance QR pass. Coordinates are normalized and saved for automated WhatsApp and PDF delivery.
                 </p>
             </div>
 
@@ -88,7 +88,7 @@
     <!-- Save Notification Toast (Hidden by default) -->
     <div id="save-toast" class="hidden fixed bottom-6 right-6 z-50 rounded-2xl bg-emerald-600 text-white px-5 py-3 shadow-2xl flex items-center gap-3 animate-fade-in text-xs font-bold">
         <svg class="w-5 h-5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-        <span id="save-toast-message">Coordinates saved successfully!</span>
+        <span id="save-toast-message">Layout saved successfully!</span>
     </div>
 
     <!-- Main Workspace: Canvas + Controls -->
@@ -128,8 +128,12 @@
                 </div>
             </div>
 
-            <div class="text-center text-xs text-slate-500 bg-purple-50/50 border border-purple-100 rounded-2xl p-3">
-                <span>Tip: Click and drag any zone to reposition. Drag the white handles on the corners to resize.</span>
+            <div class="flex items-center justify-between text-xs text-slate-500 bg-purple-50/50 border border-purple-100 rounded-2xl p-3">
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Click and drag any zone to reposition. Drag corner handles to resize.</span>
+                </span>
+                <span class="font-bold text-purple-700">Normalized coordinates ensure exact fit on WhatsApp &amp; Print</span>
             </div>
         </div>
 
@@ -152,45 +156,106 @@
                         <input type="text" id="prop-label" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Font Family</label>
-                            <select id="prop-font" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
-                                <option value="Playfair Display">Playfair Display (Serif)</option>
-                                <option value="Georgia">Georgia (Classic)</option>
-                                <option value="Cinzel">Cinzel (Roman Luxe)</option>
-                                <option value="Great Vibes">Great Vibes (Script)</option>
-                                <option value="Cormorant Garamond">Cormorant Garamond</option>
-                                <option value="Montserrat">Montserrat (Modern)</option>
-                                <option value="Inter">Inter (Sans)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Font Size (pt)</label>
-                            <input type="number" id="prop-size" min="10" max="72" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                    <!-- Photo Zone Controls (Visible only when an image/photo zone is selected) -->
+                    <div id="photo-controls-section" class="space-y-4 pt-2 border-t border-slate-100 hidden">
+                        <div class="rounded-2xl bg-purple-50/70 border border-purple-200 p-4 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-purple-900 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    <span>Couple Picture Upload</span>
+                                </span>
+                            </div>
+
+                            <input type="file" id="photo-file-input" accept="image/jpeg,image/png,image/webp" class="sr-only">
+                            <button type="button" id="btn-trigger-photo-upload" class="w-full py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-xs font-bold text-white shadow-sm transition-all flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                                <span id="photo-upload-label">Upload Couple Photo</span>
+                            </button>
+
+                            <div class="grid grid-cols-2 gap-3 pt-1">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Image Fit</label>
+                                    <select id="prop-img-fit" class="w-full px-2.5 py-1.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500">
+                                        <option value="cover">Fill Frame (Cover)</option>
+                                        <option value="contain">Fit Full Photo (Contain)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Corner Shape</label>
+                                    <select id="prop-img-radius" class="w-full px-2.5 py-1.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500">
+                                        <option value="0px">Square (0px)</option>
+                                        <option value="8px">Slightly Soft (8px)</option>
+                                        <option value="16px">Rounded (16px)</option>
+                                        <option value="28px">Pill / Soft (28px)</option>
+                                        <option value="9999px">Circle / Oval Cameo</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Frame Border</label>
+                                    <select id="prop-img-border-w" class="w-full px-2.5 py-1.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500">
+                                        <option value="0">No Border</option>
+                                        <option value="1">1px Thin</option>
+                                        <option value="2">2px Normal</option>
+                                        <option value="3">3px Prominent</option>
+                                        <option value="4">4px Bold Frame</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Border Color</label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="color" id="prop-img-border-color-picker" value="#c59b27" class="h-8 w-8 rounded-lg cursor-pointer border border-slate-200 p-0.5">
+                                        <input type="text" id="prop-img-border-color" value="#c59b27" class="w-full px-2.5 py-1.5 rounded-xl border border-slate-200 text-xs font-mono uppercase">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Text Color</label>
-                            <div class="flex items-center gap-2">
-                                <input type="color" id="prop-color-picker" class="h-8 w-8 rounded-lg cursor-pointer border border-slate-200 p-0.5">
-                                <input type="text" id="prop-color" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-mono uppercase focus:ring-2 focus:ring-purple-500">
+                    <!-- Typography Controls (Visible for text zones) -->
+                    <div id="text-controls-section" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Font Family</label>
+                                <select id="prop-font" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                    <option value="Playfair Display">Playfair Display (Serif)</option>
+                                    <option value="Cinzel">Cinzel (Roman Luxe)</option>
+                                    <option value="Great Vibes">Great Vibes (Calligraphy)</option>
+                                    <option value="Cormorant Garamond">Cormorant Garamond</option>
+                                    <option value="Georgia">Georgia (Classic)</option>
+                                    <option value="Montserrat">Montserrat (Modern)</option>
+                                    <option value="Inter">Inter (Sans)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Font Size (pt)</label>
+                                <input type="number" id="prop-size" min="10" max="72" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Alignment</label>
-                            <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
-                                <button type="button" class="btn-align p-1.5 rounded-lg text-slate-600 hover:bg-white" data-align="left" title="Left">
-                                    <svg class="w-3.5 h-3.5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h14"/></svg>
-                                </button>
-                                <button type="button" class="btn-align p-1.5 rounded-lg text-slate-600 bg-white font-bold" data-align="center" title="Center">
-                                    <svg class="w-3.5 h-3.5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M7 12h10M5 18h14"/></svg>
-                                </button>
-                                <button type="button" class="btn-align p-1.5 rounded-lg text-slate-600 hover:bg-white" data-align="right" title="Right">
-                                    <svg class="w-3.5 h-3.5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 12h10M6 18h14"/></svg>
-                                </button>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Text Color</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="color" id="prop-color-picker" class="h-8 w-8 rounded-lg cursor-pointer border border-slate-200 p-0.5">
+                                    <input type="text" id="prop-color" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-mono uppercase focus:ring-2 focus:ring-purple-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Alignment</label>
+                                <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
+                                    <button type="button" class="btn-align p-1.5 rounded-lg text-slate-600 hover:bg-white" data-align="left" title="Left">
+                                        <svg class="w-3.5 h-3.5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h14"/></svg>
+                                    </button>
+                                    <button type="button" class="btn-align p-1.5 rounded-lg text-slate-600 bg-white font-bold" data-align="center" title="Center">
+                                        <svg class="w-3.5 h-3.5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M7 12h10M5 18h14"/></svg>
+                                    </button>
+                                    <button type="button" class="btn-align p-1.5 rounded-lg text-slate-600 hover:bg-white" data-align="right" title="Right">
+                                        <svg class="w-3.5 h-3.5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 12h10M6 18h14"/></svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -240,13 +305,20 @@
             </div>
 
             <!-- Add New Field Buttons -->
-            <div class="flex items-center gap-2">
-                <button type="button" id="btn-add-text-field" class="flex-1 py-3 px-4 rounded-2xl bg-white border border-slate-200 hover:border-purple-300 text-xs font-bold text-slate-700 shadow-sm transition-all text-center">
-                    + Add Text Zone
+            <div class="space-y-2">
+                <button type="button" id="btn-add-couple-photo" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-xs font-bold text-white shadow-md transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>+ Add Couple Photo Frame</span>
                 </button>
-                <button type="button" id="btn-add-photo-field" class="flex-1 py-3 px-4 rounded-2xl bg-white border border-slate-200 hover:border-purple-300 text-xs font-bold text-slate-700 shadow-sm transition-all text-center">
-                    + Add Photo Box
-                </button>
+
+                <div class="flex items-center gap-2">
+                    <button type="button" id="btn-add-text-field" class="flex-1 py-3 px-4 rounded-2xl bg-white border border-slate-200 hover:border-purple-300 text-xs font-bold text-slate-700 shadow-sm transition-all text-center">
+                        + Add Text Line
+                    </button>
+                    <button type="button" id="btn-add-photo-field" class="flex-1 py-3 px-4 rounded-2xl bg-white border border-slate-200 hover:border-purple-300 text-xs font-bold text-slate-700 shadow-sm transition-all text-center">
+                        + Secondary Photo
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -265,8 +337,9 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 4px;
+    padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .overlay-box:hover {
@@ -293,29 +366,34 @@
 
 .overlay-box.type-image {
     border-color: #2563eb;
-    background-color: rgba(37, 99, 235, 0.15);
+    background-color: rgba(37, 99, 235, 0.12);
+}
+.overlay-box.type-image.selected {
+    border-color: #1d4ed8 !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35) !important;
 }
 
 /* Resize Handles */
 .resize-handle {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background-color: white;
     border: 2px solid #7c3aed;
     border-radius: 3px;
     z-index: 60;
 }
-.resize-handle.nw { top: -5px; left: -5px; cursor: nwse-resize; }
-.resize-handle.ne { top: -5px; right: -5px; cursor: nesw-resize; }
-.resize-handle.se { bottom: -5px; right: -5px; cursor: nwse-resize; }
-.resize-handle.sw { bottom: -5px; left: -5px; cursor: nesw-resize; }
+.resize-handle.nw { top: -6px; left: -6px; cursor: nwse-resize; }
+.resize-handle.ne { top: -6px; right: -6px; cursor: nesw-resize; }
+.resize-handle.se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+.resize-handle.sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
 
 .box-label-badge {
     position: absolute;
-    top: -18px;
+    top: 4px;
     left: 4px;
-    background-color: #7c3aed;
+    background-color: rgba(124, 58, 237, 0.9);
+    backdrop-filter: blur(4px);
     color: white;
     font-size: 9px;
     font-weight: 700;
@@ -323,12 +401,13 @@
     border-radius: 4px;
     white-space: nowrap;
     pointer-events: none;
+    z-index: 40;
 }
 .type-qr .box-label-badge {
-    background-color: #059669;
+    background-color: rgba(5, 150, 105, 0.9);
 }
 .type-image .box-label-badge {
-    background-color: #2563eb;
+    background-color: rgba(37, 99, 235, 0.9);
 }
 </style>
 
@@ -356,6 +435,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const coordW = document.getElementById('coord-w');
     const coordH = document.getElementById('coord-h');
 
+    // Photo specific inputs
+    const photoControls = document.getElementById('photo-controls-section');
+    const textControls = document.getElementById('text-controls-section');
+    const propImgFit = document.getElementById('prop-img-fit');
+    const propImgRadius = document.getElementById('prop-img-radius');
+    const propImgBorderW = document.getElementById('prop-img-border-w');
+    const propImgBorderColor = document.getElementById('prop-img-border-color');
+    const propImgBorderColorPicker = document.getElementById('prop-img-border-color-picker');
+    const photoFileInput = document.getElementById('photo-file-input');
+    const btnTriggerPhoto = document.getElementById('btn-trigger-photo-upload');
+
     // Render all bounding boxes
     function renderBoxes() {
         layer.innerHTML = '';
@@ -378,23 +468,53 @@ document.addEventListener('DOMContentLoaded', function() {
             badge.textContent = field.label || key;
             box.appendChild(badge);
 
-            // Text preview inside box
-            const previewText = document.createElement('div');
-            previewText.className = 'w-full h-full flex items-center justify-center overflow-hidden pointer-events-none px-1 text-xs font-semibold';
-            previewText.style.fontFamily = field.font_family || 'Playfair Display';
-            previewText.style.color = field.color || '#333333';
-            previewText.style.textAlign = field.alignment || 'center';
-
-            if (key === 'guest_name') {
-                previewText.textContent = sampleName;
-            } else if (key === 'qr_code') {
-                previewText.innerHTML = '<span class="text-[10px] bg-emerald-800 text-white px-1.5 py-0.5 rounded font-mono">QR PASS [OK]</span>';
-            } else if (key === 'couple_photo' || field.type === 'image') {
-                previewText.innerHTML = '<span class="text-[10px] text-blue-800">[PHOTO FRAME]</span>';
+            // Inner content rendering based on field type
+            if (field.type === 'image' || key.includes('photo')) {
+                if (field.photo_url) {
+                    const img = document.createElement('img');
+                    img.src = field.photo_url;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = field.fit || 'cover';
+                    img.style.borderRadius = field.border_radius || '8px';
+                    if (field.border_width && field.border_width > 0) {
+                        img.style.border = `${field.border_width}px solid ${field.border_color || '#c59b27'}`;
+                    }
+                    img.className = 'pointer-events-none user-select-none';
+                    box.appendChild(img);
+                } else {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'w-full h-full flex flex-col items-center justify-center p-2 text-center pointer-events-none text-purple-700 bg-purple-50/60';
+                    placeholder.innerHTML = `
+                        <svg class="w-6 h-6 mb-1 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span class="text-[11px] font-bold">Couple Photo Frame</span>
+                        <span class="text-[9px] text-purple-500">Click to upload photo</span>
+                    `;
+                    box.appendChild(placeholder);
+                }
+            } else if (key === 'qr_code' || field.type === 'qr') {
+                const qrDiv = document.createElement('div');
+                qrDiv.className = 'w-full h-full p-1 bg-white rounded-lg shadow-sm border border-emerald-500 flex flex-col items-center justify-center text-center';
+                qrDiv.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center bg-slate-900 text-emerald-400 font-mono text-[9px] font-black rounded">
+                        <span>QR PASS [OK]</span>
+                    </div>
+                `;
+                box.appendChild(qrDiv);
             } else {
-                previewText.textContent = field.label || key;
+                const previewText = document.createElement('div');
+                previewText.className = 'w-full h-full flex items-center justify-center overflow-hidden pointer-events-none px-2 text-xs font-semibold';
+                previewText.style.fontFamily = field.font_family || 'Playfair Display';
+                previewText.style.color = field.color || '#333333';
+                previewText.style.textAlign = field.alignment || 'center';
+
+                if (key === 'guest_name') {
+                    previewText.textContent = sampleName;
+                } else {
+                    previewText.textContent = field.label || key;
+                }
+                box.appendChild(previewText);
             }
-            box.appendChild(previewText);
 
             // Resize handles if selected
             if (key === selectedKey) {
@@ -431,28 +551,118 @@ document.addEventListener('DOMContentLoaded', function() {
         propTitle.textContent = f.label || key;
         propBadge.textContent = f.type ? f.type.toUpperCase() : 'TEXT';
         propLabel.value = f.label || key;
-        propFont.value = f.font_family || 'Playfair Display';
-        propSize.value = f.font_size || 22;
-        propColor.value = f.color || '#333333';
-        propColorPicker.value = (f.color && f.color.startsWith('#')) ? f.color.substring(0, 7) : '#333333';
         propEditable.checked = f.is_editable !== false;
+
+        const isPhotoZone = (f.type === 'image' || key.includes('photo'));
+        if (isPhotoZone) {
+            photoControls.classList.remove('hidden');
+            textControls.classList.add('hidden');
+
+            propImgFit.value = f.fit || 'cover';
+            propImgRadius.value = f.border_radius || '8px';
+            propImgBorderW.value = f.border_width !== undefined ? f.border_width : 2;
+            const bColor = f.border_color || '#c59b27';
+            propImgBorderColor.value = bColor;
+            propImgBorderColorPicker.value = bColor.startsWith('#') ? bColor.substring(0, 7) : '#c59b27';
+
+            document.getElementById('photo-upload-label').textContent = f.photo_url ? 'Replace Couple Photo' : 'Upload Couple Photo';
+        } else {
+            photoControls.classList.add('hidden');
+            textControls.classList.remove('hidden');
+
+            propFont.value = f.font_family || 'Playfair Display';
+            propSize.value = f.font_size || 22;
+            propColor.value = f.color || '#333333';
+            propColorPicker.value = (f.color && f.color.startsWith('#')) ? f.color.substring(0, 7) : '#333333';
+
+            document.querySelectorAll('.btn-align').forEach(btn => {
+                if (btn.dataset.align === (f.alignment || 'center')) {
+                    btn.classList.add('bg-white', 'font-bold');
+                } else {
+                    btn.classList.remove('bg-white', 'font-bold');
+                }
+            });
+        }
 
         coordX.textContent = (f.x || 0).toFixed(3);
         coordY.textContent = (f.y || 0).toFixed(3);
         coordW.textContent = (f.width || 0).toFixed(3);
         coordH.textContent = (f.height || 0).toFixed(3);
 
-        // Highlight align button
-        document.querySelectorAll('.btn-align').forEach(btn => {
-            if (btn.dataset.align === (f.alignment || 'center')) {
-                btn.classList.add('bg-white', 'font-bold');
-            } else {
-                btn.classList.remove('bg-white', 'font-bold');
-            }
-        });
-
         renderBoxes();
     }
+
+    // Photo file upload handler
+    btnTriggerPhoto.addEventListener('click', function() {
+        photoFileInput.click();
+    });
+
+    photoFileInput.addEventListener('change', function() {
+        if (!this.files || !this.files[0] || !selectedKey) return;
+        const file = this.files[0];
+        const formData = new FormData();
+        formData.append('photo', file);
+        formData.append('field_key', selectedKey);
+        formData.append('_token', '{{ csrf_token() }}');
+
+        const label = document.getElementById('photo-upload-label');
+        label.textContent = 'Uploading & Fitting...';
+
+        fetch('{{ route('host.card-templates.upload-photo', $template) }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                fields[selectedKey].photo_url = data.photo_url;
+                fields[selectedKey].type = 'image';
+                label.textContent = 'Replace Couple Photo';
+                showToast('Couple photo uploaded and fitted successfully!');
+                renderBoxes();
+            } else {
+                alert('Upload failed: ' + (data.message || 'Unknown error'));
+                label.textContent = 'Upload Couple Photo';
+            }
+        })
+        .catch(err => {
+            alert('Upload error: ' + err.message);
+            label.textContent = 'Upload Couple Photo';
+        });
+    });
+
+    // Photo fit / radius / border listeners
+    propImgFit.addEventListener('change', function() {
+        if (!selectedKey || !fields[selectedKey]) return;
+        fields[selectedKey].fit = this.value;
+        renderBoxes();
+    });
+    propImgRadius.addEventListener('change', function() {
+        if (!selectedKey || !fields[selectedKey]) return;
+        fields[selectedKey].border_radius = this.value;
+        renderBoxes();
+    });
+    propImgBorderW.addEventListener('change', function() {
+        if (!selectedKey || !fields[selectedKey]) return;
+        fields[selectedKey].border_width = parseInt(this.value) || 0;
+        renderBoxes();
+    });
+    propImgBorderColor.addEventListener('input', function() {
+        if (!selectedKey || !fields[selectedKey]) return;
+        fields[selectedKey].border_color = this.value;
+        propImgBorderColorPicker.value = this.value.startsWith('#') ? this.value.substring(0, 7) : '#c59b27';
+        renderBoxes();
+    });
+    propImgBorderColorPicker.addEventListener('input', function() {
+        if (!selectedKey || !fields[selectedKey]) return;
+        fields[selectedKey].border_color = this.value;
+        propImgBorderColor.value = this.value;
+        renderBoxes();
+    });
 
     // Start drag
     function startDrag(e, key) {
@@ -541,7 +751,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('mouseup', onMouseUp);
     }
 
-    // Bind inspector inputs
+    // Bind typography inputs
     propLabel.addEventListener('input', function() {
         if (!selectedKey || !fields[selectedKey]) return;
         fields[selectedKey].label = this.value;
@@ -637,19 +847,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Add Dedicated Couple Photo Frame Button
+    document.getElementById('btn-add-couple-photo').addEventListener('click', function() {
+        const key = 'couple_photo';
+        fields[key] = {
+            label: 'Couple Photo Frame',
+            type: 'image',
+            x: 0.06,
+            y: 0.12,
+            width: 0.42,
+            height: 0.50,
+            fit: 'cover',
+            border_radius: '16px',
+            border_width: 2,
+            border_color: '#c59b27',
+            is_editable: true,
+        };
+        selectField(key);
+    });
+
     // Add field buttons
     document.getElementById('btn-add-text-field').addEventListener('click', function() {
         const key = 'custom_text_' + Date.now();
         fields[key] = {
             label: 'Custom Text Zone',
             type: 'text',
-            x: 0.15,
-            y: 0.50,
-            width: 0.70,
+            x: 0.50,
+            y: 0.35,
+            width: 0.45,
             height: 0.06,
             font_family: 'Playfair Display',
             font_size: 20,
-            color: '#333333',
+            color: '#1e1b4b',
             alignment: 'center',
             is_editable: true,
         };
@@ -659,12 +888,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-add-photo-field').addEventListener('click', function() {
         const key = 'photo_' + Date.now();
         fields[key] = {
-            label: 'Photo Frame Area',
+            label: 'Secondary Photo Box',
             type: 'image',
-            x: 0.35,
-            y: 0.12,
-            width: 0.30,
-            height: 0.18,
+            x: 0.06,
+            y: 0.65,
+            width: 0.42,
+            height: 0.28,
+            fit: 'cover',
+            border_radius: '12px',
+            border_width: 2,
+            border_color: '#c59b27',
             is_editable: true,
         };
         selectField(key);
@@ -742,4 +975,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
-

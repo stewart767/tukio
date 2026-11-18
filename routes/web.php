@@ -202,6 +202,7 @@ Route::prefix('host')->name('host.')->group(function () {
                 Route::post('/{template}/editor', [App\Http\Controllers\Host\CardTemplateController::class, 'updateEditorFields'])->name('editor.update');
                 Route::post('/{template}/reanalyze', [App\Http\Controllers\Host\CardTemplateController::class, 'reanalyze'])->name('reanalyze');
                 Route::get('/{template}/preview', [App\Http\Controllers\Host\CardTemplateController::class, 'preview'])->name('preview');
+                Route::post('/{template}/upload-photo', [App\Http\Controllers\Host\CardTemplateController::class, 'uploadPhoto'])->name('upload-photo');
                 Route::delete('/{template}', [App\Http\Controllers\Host\CardTemplateController::class, 'destroy'])->name('destroy');
             });
             

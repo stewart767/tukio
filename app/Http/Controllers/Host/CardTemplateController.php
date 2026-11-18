@@ -371,6 +371,77 @@ class CardTemplateController extends Controller
     }
 
     /**
+     * Upload a couple photo to be placed within a card photo frame.
+     */
+    public function uploadPhoto(Request $request, Template $template)
+    {
+        $host = Auth::guard('host')->user();
+
+        if ($template->host_id !== $host->id) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized access.'], 403);
+        }
+
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:15360',
+            'field_key' => 'nullable|string|max:100',
+        ]);
+
+        $file = $request->file('photo');
+        $path = $file->store('templates/photos', 'public');
+        $photoUrl = asset('storage/' . $path);
+        $fieldKey = $request->input('field_key', 'couple_photo');
+
+        // Update template placeholder config
+        $config = $template->placeholder_config ?: [];
+        if (!isset($config['fields'])) {
+            $config['fields'] = $template->getNormalizedFields();
+        }
+
+        if (!isset($config['fields'][$fieldKey])) {
+            $config['fields'][$fieldKey] = [
+                'label' => 'Couple Photo',
+                'type' => 'image',
+                'x' => 0.08,
+                'y' => 0.12,
+                'width' => 0.40,
+                'height' => 0.45,
+                'fit' => 'cover',
+                'border_radius' => '12px',
+                'border_width' => 2,
+                'border_color' => '#c59b27',
+                'is_editable' => true,
+            ];
+        }
+
+        $config['fields'][$fieldKey]['photo_url'] = $photoUrl;
+        $config['fields'][$fieldKey]['photo_path'] = $path;
+        $config['couple_photo'] = $photoUrl;
+
+        $template->update([
+            'placeholder_config' => $config,
+        ]);
+
+        // Also update event media if host has event
+        $event = Event::where('host_id', $host->id)->first();
+        if ($event) {
+            $website = $event->ensureWebsite();
+            if ($website) {
+                $media = $website->media ?? [];
+                $media['couple_photo_main'] = $path;
+                $website->update(['media' => $media]);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Couple photo uploaded and fitted successfully!',
+            'photo_url' => $photoUrl,
+            'field_key' => $fieldKey,
+            'fields' => $config['fields'],
+        ]);
+    }
+
+    /**
      * Helper to sync normalized detected fields into template_fields records.
      */
     protected function syncDetectedFieldsToDatabase(Template $template, array $fields): void
