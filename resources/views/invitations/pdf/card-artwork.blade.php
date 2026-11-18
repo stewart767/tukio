@@ -95,14 +95,17 @@
                     if (!$qrBase64) {
                         try {
                             $qrVal = $d['qr_code_value'] ?? ($d['verification_url'] ?? 'TUKIO360-ENTRY-PASS');
-                            $qrSvg = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')->size(220)->margin(1)->generate($qrVal);
+                            $qrSvg = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')->size(240)->margin(0)->generate($qrVal);
                             $qrBase64 = 'data:image/png;base64,' . base64_encode($qrSvg);
                         } catch (\Throwable $e) {
                             $qrBase64 = null;
                         }
                     }
                 @endphp
-                <div class="zone qr-box" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; border: 1.5px solid #c59b27;">
+                <div class="zone" style="left: {{ $left }}%; top: {{ max(0, $top - 2.8) }}%; width: {{ $w }}%; text-align: center; color: #E5C158; font-size: 8px; font-weight: 800; letter-spacing: 2px;">
+                    QR PASS
+                </div>
+                <div class="zone qr-box" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; border: 2px solid #D4AF37; border-radius: 10px; background: #ffffff; padding: 4px;">
                     @if($qrBase64)
                         <img src="{{ $qrBase64 }}" style="width: 100%; height: 100%;" alt="QR Code">
                     @endif
@@ -144,11 +147,13 @@
                     $size = max(11, (int) ($field['font_size'] ?? 18));
                     $color = $field['color'] ?? '#ffffff';
                     $align = $field['alignment'] ?? 'center';
+                    $isHeading = ($key === 'guest_name');
+                    $isTitle = ($key === 'event_title' || strtoupper(trim($text)) === 'HARUSI');
                 @endphp
                 <div class="zone" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; text-align: {{ $align }}; color: {{ $color }};">
                     <div class="zone-text">
-                        <div class="zone-text-cell" style="font-size: {{ $size }}px; text-align: {{ $align }};">
-                            {{ $text }}
+                        <div class="zone-text-cell" style="font-size: {{ $size }}px; text-align: {{ $align }}; font-weight: {{ ($isHeading || $isTitle) ? '900' : '600' }}; letter-spacing: {{ $isTitle ? '4px' : ($isHeading ? '1px' : '0px') }};">
+                            {{ $isHeading || $isTitle ? strtoupper($text) : $text }}
                         </div>
                     </div>
                 </div>
@@ -157,3 +162,4 @@
     </div>
 </body>
 </html>
+

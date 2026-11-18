@@ -22,15 +22,25 @@
                 @endphp
 
                 @if($type === 'qr' || $key === 'qr_code')
-                    <div class="absolute flex items-center justify-center pointer-events-auto" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; z-index: 25;">
-                        <div class="w-full h-full p-1.5 bg-white rounded-xl shadow-xl border border-[#c59b27]/60 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform" onclick="document.getElementById('qr-modal') && document.getElementById('qr-modal').classList.remove('hidden')">
-                            @if(!empty($d['qr_code_url']))
+                    <div class="absolute flex flex-col items-center justify-center pointer-events-auto" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; z-index: 25;">
+                        <!-- QR PASS Label -->
+                        <div class="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-[#E5C158] mb-1 flex items-center justify-center gap-1 drop-shadow-sm select-none">
+                            <svg class="w-3 h-3 text-[#E5C158]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                            <span>QR PASS</span>
+                        </div>
+                        <!-- Scannable White QR Code Frame with Gold Border -->
+                        <div class="w-full flex-1 max-w-[140px] max-h-[140px] p-2 bg-white rounded-2xl shadow-2xl border-2 border-[#D4AF37] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform" onclick="document.getElementById('qr-modal') && document.getElementById('qr-modal').classList.remove('hidden')">
+                            @php
+                                $qrFilePath = !empty($d['qr_code_path']) ? storage_path('app/public/' . $d['qr_code_path']) : null;
+                                $qrImageAvailable = $qrFilePath && file_exists($qrFilePath);
+                            @endphp
+                            @if($qrImageAvailable && !empty($d['qr_code_url']))
                                 <img src="{{ $d['qr_code_url'] }}" alt="QR Pass" class="w-full h-full object-contain">
                             @elseif(!empty($d['qr_code_base64']))
                                 <img src="{{ $d['qr_code_base64'] }}" alt="QR Pass" class="w-full h-full object-contain">
                             @else
-                                <div class="w-full h-full flex flex-col items-center justify-center p-0.5 bg-white">
-                                    {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(140)->margin(1)->generate($d['qr_code_value'] ?? ($d['verification_url'] ?? 'TUKIO360-ENTRY-PASS')) !!}
+                                <div class="w-full h-full flex flex-col items-center justify-center bg-white p-0.5">
+                                    {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(140)->margin(0)->generate($d['qr_code_value'] ?? ($d['verification_url'] ?? 'TUKIO360-ENTRY-PASS')) !!}
                                 </div>
                             @endif
                         </div>
@@ -61,11 +71,41 @@
                         };
                         $font = $field['font_family'] ?? 'Playfair Display';
                         $size = $field['font_size'] ?? 22;
-                        $color = $field['color'] ?? '#1e1b4b';
+                        $color = $field['color'] ?? '#ffffff';
                         $align = $field['alignment'] ?? 'center';
+                        $isHeading = ($key === 'guest_name');
+                        $isTitle = ($key === 'event_title' || strtoupper(trim($text)) === 'HARUSI');
+                        $isDate = ($key === 'event_date');
+                        $isVenue = ($key === 'venue');
                     @endphp
-                    <div class="absolute flex items-center justify-center overflow-hidden px-1 leading-snug" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; font-family: '{{ $font }}', serif; color: {{ $color }}; text-align: {{ $align }}; font-size: clamp(11px, 2.2vw, {{ $size }}px); z-index: 20;">
-                        <span class="w-full font-bold break-words leading-tight" style="text-align: {{ $align }};">{{ $text }}</span>
+                    <div class="absolute flex flex-col items-center justify-center overflow-hidden px-2 leading-snug" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; font-family: '{{ $font }}', serif; color: {{ $color }}; text-align: {{ $align }}; font-size: clamp(11px, 2.2vw, {{ $size }}px); z-index: 20;">
+                        @if($isHeading)
+                            <span class="w-full font-black uppercase tracking-[0.06em] break-words leading-tight" style="color: {{ $color }}; text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 12px rgba(212,175,55,0.3); font-size: 1.08em;">
+                                {{ $text }}
+                            </span>
+                        @elseif($isTitle)
+                            <div class="w-full flex items-center justify-center gap-2">
+                                <span class="h-[1px] w-6 bg-gradient-to-r from-transparent to-[#F9D976]"></span>
+                                <span class="font-extrabold uppercase tracking-[0.22em] break-words" style="color: {{ $color }}; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 15px rgba(249,217,118,0.5); font-size: 1.15em;">
+                                    {{ $text }}
+                                </span>
+                                <span class="h-[1px] w-6 bg-gradient-to-l from-transparent to-[#F9D976]"></span>
+                            </div>
+                        @elseif($isDate)
+                            <div class="w-full flex items-center justify-center gap-1.5 font-medium tracking-wide" style="color: {{ $color }}; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
+                                <svg class="w-3.5 h-3.5 shrink-0 text-[#E5C158]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <span>{{ $text }}</span>
+                            </div>
+                        @elseif($isVenue)
+                            <div class="w-full flex items-center justify-center gap-1.5 font-medium tracking-wide" style="color: {{ $color }}; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
+                                <svg class="w-3.5 h-3.5 shrink-0 text-[#E5C158]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <span>{{ $text }}</span>
+                            </div>
+                        @else
+                            <span class="w-full font-medium break-words leading-relaxed" style="text-align: {{ $align }}; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
+                                {{ $text }}
+                            </span>
+                        @endif
                     </div>
                 @endif
             @endforeach
