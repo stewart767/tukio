@@ -14,6 +14,7 @@ class SecurityIncident extends Model
 
     protected $fillable = [
         'incident_uuid',
+        'title',
         'threat_type',
         'severity',
         'confidence_score',
@@ -22,15 +23,19 @@ class SecurityIncident extends Model
         'request_method',
         'request_url',
         'payload_sample',
+        'evidence',
         'detected_rule',
         'target_guard',
         'user_id',
         'host_id',
+        'assigned_to',
         'containment_action',
         'status',
         'resolved_by',
         'resolved_at',
+        'closed_at',
         'investigation_notes',
+        'remediation_notes',
         'metadata',
     ];
 
@@ -38,8 +43,10 @@ class SecurityIncident extends Model
     {
         return [
             'confidence_score' => 'integer',
+            'evidence' => 'array',
             'metadata' => 'array',
             'resolved_at' => 'datetime',
+            'closed_at' => 'datetime',
         ];
     }
 
@@ -90,6 +97,16 @@ class SecurityIncident extends Model
     public function resolver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'resolved_by');
+    }
+
+    public function assignedAdmin(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    public function notes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SecurityIncidentNote::class, 'incident_id')->latest();
     }
 
     public function isCritical(): bool

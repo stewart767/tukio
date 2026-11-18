@@ -45,6 +45,15 @@ return [
         'phone_number_id' => env('WHATSAPP_PHONE_NUMBER_ID'),
     ],
 
+    'wazuh' => [
+        'host' => env('WAZUH_HOST', '127.0.0.1'),
+        'port' => (int) env('WAZUH_PORT', 55000),
+        'user' => env('WAZUH_USER', 'wazuh-wui'),
+        'password' => env('WAZUH_PASSWORD', ''),
+        'verify_ssl' => (bool) env('WAZUH_VERIFY_SSL', false),
+        'enabled' => (bool) env('WAZUH_ENABLED', false),
+    ],
+
     'beem' => [
         'api_key' => env('BEEM_API_KEY'),
         'secret_key' => env('BEEM_SECRET_KEY'),

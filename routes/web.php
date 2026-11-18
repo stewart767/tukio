@@ -365,6 +365,14 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/unblock-ip/{ip}', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'unblockIp'])->name('unblock-ip');
             Route::post('/incidents/{incident}/resolve', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'resolveIncident'])->name('resolve');
             Route::post('/incidents/{incident}/false-positive', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'markFalsePositive'])->name('false-positive');
+            Route::post('/incidents/{incident}/note', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'addIncidentNote'])->name('incident.note');
+            Route::post('/incidents/{incident}/assign', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'assignIncident'])->name('incident.assign');
+            Route::post('/incidents/{incident}/status', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'updateIncidentStatus'])->name('incident.status');
+            Route::post('/vulnerabilities/scan', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'scanVulnerabilities'])->name('vulnerabilities.scan');
+            Route::post('/vulnerabilities/{vulnerability}/status', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'updateVulnerability'])->name('vulnerabilities.status');
+            Route::get('/export/incidents', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'exportIncidents'])->name('export.incidents');
+            Route::get('/export/blocked-ips', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'exportBlockedIps'])->name('export.blocked-ips');
+            Route::get('/export/audit-logs', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'exportAuditLogs'])->name('export.audit-logs');
             Route::post('/settings', [\App\Http\Controllers\Admin\SecurityDashboardController::class, 'updateSettings'])->name('settings');
         });
 
