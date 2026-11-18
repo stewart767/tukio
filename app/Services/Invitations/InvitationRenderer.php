@@ -75,13 +75,17 @@ class InvitationRenderer
         }
         $data['qr_code_base64'] = $qrBase64;
 
-        $pdfView = 'invitations.pdf.default';
+        $orientation = ($template?->aspect_ratio ?? 0.7) > 1.1 ? 'landscape' : 'portrait';
+        $pdfView = ($template?->artwork_path && ViewFacade::exists('invitations.pdf.card-artwork'))
+            ? 'invitations.pdf.card-artwork'
+            : 'invitations.pdf.default';
+
         if (!ViewFacade::exists($pdfView)) {
             $pdfView = 'invitations.pdf-fallback';
         }
 
-        $pdf = Pdf::loadView($pdfView, ['d' => $data, 'invitation' => $invitation])
-            ->setPaper('a5', 'portrait')
+        $pdf = Pdf::loadView($pdfView, ['d' => $data, 'template' => $template, 'invitation' => $invitation])
+            ->setPaper('a5', $orientation)
             ->setOption('isHtml5ParserEnabled', true)
             ->setOption('isRemoteEnabled', true);
 
@@ -98,7 +102,11 @@ class InvitationRenderer
         $data = $this->fieldResolver->resolveSampleData($template);
         $data['qr_code_base64'] = null;
 
-        $pdfView = 'invitations.pdf.default';
+        $orientation = ($template->aspect_ratio ?? 0.7) > 1.1 ? 'landscape' : 'portrait';
+        $pdfView = ($template->artwork_path && ViewFacade::exists('invitations.pdf.card-artwork'))
+            ? 'invitations.pdf.card-artwork'
+            : 'invitations.pdf.default';
+
         if (!ViewFacade::exists($pdfView)) {
             $pdfView = 'invitations.pdf-fallback';
         }
@@ -111,8 +119,8 @@ class InvitationRenderer
             'plus_one_count' => 1,
         ]);
 
-        $pdf = Pdf::loadView($pdfView, ['d' => $data, 'invitation' => $dummyInvitation])
-            ->setPaper('a5', 'portrait')
+        $pdf = Pdf::loadView($pdfView, ['d' => $data, 'template' => $template, 'invitation' => $dummyInvitation])
+            ->setPaper('a5', $orientation)
             ->setOption('isHtml5ParserEnabled', true)
             ->setOption('isRemoteEnabled', true);
 

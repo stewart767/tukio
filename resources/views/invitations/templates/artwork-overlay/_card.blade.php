@@ -4,7 +4,7 @@
     $dynamicFields = $template ? $template->getNormalizedFields() : [];
 @endphp
 
-<div class="relative w-full max-w-lg rounded-3xl overflow-hidden card-shadow border border-[#d4af37]/40 bg-[#faf7f0] select-none" style="aspect-ratio: {{ $aspectRatio }};">
+<div class="relative w-full {{ $aspectRatio > 1.1 ? 'max-w-4xl' : 'max-w-xl' }} mx-auto rounded-3xl overflow-hidden card-shadow border border-[#d4af37]/40 bg-[#faf7f0] select-none" style="aspect-ratio: {{ $aspectRatio }};">
     @if($artworkUrl)
         <img src="{{ $artworkUrl }}" alt="{{ $d['event_title'] ?? 'Card Artwork' }}" class="absolute inset-0 w-full h-full object-cover pointer-events-none">
     @endif
@@ -23,8 +23,16 @@
 
                 @if($type === 'qr' || $key === 'qr_code')
                     <div class="absolute flex items-center justify-center pointer-events-auto" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; z-index: 25;">
-                        <div class="w-full h-full p-1 bg-white rounded-xl shadow-lg border border-[#c59b27]/60 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform" onclick="document.getElementById('qr-modal') && document.getElementById('qr-modal').classList.remove('hidden')">
-                            <img src="{{ $d['qr_code_url'] ?? ($d['qr_code_base64'] ?? '') }}" alt="QR Pass" class="w-full h-full object-contain">
+                        <div class="w-full h-full p-1.5 bg-white rounded-xl shadow-xl border border-[#c59b27]/60 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform" onclick="document.getElementById('qr-modal') && document.getElementById('qr-modal').classList.remove('hidden')">
+                            @if(!empty($d['qr_code_url']))
+                                <img src="{{ $d['qr_code_url'] }}" alt="QR Pass" class="w-full h-full object-contain">
+                            @elseif(!empty($d['qr_code_base64']))
+                                <img src="{{ $d['qr_code_base64'] }}" alt="QR Pass" class="w-full h-full object-contain">
+                            @else
+                                <div class="w-full h-full flex flex-col items-center justify-center p-0.5 bg-white">
+                                    {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(140)->margin(1)->generate($d['qr_code_value'] ?? ($d['verification_url'] ?? 'TUKIO360-ENTRY-PASS')) !!}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @elseif($type === 'image' || str_contains($key, 'photo'))
@@ -42,20 +50,22 @@
                     @endif
                 @else
                     @php
-                        $text = match ($key) {
+                        $customText = !empty($field['custom_text']) ? $field['custom_text'] : null;
+                        $text = $customText ?: match ($key) {
                             'guest_name' => $d['guest_name'] ?? 'Mgeni Rasmi',
+                            'invitation_text' => $d['invitation_message'] ?? ($field['label'] ?? ''),
                             'event_title' => $d['event_title'] ?? ($d['couple_names'] ?? 'Wedding Celebration'),
                             'event_date' => $d['event_date_formatted'] ?? ($d['event_date_swahili'] ?? ''),
                             'venue' => $d['venue_name'] ?? '',
                             default => $field['label'] ?? ''
                         };
                         $font = $field['font_family'] ?? 'Playfair Display';
-                        $size = $field['font_size'] ?? 20;
+                        $size = $field['font_size'] ?? 22;
                         $color = $field['color'] ?? '#1e1b4b';
                         $align = $field['alignment'] ?? 'center';
                     @endphp
-                    <div class="absolute flex items-center justify-center overflow-hidden px-1" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; font-family: '{{ $font }}', serif; color: {{ $color }}; text-align: {{ $align }}; font-size: clamp(10px, 2.4vw, {{ $size }}px); z-index: 20;">
-                        <span class="w-full font-bold truncate leading-tight" style="text-align: {{ $align }};">{{ $text }}</span>
+                    <div class="absolute flex items-center justify-center overflow-hidden px-1 leading-snug" style="left: {{ $left }}%; top: {{ $top }}%; width: {{ $w }}%; height: {{ $h }}%; font-family: '{{ $font }}', serif; color: {{ $color }}; text-align: {{ $align }}; font-size: clamp(11px, 2.2vw, {{ $size }}px); z-index: 20;">
+                        <span class="w-full font-bold break-words leading-tight" style="text-align: {{ $align }};">{{ $text }}</span>
                     </div>
                 @endif
             @endforeach

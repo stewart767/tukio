@@ -369,6 +369,9 @@ EOT;
             if (!empty($field['border_color'])) {
                 $sanitized[$key]['border_color'] = $field['border_color'];
             }
+            if (isset($field['custom_text'])) {
+                $sanitized[$key]['custom_text'] = trim((string) $field['custom_text']);
+            }
         }
 
         return $sanitized;

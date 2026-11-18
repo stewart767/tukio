@@ -219,8 +219,9 @@ class InvitationImageGenerator
                 continue;
             }
 
-            // Resolve dynamic text
-            $text = match ($key) {
+            // Resolve dynamic text or custom text override
+            $customText = !empty($field['custom_text']) ? trim($field['custom_text']) : null;
+            $text = $customText ?: match ($key) {
                 'guest_name' => $data['guest_name'] ?? 'Mpendwa Mgeni',
                 'invitation_text' => $data['invitation_message'] ?? ($data['whatsapp_message'] ?? ($field['default_value'] ?? '')),
                 'event_title' => $data['event_title'] ?? ($data['couple_names'] ?? ($data['event_data']['children_names'] ?? 'Harusi ya Watoto')),

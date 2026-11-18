@@ -242,6 +242,15 @@
                                     <input type="color" id="prop-color-picker" class="h-8 w-8 rounded-lg cursor-pointer border border-slate-200 p-0.5">
                                     <input type="text" id="prop-color" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-mono uppercase focus:ring-2 focus:ring-purple-500">
                                 </div>
+                                <!-- Luxury Color Presets -->
+                                <div class="flex items-center gap-1.5 pt-2">
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase">Preset:</span>
+                                    <button type="button" class="btn-color-swatch h-5 w-5 rounded-full border border-slate-300 shadow-sm transition-transform hover:scale-110" style="background-color: #D4AF37;" data-color="#D4AF37" title="Gold"></button>
+                                    <button type="button" class="btn-color-swatch h-5 w-5 rounded-full border border-slate-300 shadow-sm transition-transform hover:scale-110" style="background-color: #FFFFFF;" data-color="#FFFFFF" title="White"></button>
+                                    <button type="button" class="btn-color-swatch h-5 w-5 rounded-full border border-slate-300 shadow-sm transition-transform hover:scale-110" style="background-color: #F5E6C8;" data-color="#F5E6C8" title="Warm Cream"></button>
+                                    <button type="button" class="btn-color-swatch h-5 w-5 rounded-full border border-slate-300 shadow-sm transition-transform hover:scale-110" style="background-color: #B76E79;" data-color="#B76E79" title="Rose Gold"></button>
+                                    <button type="button" class="btn-color-swatch h-5 w-5 rounded-full border border-slate-300 shadow-sm transition-transform hover:scale-110" style="background-color: #111827;" data-color="#111827" title="Dark"></button>
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">Alignment</label>
@@ -256,6 +265,21 @@
                                         <svg class="w-3.5 h-3.5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 12h10M6 18h14"/></svg>
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Content / Source Definition Section -->
+                        <div id="text-source-section" class="pt-2 border-t border-slate-100 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <label class="block text-xs font-bold text-slate-700">Text Content / Source</label>
+                                <span id="prop-source-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">Dynamic</span>
+                            </div>
+                            <div id="dynamic-guest-banner" class="hidden rounded-xl bg-purple-50/80 border border-purple-200 p-2.5 text-[11px] text-purple-900 leading-tight">
+                                <span class="font-bold">👥 Dynamic Guest Name:</span> Automatically populated with each guest's name from your Guest List when sending WhatsApp or generating entrance passes.
+                            </div>
+                            <div id="custom-text-wrapper" class="space-y-1">
+                                <textarea id="prop-custom-text" rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-purple-500" placeholder="Type custom text to override event default..."></textarea>
+                                <p class="text-[10px] text-slate-500" id="prop-source-hint">Leave blank to use default information from Event Settings.</p>
                             </div>
                         </div>
                     </div>
@@ -515,6 +539,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (key === 'guest_name') {
                     previewText.textContent = sampleName;
+                } else if (field.custom_text && field.custom_text.trim() !== '') {
+                    previewText.textContent = field.custom_text;
                 } else {
                     previewText.textContent = field.label || key;
                 }
@@ -587,6 +613,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     btn.classList.remove('bg-white', 'font-bold');
                 }
             });
+
+            // Populate custom text / source section
+            const banner = document.getElementById('dynamic-guest-banner');
+            const customWrap = document.getElementById('custom-text-wrapper');
+            const badge = document.getElementById('prop-source-badge');
+            const customInput = document.getElementById('prop-custom-text');
+
+            if (key === 'guest_name') {
+                if (banner) banner.classList.remove('hidden');
+                if (customWrap) customWrap.classList.add('hidden');
+                if (badge) {
+                    badge.textContent = 'Dynamic Guest';
+                    badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700';
+                }
+            } else {
+                if (banner) banner.classList.add('hidden');
+                if (customWrap) customWrap.classList.remove('hidden');
+                if (customInput) customInput.value = f.custom_text || '';
+                
+                if (badge) {
+                    if (f.custom_text && f.custom_text.trim() !== '') {
+                        badge.textContent = 'Custom Override';
+                        badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+                    } else {
+                        badge.textContent = 'Event Settings';
+                        badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600';
+                    }
+                }
+            }
         }
 
         coordX.textContent = (f.x || 0).toFixed(3);
@@ -784,6 +839,38 @@ document.addEventListener('DOMContentLoaded', function() {
         propColor.value = this.value;
         renderBoxes();
     });
+
+    // Custom color swatch buttons
+    document.querySelectorAll('.btn-color-swatch').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (!selectedKey || !fields[selectedKey]) return;
+            const c = this.dataset.color;
+            fields[selectedKey].color = c;
+            propColor.value = c;
+            propColorPicker.value = c;
+            renderBoxes();
+        });
+    });
+
+    // Custom text override listener
+    const propCustomText = document.getElementById('prop-custom-text');
+    if (propCustomText) {
+        propCustomText.addEventListener('input', function() {
+            if (!selectedKey || !fields[selectedKey]) return;
+            fields[selectedKey].custom_text = this.value;
+            const badge = document.getElementById('prop-source-badge');
+            if (badge) {
+                if (this.value.trim() !== '') {
+                    badge.textContent = 'Custom Override';
+                    badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+                } else {
+                    badge.textContent = 'Event Settings';
+                    badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600';
+                }
+            }
+            renderBoxes();
+        });
+    }
     propEditable.addEventListener('change', function() {
         if (!selectedKey || !fields[selectedKey]) return;
         fields[selectedKey].is_editable = this.checked;
