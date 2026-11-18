@@ -116,7 +116,7 @@
 
             <!-- Canvas Viewport with Artwork Background -->
             <div class="relative bg-slate-900/5 rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-inner flex justify-center overflow-hidden">
-                <div id="canvas-container" class="relative select-none shadow-2xl rounded-2xl overflow-hidden bg-white" style="width: 100%; max-width: 620px; aspect-ratio: {{ $template->aspect_ratio }};">
+                <div id="canvas-container" class="relative select-none shadow-2xl rounded-2xl overflow-hidden bg-white" style="width: 100%; max-width: {{ $template->aspect_ratio > 1 ? '840px' : '580px' }}; aspect-ratio: {{ $template->aspect_ratio }};">
                     <!-- Artwork Image -->
                     <img id="artwork-image" 
                          src="{{ $template->artwork_url }}" 
@@ -306,6 +306,11 @@
 
             <!-- Add New Field Buttons -->
             <div class="space-y-2">
+                <button type="button" id="btn-double-card-preset" class="w-full py-2.5 px-3 rounded-2xl bg-amber-50 hover:bg-amber-100/80 border border-amber-300 text-xs font-bold text-amber-900 shadow-sm transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>
+                    <span>Double Card Layout (Photo Left, Card Right)</span>
+                </button>
+
                 <button type="button" id="btn-add-couple-photo" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-xs font-bold text-white shadow-md transition-all flex items-center justify-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     <span>+ Add Couple Photo Frame</span>
@@ -865,6 +870,68 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         selectField(key);
     });
+
+    // Double Card Preset Handler (Split side-by-side landscape card)
+    const btnDoublePreset = document.getElementById('btn-double-card-preset');
+    if (btnDoublePreset) {
+        btnDoublePreset.addEventListener('click', function() {
+            if (!confirm('Apply Split / Double Card preset? This organizes the couple photo on the left panel, guest name and details on the right panel, and the QR pass on the bottom right.')) return;
+            
+            const existingPhotoUrl = fields['couple_photo'] ? fields['couple_photo'].photo_url : null;
+            const existingPhotoPath = fields['couple_photo'] ? fields['couple_photo'].photo_path : null;
+
+            // 1. Couple photo fills left half (0% to 48%)
+            fields['couple_photo'] = {
+                field_key: 'couple_photo',
+                label: 'Couple Photo (Left Panel)',
+                type: 'image',
+                x: 0.015,
+                y: 0.015,
+                width: 0.47,
+                height: 0.97,
+                fit: 'cover',
+                border_radius: '8px',
+                border_width: 0,
+                border_color: '#c59b27',
+                is_editable: true,
+                photo_url: existingPhotoUrl,
+                photo_path: existingPhotoPath
+            };
+
+            // 2. Invitee Name centered on the right panel
+            if (!fields['guest_name']) fields['guest_name'] = {};
+            fields['guest_name'] = Object.assign(fields['guest_name'], {
+                field_key: 'guest_name',
+                label: 'Guest Name',
+                type: 'text',
+                x: 0.52,
+                y: 0.20,
+                width: 0.44,
+                height: 0.08,
+                font_family: 'Playfair Display',
+                font_size: 26,
+                color: '#d4af37',
+                alignment: 'center',
+                is_editable: true
+            });
+
+            // 3. QR entrance pass on bottom-right corner of right panel
+            fields['qr_code'] = {
+                field_key: 'qr_code',
+                label: 'QR Gate Pass',
+                type: 'qr',
+                x: 0.82,
+                y: 0.74,
+                width: 0.14,
+                height: 0.20,
+                confidence: 1.0,
+                status: 'approved'
+            };
+
+            selectField('couple_photo');
+            showToast('Applied Double Card layout preset!');
+        });
+    }
 
     // Add field buttons
     document.getElementById('btn-add-text-field').addEventListener('click', function() {
