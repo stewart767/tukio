@@ -14,6 +14,19 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Primary Super Admin (Stewart Amri)
+        User::updateOrCreate(
+            ['email' => 'amristewart@gmail.com'],
+            [
+                'name' => 'Stewart Amri',
+                'password' => Hash::make('password123'),
+                'role' => 'super_admin',
+                'phone' => '+255715000000',
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]
+        );
+
         // Primary Super Admin
         User::updateOrCreate(
             ['email' => 'deangarlus@gmail.com'],
